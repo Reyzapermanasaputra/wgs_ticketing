@@ -1,0 +1,38 @@
+<div class="ui middle aligned center aligned grid">
+  <div class="column">
+    <h2 class="ui image header">
+      <div class="content">
+        Log-in to your account
+      </div>
+    </h2>
+      
+        <% if alert %>
+          <div class="ui message">
+            <p class="alert alert-danger"><%= alert %></p>
+          </div>
+        <% end %>
+
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: {class: "ui large form"}) do |f| %>
+      <div class="ui stacked secondary  segment">
+        <div class="field">
+          <div class="ui left icon input">
+            <i class="user icon"></i>
+            <%= f.email_field :email,  placeholder: "E-mail address" %>
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui left icon input">
+            <i class="lock icon"></i>
+            <%= f.password_field :password, placeholder: "Password" %>
+          </div>
+        </div>
+        <%= f.submit "Log in", class: "ui fluid large blue submit button" %>
+      </div>
+    <% end %>
+
+    <div class="ui message">
+      <%= render "devise/shared/links" %>
+    </div>
+  </div>
+</div>
+
