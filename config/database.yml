@@ -1,0 +1,8 @@
+development:
+  adapter: postgresql
+  encoding: utf8
+  reconnect: false
+  database: wgs_ticketing_development
+  pool: 5
+  username: reyzapermanasaputra
+  password: 'bungursari325'
