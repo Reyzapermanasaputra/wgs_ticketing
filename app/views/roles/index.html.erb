@@ -1,0 +1,47 @@
+<table class="ui celled table form" id="table_roles">
+  <thead>
+    <tr><th>Name</th>
+    <th>Is Active ?</th>
+    <th>Action</th>
+  </tr></thead>
+  <tbody>
+ 
+  <%= form_for (@role), html: {class: "ui-form"}, remote: true do |form| %>
+    
+    <tr>
+      <td>
+			  <%= form.text_field :name, placeholder: "Name" %>
+			</td>
+			
+			<td>
+				<div class="inline field">
+			    <div class="ui checkbox">
+			      <%= form.check_box :is_active, tabindex: "0", class: "hidden" %>
+			      <%= form.label :is_active %>
+			    </div>
+			  </div>
+			</td>
+
+			<td>
+			  <div class="ui small basic icon buttons">
+				  <%= form.button class: "ui button" do %>
+				    <i class="plus icon"></i> Add
+				  <% end %>
+			  </div>
+			</td>
+  <% end %>
+
+  <% @roles.each_with_index do |role, index| %>
+      <%= render 'roles/table_roles', role: role %>
+  <% end %>
+
+  </tbody>
+</table>
+
+<script type="text/javascript">
+	$(function(){
+		$('.ui.checkbox')
+		  .checkbox()
+		;
+	})
+</script>

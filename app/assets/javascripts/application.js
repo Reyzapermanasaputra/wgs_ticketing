@@ -15,3 +15,8 @@
 //= require semantic-ui
 //= require turbolinks
 //= require_tree .
+$(function(){
+  $('.ui.sidebar').sidebar({
+    context: $('.bottom.segment')
+  }).sidebar('attach events', '.menu');
+});

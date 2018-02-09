@@ -1,15 +1,1 @@
-<div class="ui menu">
-  <a class="item">
-    <i class="sidebar icon"></i>
-    Menu
-  </a>
-  <a class="item">Browse</a>
-  <a class="item">Submit</a>
-  <div class="right menu">
-    <% if user_signed_in? %>
-      <a class="item"><%= current_user.email %></a>
-      <%= link_to "logout", destroy_user_session_path, class: "item", method: :delete %>
-    <% end %>
-  </div>
-</div>
 <h1>Hello World!</h1>
