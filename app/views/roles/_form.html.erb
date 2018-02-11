@@ -1,2 +1,23 @@
-<h1>Roles#_form</h1>
-<p>Find me in app/views/roles/_form.html.erb</p>
+<%= form_for (@role), html: {class: "ui-form", id: "form_role"}, remote: true do |form| %>
+  <tr>
+    <td>
+	  <%= form.text_field :name, placeholder: "Name" %>
+	</td>
+		
+		<td>
+			<div class="inline field">
+		    <div class="ui checkbox">
+		      <%= form.check_box :is_active, tabindex: "0", class: "hidden" %>
+		      <%= form.label :is_active %>
+		    </div>
+		  </div>
+		</td>
+
+		<td>
+		  <div class="ui small basic icon buttons">
+			  <%= form.button class: "ui button" do %>
+			    <i class="plus icon"></i> Add
+			  <% end %>
+		  </div>
+		</td>
+<% end %>

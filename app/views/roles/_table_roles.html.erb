@@ -5,18 +5,7 @@
   	<%= link_to role_path(role.id), remote: true, method: :delete, data: { confirm: 'Are You Sure ?'} do %><i class="remove icon"></i>Delete
   	<% end %>
   	|
-  	<%= link_to edit_role_path(role.id), remote: true, id: "edit_role_#{role.id}", method: :put do %><i class="remove icon"></i>Edit
+  	<%= link_to edit_role_path(role.id), remote: true, id: "edit_role_#{role.id}" do %><i class="remove icon"></i>Edit
   	<% end %>
   </td>
 </tr>
-
-<script type="text/javascript">
-  $('#edit_role_<%= role.id %>').click(function () {
-  	$(this).parents('tr').find('td').each(function() {
-			var html = $(this).html();
-			var input = $('<input type="text" />');
-			input.val(html);
-			$(this).html(input);
-	  });
-  });
-</script>

@@ -1,5 +1,5 @@
 class RolesController < ApplicationController
-  
+  before_action :authenticate_user!
   def index
   	@roles = Role.all
   	@role = Role.new
@@ -14,16 +14,20 @@ class RolesController < ApplicationController
   	end
   end
 
+  def edit
+    @role = Role.find_by_id(params[:id])
+  end
+
+  def update
+    @role = Role.find_by_id(params[:id])
+    @role.update_attributes(params_role)
+  end
+
   def destroy
     @role = Role.find_by_id(params[:id])
     @role.destroy
   end
 
-  def new
-  end
-
-  def edit
-  end
 
   private
 

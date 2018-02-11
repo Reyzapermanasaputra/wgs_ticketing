@@ -15,7 +15,7 @@
 	  </a>
 	  <div class="right menu">
 	    <% if user_signed_in? %>
-	      <a class="item"><%= current_user.email %></a>
+	      <a class="item"><%= current_user.username %></a>
 	      <%= link_to "logout", destroy_user_session_path, class: "item", method: :delete %>
 	    <% end %>
 	  </div>

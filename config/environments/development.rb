@@ -39,7 +39,7 @@ Rails.application.configure do
     :address => "smtp.gmail.com",
     :port => 465,
     :domain => "gmail.com",
-    :user_name => "reyzaps",
+    :user_name => "wgsticketing",
     :password => "bungursari325",
     :authentication => "login",
     :ssl => true,

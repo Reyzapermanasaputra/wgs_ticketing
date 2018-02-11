@@ -1,0 +1,39 @@
+<table class="ui celled table">
+  <thead>
+    <tr>
+      <th>Username</th>
+	    <th>Email</th>
+      <th>Contact</th>
+      <th>Is Active ?</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+  <% @users.each do |user| %>
+    <tr id="user_<%= user.id %>">
+      <td><%= user.username %></td>
+      <td><%= user.email %></td>
+      <td><%= user.contact %></td>
+      <td><%= user.is_active %></td>
+      <td>
+      <%= link_to edit_user_profile_path(user.id) do %>
+        <i class="edit outline icon"></i>Edit
+      <% end %>
+      |
+      <%= link_to user_profile_path(user.id), remote: true, method: :delete, data: {confirm: 'Are you sure?'} do %>
+        <i class="remove icon"></i>Delete
+      <% end %>
+      </td>
+    </tr>
+   <% end %>
+  </tbody>
+  <tfoot class="full-width">
+    <tr>
+      <th colspan="5">
+          <%= link_to new_user_invitation_path do %>
+            <i class="add square icon"></i>Add User
+  	      <% end %>
+      </th>
+    </tr>
+  </tfoot>
+</table>
