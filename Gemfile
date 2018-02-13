@@ -35,7 +35,7 @@ gem 'devise', '~> 4.4', '>= 4.4.1', git: 'git://github.com/plataformatec/devise.
 gem 'devise_invitable'
 
 #gem for image
-gem "paperclip", "~> 5.2.1"
+#gem "paperclip", "~> 5.2.1"
 
 #framework css
 gem 'semantic-ui-sass'

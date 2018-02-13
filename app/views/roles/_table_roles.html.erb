@@ -5,7 +5,8 @@
   	<%= link_to role_path(role.id), remote: true, method: :delete, data: { confirm: 'Are You Sure ?'} do %><i class="remove icon"></i>Delete
   	<% end %>
   	|
-  	<%= link_to edit_role_path(role.id), remote: true, id: "edit_role_#{role.id}" do %><i class="remove icon"></i>Edit
+  	<%= link_to edit_role_path(role.id) do %>
+  	  <i class="remove icon"></i>Edit
   	<% end %>
   </td>
 </tr>

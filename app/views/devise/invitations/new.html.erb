@@ -1,43 +1,23 @@
-<%= form_for resource, :as => resource_name, :url => invitation_path(resource_name), :html => {:method => :post, class: "ui form container segment"} do |f| %>
-  <%= devise_error_messages! %>
-
-  <h4 class="ui dividing header">New User Profile</h4>
-  
-  <div class="ui equal width form">
-  <div class="fields">
-    <div class="field">
-      <%= f.label :username %>
-      <%= f.text_field :username, placeholder: "Username" %>
-    </div>
-    <div class="field">
-      <% resource.class.invite_key_fields.each do |field| -%>
-		<%= f.label :email %>
-	    <%= f.email_field :email, autocomplete: "email", placeholder: "Email" %>
-	  <% end -%>
-    </div>
+<%= form_for resource, :as => resource_name, :url => invitation_path(resource_name), :html => {:method => :post, class: "ui form"} do |f| %>
+  <div class="field">
+    <%= f.label :username %>
+    <%= f.text_field :username, placeholder: "Username" %>
   </div>
+  <div class="field">
+    <% resource.class.invite_key_fields.each do |field| -%>
+      <%= f.label :email %>
+      <%= f.email_field :email, autocomplete: "email", placeholder: "Email" %>
+    <% end -%>
   </div>
-
-	<div class="field">
-	  <label>Roles</label>
-	  <%= f.select :role_id, options_from_collection_for_select(Role.all, "id", "name"), {:prompt => 'Select Role'} %>
-	</div>
-
+  <div class="field">
+    <label>Roles</label>
+    <%= f.select :role_id, options_from_collection_for_select(Role.all, "id", "name"), {:prompt => 'Select Role'} %>
+  </div>
   <div class="field">
     <div class="ui checkbox">
       <%= f.check_box :is_active, tabindex: "0", class: "hidden"%>
       <label>Is Active ?</label>
     </div>
   </div>
-  <%= f.submit "Save & Invite!", class: "ui blue button" %>
+  <button class="ui button" type="submit">Submit</button>
 <% end %>
-
-<script type="text/javascript">
-  $(function(){
-    $('.ui.checkbox')
-      .checkbox();
-    $('.ui.dropdown')
-      .dropdown()
-    ;
-  })
-</script>

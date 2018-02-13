@@ -2,15 +2,20 @@ class RolesController < ApplicationController
   before_action :authenticate_user!
   def index
   	@roles = Role.all
-  	@role = Role.new
+  end
+
+  def new
+    @role = Role.new
   end
 
   def create
   	@role = Role.new(params_role)
   	if @role.save
   		flash[:notice] = "Role telah ditambahkan!"
+      redirect_to action: "index"
   	else
   		flash[:error] = "Terjadi Kesalahan!"
+      render action: 'new'
   	end
   end
 
@@ -21,6 +26,7 @@ class RolesController < ApplicationController
   def update
     @role = Role.find_by_id(params[:id])
     @role.update_attributes(params_role)
+    redirect_to action: "index"
   end
 
   def destroy

@@ -1,23 +1,13 @@
-<%= form_for (@role), html: {class: "ui-form", id: "form_role"}, remote: true do |form| %>
-  <tr>
-    <td>
-	  <%= form.text_field :name, placeholder: "Name" %>
-	</td>
-		
-		<td>
-			<div class="inline field">
-		    <div class="ui checkbox">
-		      <%= form.check_box :is_active, tabindex: "0", class: "hidden" %>
-		      <%= form.label :is_active %>
-		    </div>
-		  </div>
-		</td>
-
-		<td>
-		  <div class="ui small basic icon buttons">
-			  <%= form.button class: "ui button" do %>
-			    <i class="plus icon"></i> Add
-			  <% end %>
-		  </div>
-		</td>
+<%= form_for (@role), html: {class: "ui form", id: "form_role"} do |form| %>
+  <div class="field">
+    <label>Role Name</label>
+    <%= form.text_field :name, placeholder: "Name" %>
+  </div>
+  <div class="field">
+    <div class="ui checkbox">
+      <%= form.check_box :is_active, tabindex: "0", class: "hidden" %>
+      <label>Is Active ?</label>
+    </div>
+  </div>
+  <%= form.button class: "ui button"%>
 <% end %>

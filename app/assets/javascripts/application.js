@@ -15,8 +15,20 @@
 //= require semantic-ui
 //= require turbolinks
 //= require_tree .
+
 $(function(){
-  $('.ui.sidebar').sidebar({
-    context: $('.bottom.segment')
-  }).sidebar('attach events', '.menu');
+	$('.ui.checkbox')
+	  .checkbox()
+	;
+
+	$('select')
+	  .dropdown()
+	;
+ //  $('.ui.sidebar').sidebar({
+ //    context: $('.bottom.segment')
+ //  }).sidebar('attach events', 'menu');
+
+ //  $('.ui.accordion')
+	//   .accordion()
+	// ;
 });

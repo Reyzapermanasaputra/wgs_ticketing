@@ -1,39 +1,25 @@
-<%= form_for @user_profile, url: user_profile_path, method: :put, html: {class: "ui form container segment"} do |f| %>
-  <h4 class="ui dividing header">Edit User Profile</h4>
-  
-  <div class="ui equal width form">
-  <div class="fields">
-    <div class="field">
-      <%= f.label :username %>
-      <%= f.text_field :username, placeholder: "Username" %>
-    </div>
-    <div class="field">
-    <%= f.label :email %>
+<%= form_for @user_profile, url: user_profile_path, method: :put, html: {class: "ui form"} do |f| %>
+  <div class="field">
+    <%= f.label :username %>
+    <%= f.text_field :username, placeholder: "Username" %>
+  </div>
+  <div class="field">
+      <%= f.label :contact %>
+      <%= f.text_field :contact, autocomplete: "contact", placeholder: "contact" %>
+  </div>
+  <div class="field">
+      <%= f.label :email %>
       <%= f.email_field :email, autocomplete: "email", placeholder: "Email" %>
-    </div>
   </div>
-  </div>
-
   <div class="field">
     <label>Roles</label>
     <%= f.select :role_id, options_from_collection_for_select(Role.all, "id", "name"), {:prompt => 'Select Role'} %>
   </div>
-
   <div class="field">
     <div class="ui checkbox">
       <%= f.check_box :is_active, tabindex: "0", class: "hidden"%>
       <label>Is Active ?</label>
     </div>
   </div>
-  <%= f.submit "Update", class: "ui blue button" %>
+  <button class="ui button" type="submit">Submit</button>
 <% end %>
-
-<script type="text/javascript">
-  $(function(){
-    $('.ui.checkbox')
-      .checkbox();
-    $('.ui.dropdown')
-      .dropdown()
-    ;
-  })
-</script>

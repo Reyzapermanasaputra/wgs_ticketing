@@ -6,13 +6,21 @@
   </tr></thead>
   <tbody>
   
-  <%= render '/roles/form' %>
+  <%#= render '/roles/form' %>
 
   <% @roles.each_with_index do |role, index| %>
       <%= render 'roles/table_roles', role: role %>
   <% end %>
-
   </tbody>
+  <tfoot class="full-width">
+    <tr>
+      <th colspan="5">
+          <%= link_to new_role_path do %>
+            <i class="add square icon"></i>Add Role
+          <% end %>
+      </th>
+    </tr>
+  </tfoot>
 </table>
 
 <script type="text/javascript">
