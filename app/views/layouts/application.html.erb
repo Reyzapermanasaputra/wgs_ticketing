@@ -6,10 +6,11 @@
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <link href="https://fonts.googleapis.com/css?family=Dancing+Script" rel="stylesheet">
   </head>
 
   <body>
-    <% if params[:controller] == "devise/sessions" && params[:action] == "new" %>
+    <% if params[:controller] == "devise/sessions" && params[:action] == "new" || params[:controller] == 'devise/invitations' && params[:action] == "edit" %>
       <%= yield %>
     <% else %>
 	    <div class="ui sidebar vertical left menu overlay visible" style="-webkit-transition-duration: 0.1s; overflow: visible !important;">
@@ -20,8 +21,10 @@
 		    <a class="title item">Dashboard  <i class="dropdown icon"></i>
 		                </a>
 		    <div class="content">
-		      <a class="item" href="http://localhost:3000/roles">Role</a>
-          <a class="item" href="http://localhost:3000/user_profiles">User</a>
+		      <a class="item" href="/roles">Role</a>
+	          <a class="item" href="/user_profiles">User</a>
+	          <a class="item" href="/projects">Project</a>
+	          <a class="item" href="/assign_projects">Assign Project</a>
 		    </div>
 
 		    <div class="title item">
@@ -287,19 +290,16 @@
 		    <a class="item openbtn">
 		      <i class="icon content"></i>
 		    </a>
-		    <a class="item">Messages
-		                </a>
+		    <a class="item">Messages</a>
 		    <div class="right menu">
+		    <a class="item"><%= current_user.username %></a>
 		      <div class="ui dropdown item">
-		        Language <i class="dropdown icon"></i>
+		        Settings &nbsp;&nbsp;<i class="settings icon"></i>
 		        <div class="menu">
-		          <a class="item">English</a>
+		          <%= link_to "Logout", destroy_user_session_path, method: :delete, class: "item" %>
 		          <a class="item">Russian</a>
 		          <a class="item">Spanish</a>
 		        </div>
-		      </div>
-		      <div class="item">
-		        <div class="ui primary button">Sign Up</div>
 		      </div>
 		    </div>
 		  </div>
@@ -313,7 +313,7 @@
 	 <% end%>
 
 		<script type="text/javascript">
-			$(".openbtn").on("click", function() {
+		   $(".openbtn").on("click", function() {
 		   $(".ui.sidebar").toggleClass("very thin icon");
 		   $(".asd").toggleClass("marginlefting");
 		   $(".sidebar z").toggleClass("displaynone");
@@ -332,7 +332,6 @@
 
 		 $('.ui.accordion').accordion({
 		   selector: {
-
 		   }
 		 });
 		</script>

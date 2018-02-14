@@ -15,8 +15,7 @@
 //= require semantic-ui
 //= require turbolinks
 //= require_tree .
-
-$(function(){
+$( document ).on('turbolinks:load', function(){
 	$('.ui.checkbox')
 	  .checkbox()
 	;
@@ -24,11 +23,17 @@ $(function(){
 	$('select')
 	  .dropdown()
 	;
- //  $('.ui.sidebar').sidebar({
- //    context: $('.bottom.segment')
- //  }).sidebar('attach events', 'menu');
 
- //  $('.ui.accordion')
-	//   .accordion()
-	// ;
-});
+	$('.ui.dropdown.item')
+	  .dropdown()
+	;
+})
+// $(function(){
+//  //  $('.ui.sidebar').sidebar({
+//  //    context: $('.bottom.segment')
+//  //  }).sidebar('attach events', 'menu');
+
+//  //  $('.ui.accordion')
+// 	//   .accordion()
+// 	// ;
+// });

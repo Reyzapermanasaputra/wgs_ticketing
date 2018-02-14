@@ -1,0 +1,2 @@
+class ClientProject < ApplicationRecord
+end
