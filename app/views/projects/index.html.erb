@@ -1,41 +1,31 @@
 <table class="ui selectable celled table">
   <thead>
     <tr>
-      <th>Name</th>
-      <th>Status</th>
-      <th>Notes</th>
+      <th>No</th>
+      <th>Project</th>
+      <th>Description</th>
+      <th>Client</th>
+      <th>Action</th>
     </tr>
   </thead>
   <tbody>
+  <% @projects.each_with_index do |project, index| %>
     <tr>
-      <td>John</td>
-      <td>No Action</td>
-      <td>None</td>
+      <td><%= index+1 %></td>
+      <td><%= project.name %></td>
+      <td><%= project.description %></td>
+      <td><%= project.clients.count %></td>
+      <td></td>
     </tr>
-    <tr>
-      <td>Jamie</td>
-      <td>Approved</td>
-      <td>Requires call</td>
-    </tr>
-    <tr>
-      <td>Jill</td>
-      <td>Denied</td>
-      <td>None</td>
-    </tr>
-    <tr class="warning">
-      <td>John</td>
-      <td>No Action</td>
-      <td>None</td>
-    </tr>
-    <tr>
-      <td>Jamie</td>
-      <td class="positive">Approved</td>
-      <td class="warning">Requires call</td>
-    </tr>
-    <tr>
-      <td>Jill</td>
-      <td class="negative">Denied</td>
-      <td>None</td>
-    </tr>
+  <% end %>
   </tbody>
+  <tfoot class="full-width">
+    <tr>
+      <th colspan="5">
+          <%= link_to new_project_path, class: "ui basic" do %>
+            <i class="add square icon"></i>Add Project
+          <% end %>
+      </th>
+    </tr>
+  </tfoot>
 </table>

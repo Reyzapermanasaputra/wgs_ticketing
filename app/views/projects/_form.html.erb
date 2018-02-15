@@ -2,29 +2,22 @@
   <br/>
   <div class="ui segment">
   <h3>Forms Project</h3>
-  <form class="ui form">
+  <%= form_for @project, html: {class: "ui form"} do |f| %>
     <div class="field">
       <label>Project Name</label>
-      <input type="text" name="name" placeholder="First Name">
+      <%= f.text_field :name, placeholder: "Project Name" %>
     </div>
     <div class="field">
       <label>Description</label>
-      <textarea name="comments"></textarea>
+      <%= f.text_area :description, placeholder: "Description" %>
     </div>
-    <div class="field">
-      <label>Client Name</label>
-      <input type="text" name="contact" placeholder="Last Name">
-    </div>
-    <div class="field">
-      <label>Contact</label>
-      <input type="text" name="contact" placeholder="Last Name">
-    </div>
-     <div class="field">
-      <label>Address</label>
-      <textarea name="comments"></textarea>
-    </div>
-    <div class="ui error message"></div>
-    <button id="form_button" class="ui button" type="submit">Submit</button>
-</form>
+    <%= f.fields_for :clients do |client_form| %>
+        <%= render 'client_fields', client_form: client_form %>
+    <% end %>
+    <%= link_to_add_fields "Add Client", f, :clients %>
+    <p>
+      <%= f.submit "Submit", class: "ui button" %>
+    </p>
+  <% end %>
   </div>
 </div>

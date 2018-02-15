@@ -10,7 +10,7 @@
   </head>
 
   <body>
-    <% if params[:controller] == "devise/sessions" && params[:action] == "new" || params[:controller] == 'devise/invitations' && params[:action] == "edit" %>
+    <% if params[:controller] == "devise/sessions" || params[:controller] == 'devise/invitations' %>
       <%= yield %>
     <% else %>
 	    <div class="ui sidebar vertical left menu overlay visible" style="-webkit-transition-duration: 0.1s; overflow: visible !important;">
@@ -290,7 +290,7 @@
 		    <a class="item openbtn">
 		      <i class="icon content"></i>
 		    </a>
-		    <a class="item">Messages</a>
+		    <a class="item" href="/">Messages</a>
 		    <div class="right menu">
 		    <a class="item"><%= current_user.username %></a>
 		      <div class="ui dropdown item">
