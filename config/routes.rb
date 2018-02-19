@@ -10,5 +10,10 @@ Rails.application.routes.draw do
   resources :user_profiles
   resources :assign_projects
   resources :projects
+  resources :tickets do 
+    collection do
+      post 'change_status_ticket'
+    end
+  end
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

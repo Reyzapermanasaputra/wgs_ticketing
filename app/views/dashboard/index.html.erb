@@ -11,19 +11,11 @@
             <div class="ful center_text list_head">Tasks</div>
             <div class="tasks ful"></div>
             <!--  Tamplate -->
-            <div class="left dragable temp hide task-unit ">
-              <div class="ful info">
-                <input id="TaskHeading" type="text" class="readonly" readonly placeholder="Title">
-                <textarea id="task-discription" readonly class="readonly" placeholder="Description"></textarea>
+              <div id="ticket_list">
+                <% @tickets.where(status: "New").each do |ticket| %>
+                  <%= render 'tickets_list', ticket: ticket %>
+                <% end %>
               </div>
-              <div class="ful action_bar">
-                <span class="time"><i class="icon-time"></i><span>&nbsp;</span></span>
-                <a class="right remove" href="#" title="delete"><i class="icon-remove"></i> </a>
-                <a class="right edit" href="#" title="edit"><i class="icon-edit"></i></a>
-              </div>
-              <div class="progress"></div>
-            </div>
-
             <div class="left temp_box">
               <div class="ful center_text temp_head">Temp Box</div>
             </div>
@@ -43,24 +35,33 @@
                 
               </div>
               <div class="ful action_bar">
-                <div class="right add_task_button">Add Task</div>
+                <button class="ui button right add_task_button" type="submit">Submit</button>
               </div>
             </div>
           </div>
 
           <div class="fourth column pillers left to_do_col" id="todo">
-            <div class="ful center_text list_head">New Tasks</div>
+            <div class="ful center_text list_head">On Progress</div>
             <div class="tasks ful"></div>
+            <% @tickets.where(status: "On Progress").each do |ticket| %>
+              <%= render 'tickets_list', ticket: ticket %>
+            <% end %>
           </div>
 
           <div class="fourth column pillers left  progress_col" id="progress">
-            <div class="ful center_text list_head">In Progress</div>
+            <div class="ful center_text list_head">Resolved</div>
             <div class="tasks ful"></div>
+            <% @tickets.where(status: "Resolved").each do |ticket| %>
+              <%= render 'tickets_list', ticket: ticket %>
+            <% end %>
           </div>
 
           <div class="fourth column pillers left complet_col" id="complete">
-            <div class="ful center_text list_head">Completed Tasks</div>
+            <div class="ful center_text list_head">Testing</div>
             <div class="tasks ful"></div>
+            <% @tickets.where(status: "Testing").each do |ticket| %>
+              <%= render 'tickets_list', ticket: ticket %>
+            <% end %>
           </div>
 
         </div>

@@ -35,10 +35,8 @@ $( document ).on('turbolinks:load', function(){
 	  return event.preventDefault();
 	});
 
-
-	$(function(){
 	function init(){	
-		var 	mouseX = 0,		// Mouse Position
+		var mouseX = 0,		// Mouse Position
 			mouseY = 0,
 
 			elmX     = 0,		// Element Position 
@@ -55,7 +53,18 @@ $( document ).on('turbolinks:load', function(){
 		$('.max').on('mousedown', '.dragable', function(e){
 			if($(e.target).is('.icon-remove') || $(e.target).is('.icon-edit')){
 				if($(e.target).is('.icon-remove')){
-					$(this).remove();
+					  div_tag = $(this);
+						if (confirm('Are you sure you want to delete this?')) {
+							$.ajax({
+								type: "POST",
+								url: "/tickets/" + this.id.split('_')[1],
+								dataType: "json",
+								data: {"_method":"delete"},
+								complete: function(){
+									$(div_tag).slideUp(1000);
+								}
+							});
+					}
 				}else{
 					editThis($(this));
 				}
@@ -86,7 +95,6 @@ $( document ).on('turbolinks:load', function(){
 			}
 		}).mouseup('.dragable', function(e){ 		// This will be fired when Mouse Button release back
 			var top_pos = +($('.temp_box').offset().top) -10 ;
-			
 			if(currentElm !== null){
 				currentElm.removeClass('rel').prependTo('.arrived .tasks').css({ 	// Resetting the Position Object
 					left: 0,
@@ -104,25 +112,34 @@ $( document ).on('turbolinks:load', function(){
 					top : (elmY + e.clientY - mouseY)+'px'
 				});
 
+				cur_el = currentElm
+				hold = true
+
 				/* Set Appropriate Class to Piller to Which The Element is going to be added */
 				if( e.clientX >= $('.pillers:nth-child(1)').offset().left && e.clientX < ($('.pillers:nth-child(1)').offset().left+pillerWidth) && e.clientY < $('.pillers:nth-child(1)').outerHeight()){
 					$('.pillers:nth-child(1)').addClass('arrived').siblings('.pillers').removeClass('arrived');
+					status_ticket = "New"
 				}else if(e.clientX >= $('.pillers:nth-child(2)').offset().left && e.clientX < ($('.pillers:nth-child(2)').offset().left+pillerWidth) && e.clientY < $('.pillers:nth-child(2)').outerHeight()){
 					$('.pillers:nth-child(2)').addClass('arrived').siblings('.pillers').removeClass('arrived');
+					status_ticket = "On Progress"
 				}else if(e.clientX >= $('.pillers:nth-child(3)').offset().left && e.clientX < ($('.pillers:nth-child(3)').offset().left+pillerWidth) && e.clientY < $('.pillers:nth-child(3)').outerHeight()){
 					$('.pillers:nth-child(3)').addClass('arrived').siblings('.pillers').removeClass('arrived');
+					status_ticket = "Resolved"
 				}else if(e.clientX >= $('.pillers:nth-child(4)').offset().left && e.clientX < ($('.pillers:nth-child(4)').offset().left+pillerWidth) && e.clientY < $('.pillers:nth-child(4)').outerHeight()){
 					$('.pillers:nth-child(4)').addClass('arrived').siblings('.pillers').removeClass('arrived');
+					status_ticket = "Testing"
 				}
 
 				// row drag set
 				dummy.appendTo('.arrived');
 				var boxNumber = +(e.clientY/dragboxHeigth);
 					boxNumber = Math.floor(boxNumber);
-					// console.log($('.arrived').find('.dragable:nth-child('+boxNumber+')'))
 					dummy.insertAfter($('.arrived').find('.dragable:nth-child('+boxNumber+')')).show();
 			}
-		});
+		}).mouseup(function() {
+	      id = cur_el.attr('id').split('_')[1]
+	      $.post('tickets/change_status_ticket/',{'id': id, 'status_ticket': status_ticket})
+	    });
 
 		$('body .arrived').on('click', '.remove', function(e){
 			$(this).closest('.dragable').remove();
@@ -134,16 +151,14 @@ $( document ).on('turbolinks:load', function(){
 				disc=place.find('textarea#discription').val(),
 				time = new Date(),
 				format = time.toLocaleDateString();
-
-
-			if(titl || disc){
-				var val = $('.temp').clone(true).removeClass('temp hide').insertBefore(place);
-				val.find('#TaskHeading').val(titl).end().find('#task-discription').text(disc).end().find('.time').append(format).css({
-					left: 0,
-					top: 0
-				});
-			}
 			$('input#title, textarea#discription').val('');
+			$.post('tickets/', 
+				{
+					'ticket[title]': titl,
+					'ticket[description]' : disc
+				},
+				function( data ) {
+			})
 		});
 
 		function editThis($ref){
@@ -151,12 +166,14 @@ $( document ).on('turbolinks:load', function(){
 			$ref.on('mouseup', function(e){
 				e.stopImmediatePropagation();
 				if(flag==true){
+					console.log("edit1");
 					$(this).addClass('done');
 					var task = $(this).closest('.dragable');
 					task.removeClass('dragable').find('input, textarea').removeAttr('readonly').removeClass('readonly');
 					flag=false;
 				}
 				else{
+					console.log("edit2");
 					$(this).removeClass('done');
 					$(this).closest('.task-unit').addClass('dragable').find('input, textarea').attr('readonly', 'readonly').addClass('readonly');
 					flag=true;
@@ -168,8 +185,6 @@ $( document ).on('turbolinks:load', function(){
 
 	init();
 });
-
-})
 // $(function(){
 //  //  $('.ui.sidebar').sidebar({
 //  //    context: $('.bottom.segment')

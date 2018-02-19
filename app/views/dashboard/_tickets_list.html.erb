@@ -1,0 +1,12 @@
+<div class="left dragable temp task-unit" id="ticket_<%= ticket.id %>">
+  <div class="ful info">
+    <input id="TaskHeading" type="text" class="readonly" readonly placeholder="<%= ticket.title%>">
+    <textarea id="task-discription" readonly class="readonly" placeholder="<%= ticket.description%>"></textarea>
+  </div>
+  <div class="ful action_bar">
+    <span class="time"><%= ticket.created_at.strftime('%d/%m/%y') %></i><span>&nbsp;</span></span>
+    <a class="right remove" title="delete" id="testing"><i class="icon-remove"></i> </a>
+    <a class="right edit" title="edit"><i class="icon-edit"></i></a>
+  </div>
+  <div class="progress"></div>
+</div>

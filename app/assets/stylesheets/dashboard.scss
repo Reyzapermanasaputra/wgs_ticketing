@@ -7,7 +7,6 @@
 	margin: 0px;
 	padding: 0px;
 	font-family:verdana,arial,sans-serif;
-	background-color: #fafafa;
 }
 .ful{
 	width:100%;
@@ -90,7 +89,7 @@
 }
 .task-unit,.create_task_box{
 	margin: 10px 4% 0px;
-	border: 1px solid #aaa;
+	border: 1px solid #090909;
 	width: 80%;
 	padding: 7px 15px 10px;
 	border-radius: 5px;
@@ -128,7 +127,7 @@
 }
 .info > #TaskHeading{
 	font-weight: 600;
-	color:#666;
+	color:#000000;
 }
 
 #task-discription, #TaskHeading{
@@ -171,7 +170,7 @@
 }
 input[type="text"]:focus ~ .titl{
 	top:-9px;
-	color: #36A7FA;
+	color: #000;
 	
 }
 .info textarea:focus ~ .disc{
