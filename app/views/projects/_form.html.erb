@@ -14,8 +14,8 @@
     <%= f.fields_for :clients do |client_form| %>
         <%= render 'client_fields', client_form: client_form %>
     <% end %>
-    <%= link_to_add_fields "Add Client", f, :clients %>
     <p>
+      <%= link_to_add_fields "Add Client", f, :clients %>
       <%= f.submit "Submit", class: "ui button" %>
     </p>
   <% end %>

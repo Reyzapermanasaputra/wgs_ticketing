@@ -1,3 +1,4 @@
+<fieldset>
 <div class="field">
   <label>Client Name</label>
   <%= client_form.text_field :name, placeholder: "Client Name" %>
@@ -10,3 +11,10 @@
   <label>Address</label>
   <%= client_form.text_area :address %>
 </div>
+<%= client_form.hidden_field :_destroy %>
+<%= link_to nil, class: "remove_project" do %>
+  <i class="icon remove right"></i>
+<% end %>
+<br />
+<br />
+</fieldset>
