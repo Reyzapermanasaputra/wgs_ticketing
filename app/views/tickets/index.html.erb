@@ -3,7 +3,7 @@
       <div class="center_block container">
 
         <!-- head -->
-        <div class="ful center_text container_head"> Weekly List</div>
+        <div class="ful center_text container_head"> <%= @project.name %> </div>
 
         <!-- Columns -->
         <div class="ful max">
@@ -12,23 +12,30 @@
             <div class="tasks ful"></div>
             <!--  Tamplate -->
               <div id="ticket_list">
-                <% @tickets.where(status: "New").each do |ticket| %>
-                  <%= render 'tickets_list', ticket: ticket %>
+                <% @tickets.each do |ticket| %>
+                  <% if ticket.status.eql? "New" %>
+                    <%= render 'tickets_list', ticket: ticket %>
+                  <% end %>
                 <% end %>
               </div>
             <div class="left temp_box">
               <div class="ful center_text temp_head">Temp Box</div>
             </div>
             <!-- add new task -->
-            <div class="left create_task_box">
+            <div class="left create_task_box" id="project_id_<%= @project.id %>">
               <div class="ful info">
                 <p>Add New Task:</p>
                 <div class="ui form">
+                <%= form_tag project_tickets_path, remote: true, method: :post do %>
+                  <%= select_tag "ticket[users]", options_for_select(@users.collect{|x| [x.username, x.id]})%>
+                  <br/>
+                  <br/>
                   <div class="ful relative info_val">
                     <!-- <input id="title" type="text" name="title" required> -->
                     <!-- <label class="input_label titl" for="title">Title </label> -->
                     <div class="ui mini icon input">
-                      <input id="title" name="title" type="text" placeholder="Title" required>
+                      <!-- <input id="title" name="title" type="text" placeholder="Title" required> -->
+                      <%= text_field_tag "ticket[title]", nil, placeholder: "title" %>
                     </div>
                   </div>
                   <br />
@@ -38,194 +45,50 @@
                     <!-- <textarea name="discription" id="discription" required></textarea> -->
                     <!-- <label class="input_label disc" for="discription">Description</label> -->
                     <div class="ui mini icon input">
-                      <textarea rows="4" cols="25" name="discription" id="discription" placeholder="Description" required></textarea>
+                      <!-- <textarea rows="4" cols="25" name="discription" id="discription" placeholder="Description" required></textarea> -->
+                      <%= text_area_tag "ticket[description]", nil, rows: "4", cols: "25", placeholder: "description" %>
                     </div>
                   </div>
                 </div>
 
               </div>
               <div class="ful action_bar">
-                <button class="small ui button add_task_button">Add</button>
+                <!-- <button class="small ui button add_task_button">Add</button> -->
+                <%= submit_tag "Create", class: "small ui button" %>
               </div>
+              <% end %>
             </div>
           </div>
 
           <div class="fourth column pillers left to_do_col" id="todo">
             <div class="ful center_text list_head">On Progress</div>
             <div class="tasks ful"></div>
-            <% @tickets.where(status: "On Progress").each do |ticket| %>
-              <%= render 'tickets_list', ticket: ticket %>
+            <% @tickets.each do |ticket| %>
+              <% if ticket.status.eql? "On Progress" %>
+                <%= render 'tickets_list', ticket: ticket %>
+              <% end %>
             <% end %>
           </div>
 
           <div class="fourth column pillers left  progress_col" id="progress">
             <div class="ful center_text list_head">Resolved</div>
             <div class="tasks ful"></div>
-            <% @tickets.where(status: "Resolved").each do |ticket| %>
-              <%= render 'tickets_list', ticket: ticket %>
+            <% @tickets.each do |ticket| %>
+              <% if ticket.status.eql? "Resolved" %>
+                <%= render 'tickets_list', ticket: ticket %>
+              <% end %>
             <% end %>
           </div>
 
           <div class="fourth column pillers left complet_col" id="complete">
             <div class="ful center_text list_head">Testing</div>
             <div class="tasks ful"></div>
-            <% @tickets.where(status: "Testing").each do |ticket| %>
-              <%= render 'tickets_list', ticket: ticket %>
+            <% @tickets.each do |ticket| %>
+              <% if ticket.status.eql? "Testing" %>
+                <%= render 'tickets_list', ticket: ticket %>
+              <% end %>
             <% end %>
           </div>
-
-           <div class="fourth column pillers left complet_col" id="complete">
-            <div class="ful center_text list_head">Testing</div>
-            <div class="tasks ful"></div>
-            <% @tickets.where(status: "Testing").each do |ticket| %>
-              <%= render 'tickets_list', ticket: ticket %>
-            <% end %>
-          </div>
-
-           <div class="fourth column pillers left complet_col">
-            <div class="ful center_text list_head">Testing</div>
-            <div class="tasks ful"></div>
-            <% @tickets.where(status: "Testing").each do |ticket| %>
-              <%= render 'tickets_list', ticket: ticket %>
-            <% end %>
-          </div>
-
-          <div class="fourth column pillers left complet_col">
-            <div class="ful center_text list_head">Testing</div>
-            <div class="tasks ful"></div>
-            <% @tickets.where(status: "Testing").each do |ticket| %>
-              <%= render 'tickets_list', ticket: ticket %>
-            <% end %>
-          </div>
-
-          <div class="fourth column pillers left complet_col">
-            <div class="ful center_text list_head">Testing</div>
-            <div class="tasks ful"></div>
-            <% @tickets.where(status: "Testing").each do |ticket| %>
-              <%= render 'tickets_list', ticket: ticket %>
-            <% end %>
-          </div>
-
-          <div class="fourth column pillers left complet_col">
-            <div class="ful center_text list_head">Testing</div>
-            <div class="tasks ful"></div>
-            <% @tickets.where(status: "Testing").each do |ticket| %>
-              <%= render 'tickets_list', ticket: ticket %>
-            <% end %>
-          </div>
-
-          <div class="fourth column pillers left complet_col">
-            <div class="ful center_text list_head">Testing</div>
-            <div class="tasks ful"></div>
-            <% @tickets.where(status: "Testing").each do |ticket| %>
-              <%= render 'tickets_list', ticket: ticket %>
-            <% end %>
-          </div>
-
-          <div class="fourth column pillers left complet_col">
-            <div class="ful center_text list_head">Testing</div>
-            <div class="tasks ful"></div>
-            <% @tickets.where(status: "Testing").each do |ticket| %>
-              <%= render 'tickets_list', ticket: ticket %>
-            <% end %>
-          </div>
-
-          <div class="fourth column pillers left complet_col">
-            <div class="ful center_text list_head">Testing</div>
-            <div class="tasks ful"></div>
-            <% @tickets.where(status: "Testing").each do |ticket| %>
-              <%= render 'tickets_list', ticket: ticket %>
-            <% end %>
-          </div>
-
-          <div class="fourth column pillers left complet_col">
-            <div class="ful center_text list_head">Testing</div>
-            <div class="tasks ful"></div>
-            <% @tickets.where(status: "Testing").each do |ticket| %>
-              <%= render 'tickets_list', ticket: ticket %>
-            <% end %>
-          </div>
-
-          <div class="fourth column pillers left complet_col">
-            <div class="ful center_text list_head">Testing</div>
-            <div class="tasks ful"></div>
-            <% @tickets.where(status: "Testing").each do |ticket| %>
-              <%= render 'tickets_list', ticket: ticket %>
-            <% end %>
-          </div>
-
-          <div class="fourth column pillers left complet_col">
-            <div class="ful center_text list_head">Testing</div>
-            <div class="tasks ful"></div>
-            <% @tickets.where(status: "Testing").each do |ticket| %>
-              <%= render 'tickets_list', ticket: ticket %>
-            <% end %>
-          </div>
-
-          <div class="fourth column pillers left complet_col">
-            <div class="ful center_text list_head">Testing</div>
-            <div class="tasks ful"></div>
-            <% @tickets.where(status: "Testing").each do |ticket| %>
-              <%= render 'tickets_list', ticket: ticket %>
-            <% end %>
-          </div>
-
-          <div class="fourth column pillers left complet_col">
-            <div class="ful center_text list_head">Testing</div>
-            <div class="tasks ful"></div>
-            <% @tickets.where(status: "Testing").each do |ticket| %>
-              <%= render 'tickets_list', ticket: ticket %>
-            <% end %>
-          </div>
-
-          <div class="fourth column pillers left complet_col">
-            <div class="ful center_text list_head">Testing</div>
-            <div class="tasks ful"></div>
-            <% @tickets.where(status: "Testing").each do |ticket| %>
-              <%= render 'tickets_list', ticket: ticket %>
-            <% end %>
-          </div>
-
-          <div class="fourth column pillers left complet_col">
-            <div class="ful center_text list_head">Testing</div>
-            <div class="tasks ful"></div>
-            <% @tickets.where(status: "Testing").each do |ticket| %>
-              <%= render 'tickets_list', ticket: ticket %>
-            <% end %>
-          </div>
-
-          <div class="fourth column pillers left complet_col">
-            <div class="ful center_text list_head">Testing</div>
-            <div class="tasks ful"></div>
-            <% @tickets.where(status: "Testing").each do |ticket| %>
-              <%= render 'tickets_list', ticket: ticket %>
-            <% end %>
-          </div>
-
-          <div class="fourth column pillers left complet_col">
-            <div class="ful center_text list_head">Testing</div>
-            <div class="tasks ful"></div>
-            <% @tickets.where(status: "Testing").each do |ticket| %>
-              <%= render 'tickets_list', ticket: ticket %>
-            <% end %>
-          </div>
-
-          <div class="fourth column pillers left complet_col">
-            <div class="ful center_text list_head">Testing</div>
-            <div class="tasks ful"></div>
-            <% @tickets.where(status: "Testing").each do |ticket| %>
-              <%= render 'tickets_list', ticket: ticket %>
-            <% end %>
-          </div>
-
-          <div class="fourth column pillers left complet_col">
-            <div class="ful center_text list_head">Testing</div>
-            <div class="tasks ful"></div>
-            <% @tickets.where(status: "Testing").each do |ticket| %>
-              <%= render 'tickets_list', ticket: ticket %>
-            <% end %>
-          </div>
-
         </div>
         
       </div>

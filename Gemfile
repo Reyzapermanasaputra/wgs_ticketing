@@ -37,6 +37,8 @@ gem 'devise_invitable'
 #gem for image
 #gem "paperclip", "~> 5.2.1"
 
+gem "awesome_print"
+
 #framework css
 gem 'semantic-ui-sass'
 

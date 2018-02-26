@@ -20,6 +20,18 @@ class ProjectsController < ApplicationController
   	end
   end
 
+  def show
+    @project = Project.find_by_id(params[:id])
+    @users = User.all
+  end
+
+  def assigning_users
+    params[:users].each do |user|
+      UserProject.create(user_id: user, project_id: params[:project_id])
+    end
+    redirect_back(fallback_location: root_path)
+  end
+
   def edit
   end
 

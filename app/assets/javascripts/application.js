@@ -21,10 +21,15 @@ $( document ).on('turbolinks:load', function(){
 	;
 
 	$('select')
-	  .dropdown()
+	  .dropdown({
+	  	transition: 'top'
+	  })
 	;
 
 	$('.ui.dropdown.item')
+	  .dropdown()
+	;
+	$('.ui.dropdown')
 	  .dropdown()
 	;
 	function init(){	
@@ -143,12 +148,12 @@ $( document ).on('turbolinks:load', function(){
 		});
 
 		$('.add_task_button').on('click',function () {
+			debugger;
 			var place= $(this).closest('.create_task_box'),
 				titl=place.find('input#title').val(),
 				disc=place.find('textarea#discription').val(),
 				time = new Date(),
 				format = time.toLocaleDateString();
-			$('input#title, textarea#discription').val('');
 			$.post('tickets/', 
 				{
 					'ticket[title]': titl,

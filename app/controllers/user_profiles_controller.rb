@@ -20,6 +20,11 @@ class UserProfilesController < ApplicationController
   	@user.destroy
   end
 
+  def send_invitation_again
+    user = User.find_by_id(params[:id])
+    user.invite!(current_user)
+  end
+
   private
   def params_user_profile
   	params.require(:user).permit(:username, :role_id, :is_active, :contact, :email)

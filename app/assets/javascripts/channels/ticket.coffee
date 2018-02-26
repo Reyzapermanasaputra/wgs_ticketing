@@ -6,4 +6,4 @@ App.ticket = App.cable.subscriptions.create "TicketChannel",
     # Called when the subscription has been terminated by the server
 
   received: (data) ->
-  	$(data.view).insertBefore($('.create_task_box')).hide().slideDown(1000);;
+  	$(data.view).insertBefore($('#project_id_' + data.project_id)).hide().slideDown(1000);;

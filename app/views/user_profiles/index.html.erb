@@ -23,6 +23,11 @@
       <%= link_to user_profile_path(user.id), remote: true, method: :delete, data: {confirm: 'Are you sure?'} do %>
         <i class="remove icon"></i>Delete
       <% end %>
+      |
+      <%= link_to send_invitation_again_user_profiles_path(id: user.id), remote: true do %>
+        <i class="send outline icon"></i>Send Token Again!
+      <% end %>
+
       </td>
     </tr>
    <% end %>

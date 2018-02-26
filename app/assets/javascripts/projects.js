@@ -1,5 +1,17 @@
-$(function(){
-	
+$( document ).on('turbolinks:load', function(){
+	$('.label.ui.dropdown')
+	  .dropdown();
+
+	$('.no.label.ui.dropdown')
+	  .dropdown({
+	  useLabels: false
+	});
+
+	$('.ui.button').on('click', function () {
+	  $('.ui.dropdown')
+	    .dropdown('restore defaults')
+	});
+
 	$('form').on('click', '.remove_project', function(event){
 		$(this).prev('input[type=hidden]').val('1');
 		$(this).closest('fieldset').slideUp("slow");

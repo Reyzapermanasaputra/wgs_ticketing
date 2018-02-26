@@ -10,7 +10,7 @@
   </head>
 
   <body style="overflow: scroll;">
-    <% if params[:controller] == "devise/sessions" || params[:controller] == 'devise/invitations' &&  params[:actionn] == "edit" %>
+    <% if params[:controller] == "devise/sessions" || params[:controller] == 'devise/invitations' &&  params[:action] == "edit" %>
       <%= yield %>
     <% else %>
 	    <div class="ui sidebar vertical left menu overlay visible" style="-webkit-transition-duration: 0.1s; overflow: visible !important;">
@@ -18,35 +18,21 @@
 		    WGS
 		  </div>
 		  <div class="ui accordion">
-		    <a class="title item">Dashboard  <i class="dropdown icon"></i>
-		                </a>
+		    <a class="title item">Dashboard  <i class="dropdown icon"></i></a>
 		    <div class="content">
 		      <a class="item" href="/roles">Role</a>
 	          <a class="item" href="/user_profiles">User</a>
 	          <a class="item" href="/projects">Project</a>
-	          <a class="item" href="/assign_projects">Assign Project</a>
 		    </div>
 
 		    <div class="title item">
-		      <i class="dropdown icon"></i> Apps
+		      <i class="dropdown icon"></i> Projects
 		    </div>
 		    <div class="content">
-		      <a class="item" href="inbox.html">Inbox
-		                    </a>
-		      <a class="item" href="mail.html">Mailbox
-		                    </a>
-		      <a class="item" href="chat.html">Chat
-		                    </a>
-		      <a class="item" href="contacts.html">Contacts
-		                    </a>
-		      <a class="item" href="photoeditor.html">Photo Editor
-		                    </a>
-		      <a class="item" href="calendar.html">Calendar
-		                    </a>
-		      <a class="item" href="filter.html">Filter
-		                    </a>
-		      <a class="item" href="todo.html">Todo
-		                    </a>
+		      <% current_user.projects.each do |project| %>
+			      <a class="item" href="/projects/<%= project.id %>/tickets"><%= project.name %></a>
+			    <% end %>
+   
 		    </div>
 		    <div class="title item">
 		      <i class="dropdown icon"></i> Layouts
@@ -294,7 +280,7 @@
 		    <div class="right menu">
 		    <a class="item"><%= current_user.username %></a>
 		      <div class="ui dropdown item">
-		        Settings &nbsp;&nbsp;<i class="settings icon"></i>
+		          &nbsp;&nbsp;<i class="settings large icon"></i>
 		        <div class="menu">
 		          <%= link_to "Logout", destroy_user_session_path, method: :delete, class: "item" %>
 		          <a class="item">Russian</a>
