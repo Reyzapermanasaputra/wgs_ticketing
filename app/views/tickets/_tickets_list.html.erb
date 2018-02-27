@@ -1,17 +1,23 @@
 <div class="ui yellow message left dragable temp task-unit" id="ticket_<%= ticket.id %>">
-  <i class="close icon"></i>
-  <a class="right remove" title="delete" id="testing"><i class="icon-remove"></i></a>
-  <span class="time"><%= link_to "##{ticket.id}", "", class: "modal-show"  %></span>
+  <!-- <a class="right remove" title="delete" id="testing"><i class="icon-remove"></i></a> -->
+  <%= link_to project_ticket_path(14, ticket.id), remote: true, method: :delete, data: {confirm: "Are You Sure ?"}, class: "right remove" do %>
+    <i class="close icon"></i>
+  <% end %>
+  <span><%= link_to "##{ticket.id}", "", class: "modal-show"  %></span>
   <div class="ful info">
-    <!-- <input id="TaskHeading" type="text" class="readonly" readonly placeholder="<%= ticket.title%>">
-    <textarea id="task-discription" readonly class="readonly" placeholder="<%= ticket.description%>"></textarea> -->
-    <%= ticket.title %><br />
+  <br />
+    <b><u><%= ticket.title %></u></b>
+    <br />
     <%= ticket.description %>
-    
   </div>
   <div class="ful action_bar">
-    <span class="time"><%= ticket.created_at.strftime('%d/%m/%y') %></i><span>&nbsp;</span></span>
-    <a class="right edit" title="edit"><i class="icon-edit"></i></a>
+    <i class="clock outline icon"></i><span><%= ticket.created_at.strftime('%d/%m/%y') %></i><span>&nbsp;</span></span>
+    <br />
+    <i class="pencil alternate icon"></i><span><%= ticket.maker %></span>
+    <br />
+    <i class="at icon"></i><span><%= ticket.receipt %></span>
+    </i><span>&nbsp;</span></span>
+    <!-- <a class="right edit" title="edit"><i class="icon-edit"></i></a> -->
   </div>
   <div class="progress"></div>
 </div>

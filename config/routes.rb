@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   resources :projects do
     collection do
       post 'assigning_users'
+      post 'destroy_assign_user'
     end
     resources :tickets do 
     collection do

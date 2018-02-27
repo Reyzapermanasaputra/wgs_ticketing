@@ -1,4 +1,4 @@
-App.remove_ticket = App.cable.subscriptions.create "RemoveTicketChannel",
+App.change_ticket = App.cable.subscriptions.create "ChangeTicketChannel",
   connected: ->
     # Called when the subscription is ready for use on the server
 
@@ -6,4 +6,4 @@ App.remove_ticket = App.cable.subscriptions.create "RemoveTicketChannel",
     # Called when the subscription has been terminated by the server
 
   received: (data) ->
-    $("#ticket_" + data.id).transition('fade up')
+    # Called when there's incoming data on the websocket for this channel

@@ -24,7 +24,7 @@
         <i class="remove icon"></i>Delete
       <% end %>
       |
-      <%= link_to send_invitation_again_user_profiles_path(id: user.id), remote: true do %>
+      <%= link_to send_invitation_again_user_profiles_path(id: user.id), remote: true, data: {confirm: "Are You Sure ?"} do %>
         <i class="send outline icon"></i>Send Token Again!
       <% end %>
 

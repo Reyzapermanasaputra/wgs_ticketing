@@ -22,7 +22,10 @@
       </td>
       <td>
         <%= link_to project_path(project.id), class: "ui basic" do %>
-          <i class="address card outline icon"></i>Show Project
+          <i class="address card outline icon"></i>
+        <% end %>
+        <%= link_to project_path(project.id), method: :delete, data: {confirm: "Are You Sure ?"}, class: "ui basic" do %>
+          <i class="remove icon"></i>
         <% end %>
       </td>
     </tr>

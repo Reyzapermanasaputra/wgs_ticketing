@@ -22,7 +22,9 @@ class ProjectsController < ApplicationController
 
   def show
     @project = Project.find_by_id(params[:id])
-    @users = User.all
+    user_ids = @project.users.collect(&:id)
+    user_ids = 0 if user_ids.blank?
+    @users = User.where(["id not in (?)",user_ids])
   end
 
   def assigning_users
@@ -32,7 +34,19 @@ class ProjectsController < ApplicationController
     redirect_back(fallback_location: root_path)
   end
 
+  def destroy_assign_user
+    user_project = UserProject.find_by_user_id_and_project_id(params[:user_id], params[:project_id])
+    user_project.destroy
+    redirect_back(fallback_location: root_path)
+  end
+
   def edit
+  end
+
+  def destroy
+    project = Project.find_by_id(params[:id])
+    project.destroy
+    redirect_back(fallback_location: root_path)
   end
 
   private

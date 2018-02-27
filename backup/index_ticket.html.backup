@@ -1,0 +1,126 @@
+<!-- main body -->
+    <div class="ful">
+      <div class="center_block container">
+
+        <!-- head -->
+        <div class="ful center_text container_head"> <%= @project.name %> </div>
+
+        <!-- Columns -->
+        <div class="ful max">
+          <div class="fourth column pillers left all_col" id="all">
+            <div class="ful center_text list_head">Tasks</div>
+            <div class="tasks ful"></div>
+            <!--  Tamplate -->
+              <div id="ticket_list">
+                <% @tickets.each do |ticket| %>
+                  <% if ticket.status.eql? "New" %>
+                    <%= render 'tickets_list', ticket: ticket %>
+                  <% end %>
+                <% end %>
+              </div>
+            <div class="left temp_box">
+              <div class="ful center_text temp_head">Temp Box</div>
+            </div>
+            <!-- add new task -->
+            <div class="left create_task_box" id="project_id_<%= @project.id %>_user_id_<%= current_user.id %>">
+              <div class="ful info">
+                <p>Add New Task:</p>
+                <div class="ui form">
+                <%= form_tag project_tickets_path, remote: true, method: :post, data: { turbolinks: false }  do %>
+                  <%= select_tag "ticket[users]", options_for_select(@users.collect{|x| [x.username, x.id]}), prompt: "plese select user" %>
+                  <br/>
+                  <br/>
+                  <div class="ful relative info_val">
+                    <!-- <input id="title" type="text" name="title" required> -->
+                    <!-- <label class="input_label titl" for="title">Title </label> -->
+                    <div class="ui mini icon input">
+                      <!-- <input id="title" name="title" type="text" placeholder="Title" required> -->
+                      <%= text_field_tag "ticket[title]", nil, placeholder: "title" %>
+                    </div>
+                  </div>
+                  <br />
+                  <br />
+                  <br />
+                  <div class="ful relative info_val">
+                    <!-- <textarea name="discription" id="discription" required></textarea> -->
+                    <!-- <label class="input_label disc" for="discription">Description</label> -->
+                    <div class="ui mini icon input">
+                      <!-- <textarea rows="4" cols="25" name="discription" id="discription" placeholder="Description" required></textarea> -->
+                      <%= text_area_tag "ticket[description]", nil, rows: "4", cols: "25", placeholder: "description" %>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+              <div class="ful action_bar">
+                <!-- <button class="small ui button add_task_button">Add</button> -->
+                <%= submit_tag "Create", class: "small ui button" %>
+              </div>
+            </div>
+          </div>
+          <% end %>
+
+          <div class="fourth column pillers left to_do_col" id="todo">
+            <div class="ful center_text list_head">On Progress</div>
+            <div class="tasks ful"></div>
+            <% @tickets.each do |ticket| %>
+              <% if ticket.status.eql? "On Progress" %>
+                <%= render 'tickets_list', ticket: ticket %>
+              <% end %>
+            <% end %>
+          </div>
+
+          <div class="fourth column pillers left  progress_col" id="progress">
+            <div class="ful center_text list_head">Resolved</div>
+            <div class="tasks ful"></div>
+            <% @tickets.each do |ticket| %>
+              <% if ticket.status.eql? "Resolved" %>
+                <%= render 'tickets_list', ticket: ticket %>
+              <% end %>
+            <% end %>
+          </div>
+
+          <div class="fourth column pillers left complet_col" id="complete">
+            <div class="ful center_text list_head">Testing</div>
+            <div class="tasks ful"></div>
+            <% @tickets.each do |ticket| %>
+              <% if ticket.status.eql? "Testing" %>
+                <%= render 'tickets_list', ticket: ticket %>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+    
+    <div id="modal">
+    </div>
+  <!-- <div class="ui modal" id="modal">
+    <i class="close icon"></i>
+    <div class="header">
+      Modal Title
+    </div>
+    <div class="scrolling content">
+      <form class="ui form">
+        <div class="field">
+          <label>First Name</label>
+          <input type="text" name="first-name" placeholder="First Name">
+        </div>
+        <div class="field">
+          <label>Last Name</label>
+          <textarea></textarea>
+        </div>
+        <div class="field">
+          <div class="ui checkbox">
+            <input type="checkbox" tabindex="0" class="hidden">
+            <label>I agree to the Terms and Conditions</label>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="actions">
+      <div class="ui button">Cancel</div>
+      <div class="ui button">OK</div>
+    </div>
+  </div> -->

@@ -1,5 +1,5 @@
 
-<div class="ui card">
+<div class="ui card" style="width: 750px; important!">
   <div class="content">
     <div class="header"><%= @project.name %></div>
     <div class="meta">
@@ -29,7 +29,11 @@
             <i class="large github middle aligned icon"></i>
             <div class="content">
               <a class="header"><%= user.username %></a>
-              <div class="description"><%= user.email %></div>
+              <div class="description"><%= user.email %>
+              <%= link_to destroy_assign_user_projects_path(user_id: user.id, project_id: @project.id), method: :post, data: {confirm: "Are You Sure ?"} do %>
+                <i class="remove icon"></i>
+              <% end %>
+              </div>
             </div>
           </div>
         </div>
@@ -44,7 +48,9 @@
         <div class="inline field">
           <%= select_tag "users[]", options_for_select(@users.all.collect{|x| [x.username, x.id]}), {multiple: "", class: "label ui selection fluid dropdown"} %>
         </div>
-      <%= submit_tag "Add" %>
+        <%= button_tag type: 'submit' do %>
+          <i class="plus circle large icon"></i>
+        <% end %>
       <% end %>
       <br><br>
 
