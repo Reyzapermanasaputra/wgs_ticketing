@@ -13,6 +13,7 @@
 //= require jquery
 //= require rails-ujs
 //= require semantic-ui
+//= require muuri
 //= require_tree .
 $( document ).ready(function(){
 	$('.ui.checkbox')

@@ -6,9 +6,9 @@ document.addEventListener('DOMContentLoaded', function () {
   var columnGrids = [];
   var dragCounter = 0;
   var boardGrid;
+  var status;
 
   itemContainers.forEach(function (container) {
-
     var muuri = new Muuri(container, {
       items: '.board-item',
       layoutDuration: 400,
@@ -38,11 +38,13 @@ document.addEventListener('DOMContentLoaded', function () {
       columnGrids.forEach(function (muuri) {
         muuri.refreshItems();
       });
-      if (item._gridId == 1){
+      //alert("this " + item._element.id + "in " + $("#" + item._element.id).parent().parent().attr('class').split(" ")[1])
+      status = $("#" + item._element.id).parent().parent().children(".board-column-header").html();
+      if (status == "New"){
         $.post('tickets/change_status_ticket/',{'id': item._element.id.split("_")[1], 'status_ticket': "New"})
-      }else if (item._gridId == 5){
+      }else if (status == "On Progress"){
         $.post('tickets/change_status_ticket/',{'id': item._element.id.split("_")[1], 'status_ticket': "On Progress"})
-      }else if (item._gridId == 9){
+      }else if (status == "Done"){
         $.post('tickets/change_status_ticket/',{'id': item._element.id.split("_")[1], 'status_ticket': "Done"})
       }
     })
@@ -65,5 +67,4 @@ document.addEventListener('DOMContentLoaded', function () {
     dragReleaseDuration: 400,
     dragReleaseEasing: 'ease'
   });
-
 });

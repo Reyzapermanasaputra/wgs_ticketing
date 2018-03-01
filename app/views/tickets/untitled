@@ -1,0 +1,46 @@
+<section class="kanban-demo" style="margin-left: 300px;">
+  <br />
+    <h2 class="section-title"><span><%= @project.name %></span></h2>
+
+    <div class="board">
+      <div class="board-column todo">
+        <div class="board-column-header">New</div>
+        <div class="board-column-content">
+          <% @tickets.each do |ticket| %>
+            <% if ticket.status.eql? "New" %>
+              <div class="board-item" id="ticket_<%= ticket.id %>"><div class="board-item-content"><span>Ticket #</span><%= ticket.id %></div></div>  
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+      <div class="board-column working">
+        <div class="board-column-header">On Progress</div>
+        <div class="board-column-content">
+          <% @tickets.each do |ticket| %>
+            <% if ticket.status.eql? "On Progress" %>
+              <div class="board-item" id="ticket_<%= ticket.id %>"><div class="board-item-content"><span>Ticket #</span><%= ticket.id %></div></div>  
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+      <div class="board-column done">
+        <div class="board-column-header">Done</div>
+        <div class="board-column-content">
+          <% @tickets.each do |ticket| %>
+            <% if ticket.status.eql? "Done" %>
+              <div class="board-item" id="ticket_<%= ticket.id %>"><div class="board-item-content"><span>Ticket #</span><%= ticket.id %></div></div>  
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+   </section>
+   <div class="ui modal">
+    <i class="close icon"></i>
+    <div class="header">Header</div>
+    <div class="content">
+      <p></p>
+      <p></p>
+      <p></p>
+    </div>
+  </div>

@@ -501,7 +501,7 @@ section h4 {
 }</style>
   </head>
 
-  <body style="overflow: scroll;">
+  <body>
     <% if params[:controller] == "devise/sessions" || params[:controller] == 'devise/invitations' &&  params[:action] == "edit" %>
       <%= yield %>
     <% else %>

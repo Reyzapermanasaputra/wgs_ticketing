@@ -1,37 +1,125 @@
-<section class="kanban-demo" style="margin-left: 300px;">
-  <br />
-    <h2 class="section-title"><span><%= @project.name %></span></h2>
-
-    <div class="board">
-      <div class="board-column todo">
-        <div class="board-column-header">To do</div>
-        <div class="board-column-content">
-          <% @tickets.each do |ticket| %>
-            <% if ticket.status.eql? "New" %>
-              <div class="board-item" id="ticket_<%= ticket.id %>"><div class="board-item-content"><span>Ticket #</span><%= ticket.id %></div></div>  
-            <% end %>
+<br />
+<section class="kanban-demo">
+  <h2 class="section-title"><span><%= @project.name %></span>
+    <%= link_to new_project_ticket_path, remote: true do %>
+      <i class="plus circle icon"></i>
+   <% end %>
+   </h2>
+  <div class="board">
+    <div class="board-column expand new">
+      <div class="board-column-header">Backlog</div>
+      <div class="board-column-content">
+        <% @tickets.each do |ticket| %>
+          <% if ticket.status == "New" %>
+            <div class="board-item">
+              <div class="board-item-content"><span><%= ticket.title %></span></div>
+            </div>
           <% end %>
-        </div>
+        <% end %>
       </div>
-      <div class="board-column working">
-        <div class="board-column-header">Working</div>
-        <div class="board-column-content">
-          <% @tickets.each do |ticket| %>
-            <% if ticket.status.eql? "On Progress" %>
-              <div class="board-item" id="ticket_<%= ticket.id %>"><div class="board-item-content"><span>Ticket #</span><%= ticket.id %></div></div>  
-            <% end %>
-          <% end %>
+    </div>
+    <div class="board-column on-progress">
+      <div class="board-column-header">Analyze</div>
+      <div class="board-column-content">
+        <div class="board-item">
+          <div class="board-item-content"><span>Neueste zuerst</span></div>
         </div>
-      </div>
-      <div class="board-column done">
-        <div class="board-column-header">Done</div>
-        <div class="board-column-content">
-          <% @tickets.each do |ticket| %>
-            <% if ticket.status.eql? "Done" %>
-              <div class="board-item" id="ticket_<%= ticket.id %>"><div class="board-item-content"><span>Ticket #</span><%= ticket.id %></div></div>  
-            <% end %>
-          <% end %>
+        <div class="board-item">
+          <div class="board-item-content"><span>Älteste zuerst</span></div>
+        </div>
+        <div class="board-item">
+          <div class="board-item-content"><span>Sortiert nach Titel</span></div>
+        </div>
+        <div class="board-item">
+          <div class="board-item-content"><span>Sortiert nach Relevanz</span></div>
         </div>
       </div>
     </div>
-   </section>
+    <div class="board-column done">
+      <div class="board-column-header">Develop</div>
+      <div class="board-column-content">
+        <div class="board-item">
+          <div class="board-item-content"><span>aus dem Jahr 2015</span></div>
+        </div>
+        <div class="board-item">
+          <div class="board-item-content"><span>aus dem Jahr 2016</span></div>
+        </div>
+        <div class="board-item">
+          <div class="board-item-content"><span>aus dem Jahr 2017</span></div>
+        </div>
+        <div class="board-item">
+          <div class="board-item-content"><span>aus dem Jahr 2018</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="board-column testing">
+      <div class="board-column-header">Test</div>
+      <div class="board-column-content">
+        <div class="board-item">
+          <div class="board-item-content"><span>Sport</span></div>
+        </div>
+        <div class="board-item">
+          <div class="board-item-content"><span>Kulinarik</span></div>
+        </div>
+        <div class="board-item">
+          <div class="board-item-content"><span>Technik</span></div>
+        </div>
+        <div class="board-item">
+          <div class="board-item-content"><span>Wohnen</span></div>
+        </div>
+        <div class="board-item">
+          <div class="board-item-content"><span>Trend</span></div>
+        </div>
+        <div class="board-item">
+          <div class="board-item-content"><span>Politik</span></div>
+        </div>
+        <div class="board-item">
+          <div class="board-item-content"><span>Mode</span></div>
+        </div>
+        <div class="board-item">
+          <div class="board-item-content"><span>Einkaufen</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="board-column closed">
+      <div class="board-column-header">Done</div>
+      <div class="board-column-content">
+        <div class="board-item">
+          <div class="board-item-content"><span>Bilder</span></div>
+        </div>
+        <div class="board-item">
+          <div class="board-item-content"><span>Videos</span></div>
+        </div>
+        <div class="board-item">
+          <div class="board-item-content"><span>Artikel</span></div>
+        </div>
+        <div class="board-item">
+          <div class="board-item-content"><span>Tonspuren</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="ui modal" id="modal">
+    <i class="close icon"></i>
+    <div class="header">
+      New Ticket
+    </div>
+    <div class="scrolling content">
+      <%#= select_tag "ticket[users]", options_for_select(@users.collect{|x| [x.username, x.id]}), prompt: "plese select user" %>
+      <%= form_tag project_tickets_path, method: :post, data: { turbolinks: false }  do %>
+        <div class="field">
+          <label>Title</label>
+          <%= text_field_tag "ticket[title]", nil, placeholder: "title" %>
+        </div>
+        <div class="field">
+          <label>Description</label>
+         <%= text_area_tag "ticket[description]", nil, placeholder: "description" %>
+        </div>
+    </div>
+    <div class="actions">
+      <%= submit_tag "Create", class: "small ui button" %>
+    </div>
+    <% end %>
+  </div>
