@@ -1,0 +1,2 @@
+class StatusHeader < ApplicationRecord
+end

@@ -13,7 +13,8 @@
 //= require jquery
 //= require rails-ujs
 //= require semantic-ui
-//= require muuri
+//= require jkanban
+//= require calendar
 //= require_tree .
 $( document ).ready(function(){
 	$('.ui.checkbox')
@@ -32,6 +33,15 @@ $( document ).ready(function(){
 	$('.ui.dropdown')
 	  .dropdown()
 	;
+
+	$('#rangestart').calendar({
+	  type: 'date',
+	  endCalendar: $('#rangeend')
+	});
+	$('#rangeend').calendar({
+	  type: 'date',
+	  startCalendar: $('#rangestart')
+	});
 
 	$(".openbtn").on("click", function() {
 	  $(".ui.sidebar").toggleClass("very thin icon");

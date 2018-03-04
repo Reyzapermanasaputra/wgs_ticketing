@@ -14,6 +14,7 @@
  *= require_self
  */
  @import "semantic-ui";
+ @import "calendar";
 
  body > .grid {
 	height: 100%;
@@ -23,6 +24,11 @@
 }
 .column {
 	max-width: 450px;
+}
+
+.ui.thin.left.sidebar, 
+.ui.thin.right.sidebar {
+  width: 70px !important;
 }
 
  .marginlefting {

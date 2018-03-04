@@ -1,4 +1,4 @@
-$( document ).on('turbolinks:load', function(){
+$(function(){
 	$('.label.ui.dropdown')
 	  .dropdown();
 

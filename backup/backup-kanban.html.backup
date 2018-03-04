@@ -1,0 +1,156 @@
+<br />
+<section class="kanban-demo">
+  <h2 class="section-title"><span><%= @project.name %></span>
+    <%= link_to new_project_ticket_path, remote: true do %>
+      <i class="plus circle icon"></i>
+   <% end %>
+   </h2>
+  <div class="board">
+    <div class="board-column expand new">
+      <div class="board-column-header">Backlog</div>
+      <div class="board-column-content" id="backlog">
+        <% @tickets.each do |ticket| %>
+          <% if ticket.status == "Backlog" %>
+            <div class="board-item">
+              <div class="board-item-content"><span><%= ticket.title %></span></div>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+    <div class="board-column on-progress">
+      <div class="board-column-header">Analyze</div>
+      <div class="board-column-content">
+        <div class="board-item">
+          <div class="board-item-content"><span>Neueste zuerst</span></div>
+        </div>
+        <div class="board-item">
+          <div class="board-item-content"><span>Älteste zuerst</span></div>
+        </div>
+        <div class="board-item">
+          <div class="board-item-content"><span>Sortiert nach Titel</span></div>
+        </div>
+        <div class="board-item">
+          <div class="board-item-content"><span>Sortiert nach Relevanz</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="board-column done">
+      <div class="board-column-header">Develop</div>
+      <div class="board-column-content">
+        <div class="board-item">
+          <div class="board-item-content"><span>aus dem Jahr 2015</span></div>
+        </div>
+        <div class="board-item">
+          <div class="board-item-content"><span>aus dem Jahr 2016</span></div>
+        </div>
+        <div class="board-item">
+          <div class="board-item-content"><span>aus dem Jahr 2017</span></div>
+        </div>
+        <div class="board-item">
+          <div class="board-item-content"><span>aus dem Jahr 2018</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="board-column testing">
+      <div class="board-column-header">Test</div>
+      <div class="board-column-content">
+        <div class="board-item">
+          <div class="board-item-content"><span>Sport</span></div>
+        </div>
+        <div class="board-item">
+          <div class="board-item-content"><span>Kulinarik</span></div>
+        </div>
+        <div class="board-item">
+          <div class="board-item-content"><span>Technik</span></div>
+        </div>
+        <div class="board-item">
+          <div class="board-item-content"><span>Wohnen</span></div>
+        </div>
+        <div class="board-item">
+          <div class="board-item-content"><span>Trend</span></div>
+        </div>
+        <div class="board-item">
+          <div class="board-item-content"><span>Politik</span></div>
+        </div>
+        <div class="board-item">
+          <div class="board-item-content"><span>Mode</span></div>
+        </div>
+        <div class="board-item">
+          <div class="board-item-content"><span>Einkaufen</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="board-column closed">
+      <div class="board-column-header">Done</div>
+      <div class="board-column-content">
+        <div class="board-item">
+          <div class="board-item-content"><span>Bilder</span></div>
+        </div>
+        <div class="board-item">
+          <div class="board-item-content"><span>Videos</span></div>
+        </div>
+        <div class="board-item">
+          <div class="board-item-content"><span>Artikel</span></div>
+        </div>
+        <div class="board-item">
+          <div class="board-item-content"><span>Tonspuren</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="ui modal" id="modal">
+    <i class="close icon"></i>
+    <div class="header">
+      New Ticket <%= @project.name %>
+    </div>
+    <div class="scrolling content">
+      <%= form_tag project_tickets_path, remote: true, method: :post, class: "ui form" do %>
+        <div class="field">
+          <label>Title</label>
+          <%= text_field_tag "ticket[title]", nil, placeholder: "title" %>
+        </div>
+        <div class="field">
+          <label>Description</label>
+          <%= text_area_tag "ticket[description]", nil, placeholder: "description" %>
+        </div>
+        <div class="field">
+          <label>Category *</label>
+          <%= select_tag "ticket[category]", options_for_select(Ticket::CATEGORY), prompt: "Please Select Category" %>
+        </div>
+        <div class="field">
+          <label>Priority *</label>
+          <%= select_tag "ticket[priority]", options_for_select(Ticket::PRIORITY), prompt: "Please Select Priority" %>
+        </div>
+        <div class="field">
+          <label>Assigned *</label>
+          <%= select_tag "ticket[user_id]", options_for_select(@users.collect{|x| [x.username, x.id]}), prompt: "plese select user" %>
+        </div>
+        <h5>Goal</h5>
+        <div class="two fields">
+          <div class="field">
+            <label>Start date</label>
+            <div class="ui calendar" id="rangestart">
+              <div class="ui input left icon">
+                <i class="calendar icon"></i>
+                <%= text_field_tag "ticket[start_date]", nil, placeholder: "Start" %>
+              </div>
+            </div>
+          </div>
+          <div class="field">
+            <label>End date</label>
+            <div class="ui calendar" id="rangeend">
+              <div class="ui input left icon">
+                <i class="calendar icon"></i>
+                <%= text_field_tag "ticket[start_end]", nil, placeholder: "End" %>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="actions">
+          <%= submit_tag "Create", class: "small ui button" %>
+        </div>
+      <% end %>
+  </div>

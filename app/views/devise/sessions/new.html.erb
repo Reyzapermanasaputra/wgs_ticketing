@@ -26,13 +26,6 @@
           </div>
         </div>
 
-        <% if devise_mapping.rememberable? -%>
-          <div class="field">
-            <%= f.check_box :remember_me %>
-            <%= f.label :remember_me %>
-          </div>
-        <% end -%>
-
         <%= f.submit "Log in", class: "ui fluid large blue submit button" %>
       </div>
     <% end %>
@@ -42,11 +35,3 @@
     </div>
   </div>
 </div>
-<script type="text/javascript">
-  for (var i = 1; i < 100; i++) {
-      $('.shape').shape('flip up');
-      $('.shape').shape('flip left');
-      $('.shape').shape('flip up');
-      $('.shape').shape('flip right');
-  }
-</script>

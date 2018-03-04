@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180227054741) do
+ActiveRecord::Schema.define(version: 20180304195346) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,6 +47,12 @@ ActiveRecord::Schema.define(version: 20180227054741) do
     t.boolean "is_active"
   end
 
+  create_table "status_headers", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "tickets", force: :cascade do |t|
     t.string "code"
     t.string "title"
@@ -55,8 +61,12 @@ ActiveRecord::Schema.define(version: 20180227054741) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "project_id"
-    t.string "maker"
-    t.string "receipt"
+    t.integer "maker"
+    t.integer "receipt"
+    t.string "category"
+    t.string "priority"
+    t.date "star_date"
+    t.date "end_date"
   end
 
   create_table "user_projects", force: :cascade do |t|

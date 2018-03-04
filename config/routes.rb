@@ -22,6 +22,7 @@ Rails.application.routes.draw do
     resources :tickets do 
     collection do
       post 'change_status_ticket'
+      post 'change_header'
     end
   end
   end
