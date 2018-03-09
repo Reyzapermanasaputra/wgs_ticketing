@@ -12,8 +12,8 @@
   <div class="ui mini modal">
     <div class="header">Create Status Header</div>
     <div class="content">
-      <%= form_tag project_tickets_path, remote: true, method: :post, class: "ui form" do %>
-        <%= text_field_tag "ticket[title]", nil, placeholder: "title" %>
+      <%= form_tag change_header_project_tickets_path, method: :post, class: "ui form" do %>
+        <%= text_field_tag "status_header", nil, placeholder: "title" %>
       <p></p>
     </div>
     <div class="actions">
@@ -79,6 +79,8 @@
 
   <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', function () {
+    //var headers = JSON.parse("<%= @headers.to_json %>".replace(/&quot;/g,'"'));
+    //console.log(headers)
     var KanbanTest = new jKanban({
       element: '#myKanban',
       gutter: '10px',
@@ -96,6 +98,14 @@
 
         KanbanTest.addForm(boardId, formItem);
         formItem.addEventListener("submit", function (e) {
+            $.ajax({
+              url: "/projects/" + <%= @project.id %> +"/tickets",
+              method: "POST",
+              data: {
+                "ticket[title]": e.target[0].value,
+                "header_status": $(this).parent().parent().find(".kanban-title-board").text()
+              }
+            });
             e.preventDefault();
             var text = e.target[0].value
             KanbanTest.addElement(boardId, {
@@ -110,22 +120,24 @@
       addItemButton: true,
       boards: 
         [
-        <% @status_headers.each_with_index do |statusheader,index| %>
+        <% @headers.each_with_index do |header,index| %>
           {
                 'id' : '_todo',
-                'title'  : "<%= statusheader.name %>",
+                'title'  : "<%= header.status %>",
                 'class' : 'info',
                 'item'  : [
+                  <% header.tickets.each_with_index do |ticket, index| %>
                     {
-                       'id':'task-1',
-                        'title':'Try drag me',
-                    },
-                    {
-                       'id':'task-2',
-                        'title':'Click me!!',
-                    }
+                       'id':'<%= ticket.id %>',
+                        'title':'<%= ticket.title %>',
+                    <% if (index + 1 ) == header.tickets.count %>
+                      }
+                    <% else %>
+                      },
+                    <% end %>
+                   <% end %>
                 ]
-            <% if (index + 1 ) == @status_headers.count %>
+            <% if (index + 1 ) == @headers.count %>
               }
             <% else %>
               },
@@ -133,6 +145,29 @@
           <% end %>
       ]
   });
+
+    var addBoardDefault = document.getElementById('addDefault');
+    addBoardDefault.addEventListener('click', function () {
+        $(".ui.mini.modal").modal("show");
+        // KanbanTest.addBoards(
+        //     [{
+        //         "id": "_default",
+        //         "title": "Kanban Default",
+        //         "class": "default",
+        //         "item": [
+        //             {
+        //                 "title": "Default Item",
+        //             },
+        //             {
+        //                 "title": "Default Item 2",
+        //             },
+        //             {
+        //                 "title": "Default Item 3",
+        //             }
+        //         ]
+        //     }]
+        // )
+    });
 
     var toDoButton = document.getElementById('addToDo');
     toDoButton.addEventListener('click', function () {
@@ -142,29 +177,6 @@
                 "title": "Test Add",
             }
         );
-    });
-
-    var addBoardDefault = document.getElementById('addDefault');
-    addBoardDefault.addEventListener('click', function () {
-        $(".ui.modal").modal("show");
-        KanbanTest.addBoards(
-            [{
-                "id": "_default",
-                "title": "Kanban Default",
-                "class": "default",
-                "item": [
-                    {
-                        "title": "Default Item",
-                    },
-                    {
-                        "title": "Default Item 2",
-                    },
-                    {
-                        "title": "Default Item 3",
-                    }
-                ]
-            }]
-        )
     });
 
     var removeBoard = document.getElementById('removeBoard');

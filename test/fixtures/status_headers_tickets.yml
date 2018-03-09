@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  status_header_id: 1
+  ticket_id: 1
+
+two:
+  status_header_id: 1
+  ticket_id: 1

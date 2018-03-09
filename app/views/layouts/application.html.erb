@@ -10,7 +10,7 @@
   </head>
 
 <body>
-  <% if params[:controller] == "devise/sessions" || params[:controller] == 'devise/invitations' &&  params[:action] == "edit" %>
+  <% if params[:controller] == "devise/sessions" || params[:controller] == 'devise/invitations' &&  params[:action] == "edit" || params[:controller] == "devise/passwords" && params[:action] == "new" || params[:action] == "create" || params[:action] == "edit" %>
       <%= yield %>
   <% else %>
     <div class="ui sidebar vertical left menu overlay visible" style="-webkit-transition-duration: 0.1s; overflow: visible !important;">
