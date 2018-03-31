@@ -5,3 +5,7 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+Role.create(name: "Project Manager", is_active: true)
+Role.create(name: "Project Coordinator", is_active: true)
+Role.create(name: "Developer", is_active: true)
+User.invite!(:email => "wgsticketing@gmail.com")

@@ -1,13 +1,18 @@
-<%= form_for (@role), html: {class: "ui form", id: "form_role"} do |form| %>
-  <div class="field">
-    <label>Role Name</label>
-    <%= form.text_field :name, placeholder: "Name" %>
-  </div>
-  <div class="field">
-    <div class="ui checkbox">
-      <%= form.check_box :is_active, tabindex: "0", class: "hidden" %>
-      <label>Is Active ?</label>
+<div class="ui container">
+  <div class="ui segment">
+  <h3>Form Role</h3>
+  <%= form_for (@role), html: {class: "ui form", id: "form_role"} do |form| %>
+    <div class="field">
+      <label>Project Name</label>
+      <%= form.text_field :name, placeholder: "Name" %>
     </div>
+    <div class="field">
+      <div class="ui checkbox">
+        <%= form.check_box :is_active, tabindex: "0", class: "hidden" %>
+        <label>Is Active ?</label>
+      </div>
+    </div>
+      <%= form.submit "Submit", class: "ui button" %>
+  <% end %>
   </div>
-  <%= form.button class: "ui button"%>
-<% end %>
+</div>

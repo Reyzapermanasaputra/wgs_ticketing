@@ -1,26 +1,61 @@
-<div class="ui cards" style="margin-left: 500px; margin-top: 200px;">
-  <div class="card">
-    <div class="content">
-      <div class="header">Set Your Password</div>
-      <div class="description">
-        <%= form_for resource, :as => resource_name, :url => invitation_path(resource_name), :html => { :method => :put, class: "ui form" } do |f| %>
-				  <%= devise_error_messages! %>
-				  <%= f.hidden_field :invitation_token, readonly: true %>
-
-				  <% if f.object.class.require_password_on_accepting %>
-				    <div class="field">
-					    <p><%= f.label :password %><br />
-					    <%= f.password_field :password, placeholder: "Password" %>
-					  </div>
-					  <div class="field">
-					    <p><%= f.label :password_confirmation %><br />
-					    <%= f.password_field :password_confirmation, placeholder: "Password Confirmation" %>
-					  </div>
-				  <% end %>
-				  <%= f.submit class: "ui button"%>
-				<% end %>
-
+<div class="ui middle aligned center aligned grid">
+  <div class="column">
+    <%= render "devise/shared/logo" %>
+    <br />
+    <h2 class="ui image header">
+      <div class="content">
+        Set your profile and password
       </div>
-    </div>
+    </h2>
+
+    <% unless devise_error_messages!.blank? %>
+      <div class="ui warning message">
+        <i class="close icon"></i>
+        <div class="header">
+          <%= devise_error_messages! %>
+        </div>
+      </div>
+    <% end %>
+    <%= form_for(resource, as: resource_name, url: invitation_path(resource_name), html: { method: :put, class: "ui large form" }) do |f| %>
+			 <%= f.hidden_field :invitation_token, readonly: true %>
+	      <div class="ui stacked secondary  segment">
+	      	<% if f.object.class.require_password_on_accepting %>
+		      	<div class="field">
+		          <div class="ui left icon input">
+		            <i class="user icon"></i>
+		            <%= f.text_field :username, placeholder: "New username" %>
+		          </div>
+		        </div>
+		        <div class="field">
+		          <div class="ui left icon input">
+		            <i class="whatsapp icon"></i>
+		            <%= f.text_field :contact, placeholder: "New contact" %>
+		          </div>
+		        </div>
+		        <div class="field">
+		          <div class="ui left icon input">
+		            <%= f.text_area :address, placeholder: "New address", rows: "2"%>
+		          </div>
+		        </div>
+		        <div class="field">
+		          <div class="ui left icon input">
+		            <i class="lock icon"></i>
+		            <%= f.password_field :password, placeholder: "New password #{@minimum_password_length} characters minimum" %>
+		          </div>
+		        </div>
+		        <div class="field">
+		          <div class="ui left icon input">
+		            <i class="lock icon"></i>
+		            <%= f.password_field :password_confirmation, placeholder: "Confirm new password" %>
+		          </div>
+		        </div>
+	        <% end %>
+	        <%= f.submit "change my profile", class: "ui fluid large blue submit button" %>
+	      </div>
+      <% end %>
+
+	    <div class="ui message">
+	      <%= render "devise/shared/links" %>
+	    </div>
   </div>
 </div>

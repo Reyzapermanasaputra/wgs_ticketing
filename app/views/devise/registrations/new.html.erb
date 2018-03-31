@@ -31,10 +31,10 @@
     <%= f.text_field :contact, placeholder: "Contact" %>
   </div>
 
-<div class="field">
-  <label>Roles</label>
-  <%= f.select :role_id, options_from_collection_for_select(Role.all, "id", "name"), {:prompt => 'Select Role'} %>
-</div>
+  <!-- <div class="field">
+    <label>Roles</label>
+    <%#= f.select :role_id, options_from_collection_for_select(Role.all, "id", "name"), {:prompt => 'Select Role'} %>
+  </div> -->
 
   <!-- <div class="field">
       <label>Gender</label>
@@ -55,7 +55,7 @@
       <label>Is Active ?</label>
     </div>
   </div>
-  <%= f.submit "Sign up", class: "ui blue button" %>
+  <%= f.submit "Sign up"%>
 <% end %>
 
 <script type="text/javascript">

@@ -2,11 +2,11 @@
   <td><%= role.name %></td>
   <td><%= role.is_active %></td>
   <td>
-  	<%= link_to role_path(role.id), remote: true, method: :delete, data: { confirm: 'Are You Sure ?'} do %><i class="remove icon"></i>Delete
+  	<%= link_to edit_role_path(role.id) do %><i class="edit icon"></i>Edit
   	<% end %>
   	|
-  	<%= link_to edit_role_path(role.id) do %>
-  	  <i class="remove icon"></i>Edit
+    <%= link_to role_path(role.id), remote: true, method: :delete, data: { confirm: 'Are You Sure ?'} do %>
+  	  <i class="remove icon"></i>Delete
   	<% end %>
   </td>
 </tr>

@@ -27,11 +27,6 @@ body {
     text-align: center;
 }
 
-.default {
-	background: #ffcb65;
-	color: white;
-  text-align: center;
-}
 .add-board{
 	position: absolute;
 }

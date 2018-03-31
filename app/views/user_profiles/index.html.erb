@@ -4,6 +4,8 @@
       <th>Username</th>
 	    <th>Email</th>
       <th>Contact</th>
+      <th>Address</th>
+      <th>Role</th>
       <th>Is Active ?</th>
       <th>Action</th>
     </tr>
@@ -14,10 +16,12 @@
       <td><%= user.username %></td>
       <td><%= user.email %></td>
       <td><%= user.contact %></td>
+      <td><%= user.address %></td>
+      <td><%= user.role.name %></td>
       <td><%= user.is_active %></td>
       <td>
       <%= link_to edit_user_profile_path(user.id) do %>
-        <i class="edit outline icon"></i>Edit
+        <i class="edit icon"></i>Edit
       <% end %>
       |
       <%= link_to user_profile_path(user.id), remote: true, method: :delete, data: {confirm: 'Are you sure?'} do %>
@@ -27,17 +31,16 @@
       <%= link_to send_invitation_again_user_profiles_path(id: user.id), remote: true, data: {confirm: "Are You Sure ?"} do %>
         <i class="send outline icon"></i>Send Token Again!
       <% end %>
-
       </td>
     </tr>
    <% end %>
   </tbody>
   <tfoot class="full-width">
     <tr>
-      <th colspan="5">
-          <%= link_to new_user_invitation_path do %>
-            <i class="add square icon"></i>Add User
-  	      <% end %>
+      <th colspan="7">
+        <%= link_to new_user_invitation_path do %>
+          <i class="add square icon"></i>Add User
+	      <% end %>
       </th>
     </tr>
   </tfoot>

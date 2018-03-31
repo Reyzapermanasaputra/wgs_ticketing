@@ -1,8 +1,7 @@
 class UserProfilesController < ApplicationController
-
   before_action :authenticate_user!
   def index
-  	@users = User.all
+  	@users = User.where("role_id is not null")
   end
 
   def edit
@@ -27,6 +26,6 @@ class UserProfilesController < ApplicationController
 
   private
   def params_user_profile
-  	params.require(:user).permit(:username, :role_id, :is_active, :contact, :email)
+  	params.require(:user).permit(:username, :role_id, :is_active, :contact, :email, :address)
   end
 end

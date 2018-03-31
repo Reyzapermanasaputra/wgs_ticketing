@@ -10,7 +10,7 @@
   </head>
 
 <body>
-  <% if params[:controller] == "devise/sessions" || params[:controller] == 'devise/invitations' &&  params[:action] == "edit" || params[:controller] == "devise/passwords" && params[:action] == "new" || params[:action] == "create" || params[:action] == "edit" %>
+  <% if params[:controller] == "devise/sessions" || params[:controller] == 'devise/invitations' &&  params[:action] == "edit"	|| params[:controller] == "devise/passwords" && params[:action] == "new" 	|| params[:controller] == "devise/passwords" && params[:action] == "create" || params[:controller] == "devise/passwords" && params[:action] == "edit"	|| params[:controller] == "devise/passwords" && params[:action] == "update" || params[:controller] == "devise/invitations" && params[:action] == "update" %>
       <%= yield %>
   <% else %>
     <div class="ui sidebar vertical left menu overlay visible" style="-webkit-transition-duration: 0.1s; overflow: visible !important;">
@@ -20,9 +20,9 @@
 		  <div class="ui accordion">
 		    <a class="title item">Dashboard  <i class="dropdown icon"></i></a>
 		    <div class="content">
-		      <a class="item" href="/roles">Role</a>
-	          <a class="item" href="/user_profiles">User</a>
-	          <a class="item" href="/projects">Project</a>
+		      <a class="item" href="/roles">Manage Roles</a>
+	          <a class="item" href="/user_profiles">Manage Users</a>
+	          <a class="item" href="/projects">Manage Projects</a>
 		    </div>
 
 		    <div class="title item">
@@ -282,9 +282,8 @@
 		      <div class="ui dropdown item">
 		          &nbsp;&nbsp;<i class="settings large icon"></i>
 		        <div class="menu">
-		          <%= link_to "Logout", destroy_user_session_path, method: :delete, class: "item" %>
-		          <a class="item">Russian</a>
-		          <a class="item">Spanish</a>
+		          <a class="item"><%= link_to "Logout", destroy_user_session_path, method: :delete, class: "item" %></a>
+		          <a class="item">Setting</a>
 		        </div>
 		      </div>
 		    </div>
