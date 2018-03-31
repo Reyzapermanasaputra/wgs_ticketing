@@ -16,7 +16,8 @@
     <% end %>
     <p>
       <%= link_to_add_fields "Add Client", f, :clients %>
-      <%= f.submit "Submit", class: "ui button" %>
+      <%= f.submit "Save", class: "ui button" %>
+      <%= link_to "Back", projects_path, class: "ui button" %>
     </p>
   <% end %>
   </div>

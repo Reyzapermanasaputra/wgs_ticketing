@@ -22,9 +22,27 @@ class ProjectsController < ApplicationController
 
   def show
     @project = Project.find_by_id(params[:id])
-    # user_ids = @project.users.collect(&:id)
-    # user_ids = 0 if user_ids.blank?
-    # @users = User.where(["id not in (?)",user_ids])
+    #get credential need refactor
+    if @project.credential.nil?
+      @credential = @project.build_credential
+      @check_credential = true
+    else
+      @credential = @project.credential
+      @check_credential = false
+    end
+    #get document need refactor
+    if @project.documents.blank?
+      @message = "there is no document's project"
+    else
+      @document = @project.documents
+      @message = false
+    end
+  end
+
+  def update
+    project = Project.find_by_id(params[:id])
+    project.update_attributes(params_projects)
+    redirect_to action: "index"
   end
 
   def assigning_users

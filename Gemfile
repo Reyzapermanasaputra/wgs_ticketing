@@ -37,6 +37,10 @@ gem 'devise_invitable'
 #gem for image
 #gem "paperclip", "~> 5.2.1"
 
+#gem for editor
+gem 'ckeditor'
+gem "paperclip"
+gem "carrierwave"
 gem "awesome_print"
 
 #framework css

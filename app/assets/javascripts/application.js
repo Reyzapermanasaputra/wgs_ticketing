@@ -16,6 +16,7 @@
 //= require jkanban
 //= require calendar
 //= require gmaps
+//= require ckeditor/init
 //= require_tree .
 $( document ).ready(function(){
 	$('.ui.checkbox')

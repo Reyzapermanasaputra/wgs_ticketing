@@ -15,6 +15,8 @@ Rails.application.routes.draw do
   resources :assign_projects
 
   resources :projects do
+    resources :credentials
+    resources :documents
     collection do
       post 'assigning_users'
       post 'destroy_assign_user'
