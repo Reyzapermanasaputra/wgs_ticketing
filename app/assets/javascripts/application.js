@@ -15,6 +15,7 @@
 //= require semantic-ui
 //= require jkanban
 //= require calendar
+//= require gmaps
 //= require_tree .
 $( document ).ready(function(){
 	$('.ui.checkbox')

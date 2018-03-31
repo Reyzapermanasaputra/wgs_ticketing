@@ -1,62 +1,43 @@
-
-<div class="ui card" style="width: 750px; important!">
-  <div class="content">
-    <div class="header"><%= @project.name %></div>
-    <div class="meta">
-    </div>
-    <div class="description">
+<div class="tabs">
+  <ul id="tabs-nav">
+    <li><a href="#tab1">Project</a></li>
+    <li><a href="#tab2">Client</a></li>
+    <li><a href="#tab3">Credentials</a></li>
+    <li><a href="#tab4">Documents</a></li>
+  </ul> <!-- END tabs-nav -->
+  <div id="tabs-content">
+    <div id="tab1" class="tab-content">
+      <h2><%= @project.name %></h2>
       <p><%= @project.description %></p>
     </div>
-  </div>
-  <div class="extra content">
-    <div class="header">Clients List</div>
-      <% @project.clients.each do |client| %>
-      <div class="ui list">
-        <div class="item">
-          <p><%= client.name %></p>
-          <p><%= client.contact %></p>
-          <p><%= client.address %></p>
-        </div>
-      </div>
-      <% end %>
-  </div>
+    <div id="tab2" class="tab-content">
+      <h2><%= @project.clients.last.name %></h2>
+      <p><%= @project.clients.last.contact %></p>
+      <p><%= @project.clients.last.address %></p>
+      <div id="map"></div>
+    </div>
+    <div id="tab3" class="tab-content">
+      <h2>Randall Graves</h2>
+      <p>"In light of this lurid tale, I don't even see how you can romanticize your relationship with Caitlin. She broke your heart and inadvertently drove men to deviant lifestyles."</p>
+    </div>
+    <div id="tab4" class="tab-content">
+      <h2>Jay</h2>
+      <p>"I don't care if she's my cousin or not, I'm gonna knock those boots again tonight."</p>
+    </div>
+  </div> <!-- END tabs-content -->
+</div> <!-- END tabs -->
 
-  <div class="extra content">
-    <div class="header">Users List</div>
-      <% @project.users.each do |user| %>
-         <div class="ui relaxed divided list">
-          <div class="item">
-            <i class="large github middle aligned icon"></i>
-            <div class="content">
-              <a class="header"><%= user.username %></a>
-              <div class="description"><%= user.email %>
-              <%= link_to destroy_assign_user_projects_path(user_id: user.id, project_id: @project.id), method: :post, data: {confirm: "Are You Sure ?"} do %>
-                <i class="remove icon"></i>
-              <% end %>
-              </div>
-            </div>
-          </div>
-        </div>
-      <% end %>
-  </div>
+<script type="text/javascript">
+  var map = new GMaps({
+      el: '#map',
+      lat: -2.756692,
+      lng: 111.893504,
+      zoom: 6
+    });
 
-  <div class="extra content">
-    <div class="ui form">
-      <div class="header">Add Users</div>
-      <%= form_tag assigning_users_projects_path, {method: :post} do %>
-        <%= hidden_field_tag "project_id", @project.id %>
-        <div class="inline field">
-          <%= select_tag "users[]", options_for_select(@users.all.collect{|x| [x.username, x.id]}), {multiple: "", class: "label ui selection fluid dropdown"} %>
-        </div>
-        <%= button_tag type: 'submit' do %>
-          <i class="plus circle large icon"></i>
-        <% end %>
-      <% end %>
-      <br><br>
-
-      <div class="ui button">
-        <%= link_to "Back", projects_path %>
-      </div>
-  </div>
-</div>
-</div>
+    map.addMarker({
+      lat: <%= @project.clients.last.latitude %>,
+      lng: <%= @project.clients.last.longitude %>,
+      title: 'Client'
+    })
+</script>

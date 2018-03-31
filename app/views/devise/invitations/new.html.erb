@@ -17,7 +17,8 @@
           <label>Is Active ?</label>
         </div>
       </div>
-      <%= f.submit "Save"%>
+      <%= f.submit "Create & Send Invitation", class: "default button"%> 
+      <%= link_to "Back", user_profiles_path(), class: "default button" %>
     <% end %>
   </div>
 </div>

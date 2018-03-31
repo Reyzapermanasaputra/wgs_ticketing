@@ -1,25 +1,34 @@
-<%= form_for @user_profile, url: user_profile_path, method: :put, html: {class: "ui form"} do |f| %>
-  <div class="field">
-    <%= f.label :username %>
-    <%= f.text_field :username, placeholder: "Username" %>
+<div class="ui container">
+  <div class="ui segment">
+    <%= form_for @user_profile, url: user_profile_path, method: :put, html: {class: "ui form"} do |f| %>
+      <div class="field">
+        <%= f.label :username %>
+        <%= f.text_field :username, placeholder: "Username" %>
+      </div>
+      <div class="field">
+        <%= f.label :contact %>
+        <%= f.text_field :contact, autocomplete: "contact", placeholder: "contact" %>
+      </div>
+      <div class="field">
+        <%= f.label :address %>
+        <%= f.text_area :address, placeholder: "address", rows: 2 %>
+      </div>
+      <div class="field">
+        <%= f.label :email %>
+        <%= f.email_field :email, autocomplete: "email", placeholder: "Email" %>
+      </div>
+      <div class="field">
+        <label>Roles</label>
+        <%= f.select :role_id, Role.all.map{|x| [x.name, x.id]}, {:prompt => 'Select Role', :selected => f.object.role_id} %>
+      </div>
+      <div class="field">
+        <div class="ui checkbox">
+          <%= f.check_box :is_active, tabindex: "0", class: "hidden"%>
+          <label>Is Active ?</label>
+        </div>
+      </div>
+      <%= f.submit "Update", class: "default button" %>
+      <%= link_to "Back", user_profiles_path, class: "default button" %>
+    <% end %>
   </div>
-  <div class="field">
-      <%= f.label :contact %>
-      <%= f.text_field :contact, autocomplete: "contact", placeholder: "contact" %>
-  </div>
-  <div class="field">
-      <%= f.label :email %>
-      <%= f.email_field :email, autocomplete: "email", placeholder: "Email" %>
-  </div>
-  <div class="field">
-    <label>Roles</label>
-    <%= f.select :role_id, options_from_collection_for_select(Role.all, "id", "name"), {:prompt => 'Select Role'} %>
-  </div>
-  <div class="field">
-    <div class="ui checkbox">
-      <%= f.check_box :is_active, tabindex: "0", class: "hidden"%>
-      <label>Is Active ?</label>
-    </div>
-  </div>
-  <button class="ui button" type="submit">Submit</button>
-<% end %>
+</div>

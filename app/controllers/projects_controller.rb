@@ -22,9 +22,9 @@ class ProjectsController < ApplicationController
 
   def show
     @project = Project.find_by_id(params[:id])
-    user_ids = @project.users.collect(&:id)
-    user_ids = 0 if user_ids.blank?
-    @users = User.where(["id not in (?)",user_ids])
+    # user_ids = @project.users.collect(&:id)
+    # user_ids = 0 if user_ids.blank?
+    # @users = User.where(["id not in (?)",user_ids])
   end
 
   def assigning_users
@@ -41,6 +41,7 @@ class ProjectsController < ApplicationController
   end
 
   def edit
+    @project = Project.find_by_id(params[:id])
   end
 
   def destroy
@@ -51,6 +52,6 @@ class ProjectsController < ApplicationController
 
   private
   def params_projects
-  	params.require(:project).permit(:name, :description, clients_attributes: [:id, :name, :contact, :address, :_destroy])
+  	params.require(:project).permit(:name, :description, clients_attributes: [:id, :name, :contact, :address, :latitude, :longitude, :_destroy])
   end
 end
