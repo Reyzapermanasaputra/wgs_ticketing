@@ -1,0 +1,24 @@
+<div class="ui container">
+  <br/>
+  <div class="ui segment">
+  <h3>Upload Document</h3>
+  <%= form_for([@project, @document], html: {class: "ui form"}) do |f| %>
+    <div class="field">
+      <label>Title</label>
+      <%= f.text_field :title, placeholder: "Title" %>
+    </div>
+    <div class="field">
+      <label>Description</label>
+      <%= f.text_area :body, placeholder: "Description", rows: 2 %>
+    </div>
+    <div class="field">
+      <label>file</label>
+      <%= f.file_field :attachment %>
+    </div>
+    <p>
+      <%= f.submit "Save", class: "ui button" %>
+      <%= link_to "Back", project_path(@project.id), class: "ui button" %>
+    </p>
+  <% end %>
+  </div>
+</div>

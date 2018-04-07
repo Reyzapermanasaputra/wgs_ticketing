@@ -34,6 +34,6 @@ body {
     background: #FB7D44;
 }
 .kanban-item{
-	opacity: 1;
+  opacity: 1;
   transform: scale(1);
 }

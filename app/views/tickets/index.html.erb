@@ -84,9 +84,13 @@
     var KanbanTest = new jKanban({
       element: '#myKanban',
       gutter: '10px',
+      dragBoards: true,
       widthBoard: '400px',
       click: function (el) {
           console.log("Trigger on all items click!");
+      },
+      dragEl: function (el, source){
+        alert("haai");
       },
       buttonClick: function (el, boardId) {
         console.log(el);

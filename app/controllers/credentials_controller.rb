@@ -5,7 +5,8 @@ class CredentialsController < ApplicationController
     @credential = Credential.new(params_credential)
     @credential.project_id = params[:project_id]
     if @credential.save
-      redirect_back(fallback_location: root_path)
+      flash[:notice] = "Credential was added!"
+      redirect_to project_url(@credential.project_id)
     else
       render 'project/show'
     end

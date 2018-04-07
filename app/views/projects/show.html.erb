@@ -1,51 +1,64 @@
 <div class="tabs">
   <ul id="tabs-nav">
     <li><a href="#tab1">Project</a></li>
-    <li><a href="#tab2">Client</a></li>
-    <li><a href="#tab3">Credentials</a></li>
-    <li><a href="#tab4">Documents</a></li>
+    <li><a href="#tab2">Developers</a></li>
+    <li><a href="#tab3">Client</a></li>
+    <li><a href="#tab4">Credentials</a></li>
+    <li><a href="#tab5">Documents</a></li>
   </ul> <!-- END tabs-nav -->
   <div id="tabs-content">
     <div id="tab1" class="tab-content">
       <h2><%= @project.name %></h2>
       <p><%= @project.description %></p>
+      <%= link_to "Back", projects_path, class: "ui button" %>
     </div>
     <div id="tab2" class="tab-content">
+      <h2>Assign User To Project</h2>
+      <%= link_to "Back", projects_path, class: "ui button" %>
+      <div id="kanban_project"></div>
+    </div>
+    <div id="tab3" class="tab-content">
     <% @project.clients.each do |client| %>
       <h2><%= client.name %></h2>
       <p><%= client.contact %></p>
       <p><%= client.address %></p>
+      <%= link_to "Back", projects_path, class: "ui button" %>
     <% end %>
-
+			<br />
+			<br />
       <div id="map"></div>
-
     </div>
-    <div id="tab3" class="tab-content">
+    <div id="tab4" class="tab-content">
       <% if @check_credential %>
         <%= render 'projects/credential/credential_form'%>
       <% else %>
         <h2><%= @credential.title %> </h2>
         <p><%= raw(@credential.body) %></p>
-        <p><%= link_to "Edit", edit_project_credential_path(@project.id, @credential.id), class: "ui button" %></p>
+        <p>
+        	<%= link_to "Edit", edit_project_credential_path(@project.id, @credential.id), class: "ui button" %>
+        	<%= link_to "Back", projects_path, class: "ui button" %>
+        </p>
+
       <% end %>
     </div>
-    <div id="tab4" class="tab-content">
+    <div id="tab5" class="tab-content">
       <% if @message %>
         <p><%= @message %></p>
         <p>
-           <%= link_to new_project_document_path(@project.id), class: "ui basic" do %>
-            <i class="add square icon"></i>Add Document
-           <% end %>
+          <%= link_to new_project_document_path(@project.id), class: "ui basic" do %>
+          <i class="add square icon"></i>Add Document
+          <% end %>
         </p>
       <% else %>
-        <h2>Jay</h2>
-        <p>"I don't care if she's my cousin or not, I'm gonna knock those boots again tonight."</p>
+        <h2>List Documents</h2>
+        <%= render 'documents/table_document', locals: @document %>
       <% end %>
     </div>
   </div> <!-- END tabs-content -->
 </div> <!-- END tabs -->
 
 <script type="text/javascript">
+  // for maps
   var map = new GMaps({
       el: '#map',
       lat: <%= @project.clients.last.latitude %>,
@@ -58,4 +71,39 @@
       lng: <%= @project.clients.last.longitude %>,
       title: 'Client'
     })
+
+  // for kanban
+  var users = <%= JSON.generate(@users_list).to_s.html_safe %>
+  var project_users = <%= JSON.generate(@project_user).to_s.html_safe %>
+  var KanbanTest = new jKanban({
+      element : '#kanban_project',
+      gutter  : '10px',
+      widthBoard : '525px',
+      dropEl: function(el, target, source, sibling){
+        $.ajax({
+          url: "/assign_projects/",
+          method: "POST",
+          data: {
+            "assign_project[user_id]": $(el).attr("data-eid"),
+            "assign_project[project_id]": $(target.parentElement).attr("data-id"),
+            "source" : $(source.parentElement).attr('data-id')
+          }
+        });
+      },
+      boards: 
+        [ 
+          {
+            'id' : '_user',
+            'title'  : 'Available Users (drag me)',
+            'class' : 'info',
+            'item'  : users
+            },
+          {
+                'id' : '<%= @project.id %>',
+                'title'  : "<%= @project.name %>",
+                'class' : 'warning',
+                'item'  : project_users
+          }
+       ]
+  });
 </script>

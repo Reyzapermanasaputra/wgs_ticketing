@@ -11,10 +11,10 @@ class RolesController < ApplicationController
   def create
   	@role = Role.new(params_role)
   	if @role.save
-  		flash[:notice] = "Role telah ditambahkan!"
+  		flash[:notice] = "Role was added!"
       redirect_to action: "index"
   	else
-  		flash[:error] = "Terjadi Kesalahan!"
+  		flash[:error] = "Error occured!"
       render action: 'new'
   	end
   end

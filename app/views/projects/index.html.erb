@@ -4,6 +4,7 @@
       <th>No</th>
       <th>Project</th>
       <th>Description</th>
+      <th>Is Active ?</th>
       <th>Client</th>
       <th>Action</th>
     </tr>
@@ -14,13 +15,15 @@
       <td><%= index+1 %></td>
       <td><%= link_to project.name, project_path(project.id)%></td>
       <td><%= project.description.truncate(20) %></td>
+      <td><%=  project.is_active  ? "true" : "false" %></td>
       <td><%= project.clients.last.name %></td>
       <td>
         <%= link_to edit_project_path(project.id), class: "ui basic" do %>
-          <i class="address card outline icon"></i>
+          <i class="address card outline icon"></i>Edit
         <% end %>
+        |
         <%= link_to project_path(project.id), method: :delete, data: {confirm: "Are You Sure ?"}, class: "ui basic" do %>
-          <i class="remove icon"></i>
+          <i class="remove icon"></i>Delete
         <% end %>
       </td>
     </tr>
@@ -28,7 +31,7 @@
   </tbody>
   <tfoot class="full-width">
     <tr>
-      <th colspan="5">
+      <th colspan="6">
           <%= link_to new_project_path, class: "ui basic" do %>
             <i class="add square icon"></i>Add Project
           <% end %>

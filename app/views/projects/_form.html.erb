@@ -1,6 +1,19 @@
-<div class="ui container">
+<div class="ui container"> 
   <br/>
   <div class="ui segment">
+    <% if @project.errors.present? %>
+      <div class="ui form">
+        <div class="ui message">
+          <i class="close icon"></i>
+          <div class="header">We had some issues</div>
+          <% @project.errors.full_messages.each do |msg| %>
+          <ul class="list">
+            <li><%= msg  %></li>
+          </ul>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
   <h3>Forms Project</h3>
   <%= form_for @project, html: {class: "ui form"} do |f| %>
     <div class="field">
@@ -11,6 +24,14 @@
       <label>Description</label>
       <%= f.text_area :description, placeholder: "Description" %>
     </div>
+    <div class="ui segment">
+    <div class="field">
+    <div class="ui checkbox">
+      <%= f.check_box :is_active, class:"hidden", tabindex: "0" %>
+      <label>Is Active ?</label>
+    </div>
+  </div>
+  </div>
     <%= f.fields_for :clients do |client_form| %>
         <%= render 'client_fields', client_form: client_form %>
     <% end %>

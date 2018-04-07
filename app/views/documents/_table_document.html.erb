@@ -1,0 +1,37 @@
+<table class="ui selectable celled table">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Download link</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+  <% @document.each_with_index do |document, index| %>
+    <tr>
+      <td><%= document.title %></td>
+      <td><%= document.body %></td>
+      <td><%= link_to "Download", document.attachment_url %></td>
+      <td>
+        <%= link_to edit_project_document_path(@project.id, document.id), class: "ui basic" do %>
+          <i class="address card outline icon"></i>Edit
+        <% end %>
+        <%= link_to project_document_path(@project.id, document.id), method: :delete, data: {confirm: "Are You Sure ?"}, class: "ui basic" do %>
+          <i class="remove icon"></i>Delete
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+  <tfoot class="full-width">
+    <tr>
+      <th colspan="5">
+         <%= link_to new_project_document_path(@project.id), class: "ui basic" do %>
+          <i class="add square icon"></i>Add Document
+          <% end %>
+      </th>
+    </tr>
+  </tfoot>
+</table>
+<%= link_to "Back", projects_path, class: "ui button" %>

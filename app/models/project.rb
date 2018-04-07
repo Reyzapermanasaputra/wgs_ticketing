@@ -6,4 +6,6 @@ class Project < ApplicationRecord
 	has_one :credential
 	has_many :documents
 	accepts_nested_attributes_for :clients, allow_destroy: true, reject_if: lambda {|attributes| attributes['contact'].blank?}
+	validates :name, :description, :presence => true
+	scope :active, -> {where("is_active=true")}
 end

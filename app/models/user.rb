@@ -4,7 +4,8 @@ class User < ApplicationRecord
   has_many :projects, through: :user_projects
   has_many :user_tickets
   has_many :tickets, through: :user_tickets
-
+  serialize :title
+  scope :active, -> {select(:id, "username as title").where("is_active = ?", true)}
   devise :database_authenticatable,
          :recoverable, :rememberable, :trackable, :validatable, :invitable
 end
