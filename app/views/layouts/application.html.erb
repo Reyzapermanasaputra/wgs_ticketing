@@ -19,7 +19,7 @@
 		    WGS
 		  </div>
 		  <div class="ui accordion">
-		    <a class="title item">Menu  <i class="dropdown icon"></i></a>
+		    <a class="title item">Master  <i class="dropdown icon"></i></a>
 		    <div class="content">
 		    	<a class="item" href="/">Dashboard</a>
 		      <a class="item" href="/roles">Manage Roles</a>
@@ -281,6 +281,10 @@
 		    <a class="item" href="/">Dashboard</a>
 		    <div class="right menu">
 		    <a class="item"><%= current_user.username %></a>
+					<div class="ui custom basic button"><i class="bullhorn large icon"></i><%= current_user.notifications.unread.count %></div>
+					<div class="ui custom popup top left transition hidden">
+					  I'm not on the same level as the button, but i can still be found.
+					</div>
 		      <div class="ui dropdown item">
 		          &nbsp;&nbsp;<i class="settings large icon"></i>
 		        <div class="menu">

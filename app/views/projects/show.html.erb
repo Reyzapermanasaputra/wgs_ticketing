@@ -14,8 +14,8 @@
     </div>
     <div id="tab2" class="tab-content">
       <h2>Assign User To Project</h2>
-      <%= link_to "Back", projects_path, class: "ui button" %>
       <div id="kanban_project"></div>
+      <div><%= link_to "Back", projects_path, class: "ui button" %></div>
     </div>
     <div id="tab3" class="tab-content">
     <% @project.clients.each do |client| %>
