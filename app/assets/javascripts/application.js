@@ -19,7 +19,7 @@
 //= require ckeditor/init
 //= require_tree .
 $( document ).ready(function(){
-	$('.ui .custom.button')
+	$('.ui .custom')
 	  .popup({
 	    popup : $('.custom.popup'),
 	    on    : 'click'

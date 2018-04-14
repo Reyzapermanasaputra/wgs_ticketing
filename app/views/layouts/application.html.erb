@@ -281,10 +281,30 @@
 		    <a class="item" href="/">Dashboard</a>
 		    <div class="right menu">
 		    <a class="item"><%= current_user.username %></a>
-					<div class="ui custom basic button"><i class="bullhorn large icon"></i><%= current_user.notifications.unread.count %></div>
-					<div class="ui custom popup top left transition hidden">
-					  I'm not on the same level as the button, but i can still be found.
+					<div class="ui custom basic">
+						<div class="menu">
+							<div id="notifications_count_<%= current_user.id %>">
+							  <a class="item"><i class="bell outline large icon"></i>
+							  	<%= current_user.notifications.unread.count %>
+							  </a>
+						  </div>
+						</div>
 					</div>
+
+					<% if current_user.notifications.unread.blank? %>
+					  <div class="ui custom popup top left transition hidden">
+					  	nothing notification !
+					  </div>  
+					<% else %> 
+					<div class="ui custom popup top left transition hidden">
+					  <% current_user.notifications.unread.each_with_index do |notification, index| %>
+					    (<%= notification.created_at.strftime("%d-%m-%y %H:%M") %>)
+					    <%= notification.actor.username %> <%= notification.action %> !
+					    <hr />
+					  <% end %>
+					</div>
+					<% end %>
+
 		      <div class="ui dropdown item">
 		          &nbsp;&nbsp;<i class="settings large icon"></i>
 		        <div class="menu">

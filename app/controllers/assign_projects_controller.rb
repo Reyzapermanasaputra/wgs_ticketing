@@ -14,7 +14,11 @@ class AssignProjectsController < ApplicationController
   	if user_project.blank?
       assign_project = UserProject.new(params_assign_project)
       assign_project.save
-      Notification.create(recipient: assign_project.user, actor: current_user, action: 'assigned', notifiable: assign_project)
+      action = UserProject.create_action(params[:assign_project][:project_id])
+      notification = Notification.create(recipient: assign_project.user, actor: current_user, action: action, notifiable: assign_project)
+      ActionCable.server.broadcast 'notification_channel',
+                                    action: action,
+                                    recipient: assign_project.user.id
   	else
       assign_project = UserProject.where(user_id: params[:assign_project][:user_id], project_id: params[:source]).last
       assign_project.destroy
