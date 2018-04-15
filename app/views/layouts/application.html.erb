@@ -285,7 +285,7 @@
 						<div class="menu">
 							<div id="notifications_count_<%= current_user.id %>">
 							  <a class="item"><i class="bell outline large icon"></i>
-							  	<%= current_user.notifications.unread.count %>
+							  	<div id="count"><%= current_user.notifications.unread.count %></div>
 							  </a>
 						  </div>
 						</div>
@@ -293,15 +293,18 @@
 
 					<% if current_user.notifications.unread.blank? %>
 					  <div class="ui custom popup top left transition hidden">
-					  	nothing notification !
+					  	<div id="nothing_notification"><i>nothing notification !</i></div>
 					  </div>  
 					<% else %> 
 					<div class="ui custom popup top left transition hidden">
-					  <% current_user.notifications.unread.each_with_index do |notification, index| %>
-					    (<%= notification.created_at.strftime("%d-%m-%y %H:%M") %>)
-					    <%= notification.actor.username %> <%= notification.action %> !
-					    <hr />
+					  <% current_user.notifications.unread.order("created_at DESC").limit(2).each_with_index do |notification, index| %>
+					    <div id="user_notification_<%= notification.id %>" style="background-color: rgba(255, 0, 0, 0.5); border-radius: 12px; color: white">
+						    (<%= notification.created_at.strftime("%d-%m-%y %H:%M") %>)
+						    <%= notification.actor.username %> <%= notification.action %> !
+					    </div>
+					    <br />
 					  <% end %>
+					  <div style="text-align: center"><%= link_to "Show All Notification" %></div>
 					</div>
 					<% end %>
 
@@ -323,4 +326,12 @@
 		</div>
   <% end %>
 </body>
+<script type="text/javascript">
+	<% unless current_user.nil? %>
+		$(".ui .custom").click(function(){
+	    $("#notifications_count_" + <%= current_user.id %>).find("i").addClass("bell outline large icon")
+	    $("#count").text("0")
+	  })
+  <% end %>
+</script>
 </html>

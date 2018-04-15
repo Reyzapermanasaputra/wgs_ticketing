@@ -2,8 +2,8 @@ class UserProject < ApplicationRecord
 	belongs_to :user
 	belongs_to :project
 
-	def self.create_action(project_id)
+	def self.create_action(project_id, action)
 		project = Project.find_by_id(project_id)
-		"Assigned You to " + project.name
+		action + project.name
 	end
 end

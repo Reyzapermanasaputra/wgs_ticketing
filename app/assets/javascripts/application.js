@@ -19,12 +19,6 @@
 //= require ckeditor/init
 //= require_tree .
 $( document ).ready(function(){
-	$('.ui .custom')
-	  .popup({
-	    popup : $('.custom.popup'),
-	    on    : 'click'
-	  })
-	;
 
 	$('.ui.checkbox')
 	  .checkbox()

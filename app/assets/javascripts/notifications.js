@@ -1,3 +1,12 @@
+$( document ).ready(function(){
+
+  $('.ui .custom')
+        .popup({
+          popup : $('.custom.popup'),
+          on    : 'click'
+        })
+});
+
 (function ($) {
     $.extend({
         playSound: function () {
