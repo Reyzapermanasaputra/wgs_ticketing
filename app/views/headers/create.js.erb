@@ -1,0 +1,2 @@
+$(".ui.mini.modal").modal("hide")
+$('#index').html("<%=j render(:partial => 'tickets/index/index', locals: {:project => @project, :headers => @headers, :users => @users }) %>")

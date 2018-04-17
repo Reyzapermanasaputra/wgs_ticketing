@@ -1,23 +1,9 @@
 class TicketsController < ApplicationController
   before_action :authenticate_user!
   def index
-    #test
     @project = Project.find_by_id(params[:project_id])
     @headers = @project.headers
     @users = User.all
-    # if current_user.project_ids.include? params[:project_id].to_i
-    #   @project = Project.find_by_id(params[:project_id])
-    #   @tickets = @project.tickets.where("maker = ? OR receipt = ?", current_user.id, current_user.id)
-    #   @users = User.all
-    # else
-    #   flash[:error] = "You not have an access!"
-    #   redirect_to root_path
-    # end
-  end
-
-  def change_header
-    Header.create(status: params[:status_header], project_id: params[:project_id])
-    redirect_back(fallback_location: root_path)
   end
 
   def new

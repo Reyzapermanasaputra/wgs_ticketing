@@ -1,0 +1,216 @@
+<div class="container-fluid">
+   <div class="row">
+      <div class="col-md-12">
+         <h1><%= @project.name %></h1>
+         <p><%= @project.description %></p>
+            <a class="btn-xl btn btn-default" href="https://github.com/riktar/jkanban" target="_blank">See for detail</a>
+         <hr>
+         <div id="myKanban"></div>
+         <button class="small positive ui button" id="addDefault">Add Header</button>
+         <button class="small positive ui button" id="addDefaultManual">Add Header manual</button>
+         <button class="small orange ui button" id="addToDo">Add element in "To Do" Board</button>
+         <button class="small negative ui button" id="removeBoard">Remove "Done" Board</button>
+      </div>
+   </div>
+</div>
+
+  <div class="ui mini modal">
+    <div class="header">Create Status Header</div>
+    <div class="content">
+      <%= form_tag headers_path, method: :post, remote: true, class: "ui form" do %>
+        <%= hidden_field_tag "header[project_id", @project.id %>
+        <div class="field">
+          <label>Title</label>
+          <%= text_field_tag "header[status]", nil, placeholder: "title" %>
+        </div>
+        <div class="field">
+          <label>color</label>
+          <%= select_tag "header[color]", options_for_select([ "info", "success", "error", "warning" ], "info") %>
+        </div>
+      <p></p>
+    </div>
+    <div class="actions">
+      <%= submit_tag "Create" %>
+    </div>
+    <% end %>
+  </div>
+
+  <div class="ui modal" id="modal">
+      <i class="close icon"></i>
+      <div class="header">
+        New Ticket <%= @project.name %>
+      </div>
+      <div class="scrolling content">
+        <%= form_tag project_tickets_path, remote: true, method: :post, class: "ui form" do %>
+          <div class="field">
+            <label>Title</label>
+            <%= text_field_tag "ticket[title]", nil, placeholder: "title" %>
+          </div>
+          <div class="field">
+            <label>Description</label>
+            <%= text_area_tag "ticket[description]", nil, placeholder: "description" %>
+          </div>
+          <div class="field">
+            <label>Category *</label>
+            <%= select_tag "ticket[category]", options_for_select(Ticket::CATEGORY), prompt: "Please Select Category" %>
+          </div>
+          <div class="field">
+            <label>Priority *</label>
+            <%= select_tag "ticket[priority]", options_for_select(Ticket::PRIORITY), prompt: "Please Select Priority" %>
+          </div>
+          <div class="field">
+            <label>Assigned *</label>
+            <%= select_tag "ticket[user_id]", options_for_select(@users.collect{|x| [x.username, x.id]}), prompt: "plese select user" %>
+          </div>
+          <h5>Goal</h5>
+          <div class="two fields">
+            <div class="field">
+              <label>Start date</label>
+              <div class="ui calendar" id="rangestart">
+                <div class="ui input left icon">
+                  <i class="calendar icon"></i>
+                  <%= text_field_tag "ticket[start_date]", nil, placeholder: "Start" %>
+                </div>
+              </div>
+            </div>
+            <div class="field">
+              <label>End date</label>
+              <div class="ui calendar" id="rangeend">
+                <div class="ui input left icon">
+                  <i class="calendar icon"></i>
+                  <%= text_field_tag "ticket[start_end]", nil, placeholder: "End" %>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="actions">
+            <%= submit_tag "Create", class: "small ui button" %>
+          </div>
+        <% end %>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function () {
+    //var headers = JSON.parse("<%= @headers.to_json %>".replace(/&quot;/g,'"'));
+    //console.log(headers)
+    var KanbanTest = new jKanban({
+      element: '#myKanban',
+      gutter: '10px',
+      dragBoards: true,
+      widthBoard: '250px',
+      click: function (el) {
+          console.log("Trigger on all items click!");
+      },
+      buttonClick: function (el, boardId) {
+        console.log(el);
+        console.log(boardId);
+        // create a form to enter element 
+        var formItem = document.createElement('form');
+        formItem.setAttribute("class", "itemform");
+        formItem.innerHTML = '<div class="form-group"><textarea class="form-control" rows="2" autofocus></textarea></div><div class="form-group"><button type="submit" class="btn btn-primary btn-xs pull-right">Submit</button><button type="button" id="CancelBtn" class="btn btn-default btn-xs pull-right">Cancel</button></div>'
+
+        KanbanTest.addForm(boardId, formItem);
+        formItem.addEventListener("submit", function (e) {
+            $.ajax({
+              url: "/projects/" + <%= @project.id %> +"/tickets",
+              method: "POST",
+              data: {
+                "ticket[title]": e.target[0].value,
+                "header_status": $(this).parent().parent().find(".kanban-title-board").text()
+              }
+            });
+            e.preventDefault();
+            var text = e.target[0].value
+            KanbanTest.addElement(boardId, {
+                "title": text,
+            })
+            formItem.parentNode.removeChild(formItem);
+        });
+        document.getElementById('CancelBtn').onclick = function () {
+            formItem.parentNode.removeChild(formItem)
+        }
+      },
+      addItemButton: true,
+      boards: 
+        [
+        <% @headers.each_with_index do |header,index| %>
+          {
+                'id' : '_todo',
+                'title'  : "<%= header.status %>",
+                'class' : '<%= header.color %>',
+                'item'  : [
+                  <% header.tickets.each_with_index do |ticket, index| %>
+                    {
+                       'id':'<%= ticket.id %>',
+                        'title':'<%= ticket.title %>',
+                    <% if (index + 1 ) == header.tickets.count %>
+                      }
+                    <% else %>
+                      },
+                    <% end %>
+                   <% end %>
+                ]
+            <% if (index + 1 ) == @headers.count %>
+              }
+            <% else %>
+              },
+            <% end %>
+          <% end %>
+      ]
+  });
+
+    var addBoardDefault = document.getElementById('addDefault');
+    addBoardDefault.addEventListener('click', function () {
+      $(".ui.mini.modal").modal("show");
+    });
+
+    var addBoardDefault = document.getElementById('addDefaultManual');
+    addBoardDefault.addEventListener('click', function () {
+        KanbanTest.addBoards(
+            [{
+                'id' : '_default',
+                'title'  : 'Default (Can\'t drop in Done)',
+                'dragTo':['_todo','_working'],
+                'class' : 'error',
+                'item'  : [
+                    {
+                        'title':'Default Item',
+                    },
+                    {
+                        'title':'Default Item 2',
+                    },
+                    {
+                        'title':'Default Item 3',
+                    }
+                ]
+            }]
+        )
+    });
+
+    var toDoButton = document.getElementById('addToDo');
+    toDoButton.addEventListener('click', function () {
+        KanbanTest.addElement(
+            "_todo",
+            {
+                "title": "Test Add",
+            }
+        );
+    });
+
+    var removeBoard = document.getElementById('removeBoard');
+    removeBoard.addEventListener('click', function () {
+        KanbanTest.removeBoard('_done');
+    });
+
+    var removeElement = document.getElementById('removeElement');
+    removeElement.addEventListener('click', function () {
+        KanbanTest.removeElement('_test_delete');
+    });
+
+    var allEle = KanbanTest.getBoardElements('_todo');
+    allEle.forEach(function (item, index) {
+        //console.log(item);
+    })
+  });
+  </script>
