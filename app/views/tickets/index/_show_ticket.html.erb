@@ -1,28 +1,31 @@
-<h1><%= @project.name %></h1>
-      <%= form_for [@project, @ticket], html: {class: "ui form"} do |form| %>
-        <div class="field">
-          <label>Title</label>
-          <%= form.text_field :title, placeholder: "title" %>
-        </div>
-
+   <div class="ui modal" id="show_modal_ticket">
+      <i class="close icon"></i>
+      <div class="header">
+        #<%= @ticket.id %> <%= @ticket.title %>
+      </div>
+      <div class="scrolling content">
+        <%= form_for [@project, @ticket], html: {class: "ui form"} do |form| %>
         <div class="field">
           <label>Description</label>
-          <%= form.cktext_area :description, placeholder: "description" %>
+          <%#= form.cktext_area :description, placeholder: "description" %>
+          <%= raw(@ticket.description) %>
         </div>
+
+        <hr />
 
         <div class="field">
           <label>Category *</label>
-          <%= form.select :category, options_for_select(Ticket::CATEGORY), prompt: "Please Select Category" %>
+          <%= form.text_field :category, disabled: true %>
         </div>
 
         <div class="field">
           <label>Priority *</label>
-          <%= form.select :priority, options_for_select(Ticket::PRIORITY), prompt: "Please Select Priority" %>
+          <%= form.text_field :priority, disabled: true %>
         </div>
 
         <div class="field">
           <label>Assigned *</label>
-          <%= form.select :recipient_id, options_for_select(@users.collect{|x| [x.username, x.id]}), prompt: "plese select user" %>
+          <%= form.text_field :user_id, disabled: true, value: @ticket.recipient.username %>
         </div>
       
         <h5>Goal</h5>
@@ -32,7 +35,7 @@
             <div class="ui calendar" id="rangestart">
               <div class="ui input left icon">
                 <i class="calendar icon"></i>
-                <%= form.text_field :start_date, placeholder: "Start" %>
+                <%= form.text_field :start_date, placeholder: "Start", disabled: true %>
               </div>
             </div>
           </div>
@@ -41,14 +44,15 @@
             <div class="ui calendar" id="rangeend">
               <div class="ui input left icon">
                 <i class="calendar icon"></i>
-                <%= form.text_field :end_date, placeholder: "End" %>
+                <%= form.text_field :end_date, placeholder: "End", disabled: true %>
               </div>
             </div>
           </div>
         </div>
         <div class="actions">
-          <%= form.submit "Create"%>
-          <%= link_to "Back", project_tickets_path, class: "button ui" %>
+          <div class="ui approve button">Edit</div>
+          <div class="ui cancel button">Close</div>
         </div>
       <% end %>
-  	</div>
+    </div>
+  </div>

@@ -7,15 +7,24 @@ class TicketsController < ApplicationController
   end
 
   def new
+    @project = Project.find_by_id(params[:project_id])
+    @users = @project.users
     @ticket = Ticket.new
   end
 
   def create
     @ticket = Ticket.new(params_ticket)
-    @ticket.save
-    get_header = Header.find_by_status(params[:header_status])
-    HeaderTicket.create(ticket_id: @ticket.id, header_id: get_header.id)
-    redirect_back(fallback_location: root_path)
+    header = Project.find_by_id(params[:project_id]).headers.first
+    @ticket.header_id = header.id
+    @ticket.status = "New"
+    @ticket.maker_id = current_user.id
+    @ticket.start_date = params[:ticket][:start_date].to_date
+    @ticket.start_date = params[:ticket][:end_date].to_date
+    if @ticket.save
+      redirect_to action: "index"
+    else
+      render 'new'
+    end
    #  user_id = User.find_by_id(params[:ticket][:user_id]).id
   	# @ticket = Ticket.new(params_ticket)
    #  @ticket.project_id = params[:project_id]
@@ -36,6 +45,14 @@ class TicketsController < ApplicationController
     #end
   end
 
+  def create_header
+    header = Header.new(params_header)
+    @project = Project.find_by_id(params[:header][:project_id])
+    @headers = @project.headers
+    @users = User.all
+    header.save
+  end
+
   def update
     @ticket = Ticket.find_by_id(params[:id])
     @ticket.update_attributes(params_ticket)
@@ -43,15 +60,13 @@ class TicketsController < ApplicationController
 
   def change_status_ticket
     @ticket = Ticket.find_by_id(params[:id])
-    @ticket.update_attributes(status: params[:status_ticket])
-    ActionCable.server.broadcast 'change_ticket_channel', ticket_id: @ticket.id
+    @ticket.update_attributes(status: params[:status_ticket], header_id: params[:header_id])
+    #ActionCable.server.broadcast 'change_ticket_channel', ticket_id: @ticket.id
   end
 
   def show
     @ticket = Ticket.find_by_id(params[:id])
-    respond_to do |format|
-      format.js
-    end
+    @project = Project.find_by_id(params[:project_id])
   end
 
   def destroy
@@ -63,6 +78,10 @@ class TicketsController < ApplicationController
   private
 
   def params_ticket
-  	params.require(:ticket).permit(:code, :title, :description, :status, :project_id, :category, :priority)
+  	params.require(:ticket).permit(:code, :title, :description, :status, :category, :priority, :recipient_id, :maker_id, :header_id, :start_date, :end_date)
+  end
+
+  def params_header
+    params.require(:header).permit(:status, :color, :project_id)
   end
 end

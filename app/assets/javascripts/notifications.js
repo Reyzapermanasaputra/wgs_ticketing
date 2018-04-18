@@ -1,10 +1,9 @@
 $( document ).ready(function(){
 
-  $('.ui .custom')
-        .popup({
-          popup : $('.custom.popup'),
-          on    : 'click'
-        })
+   $('.teal.label')
+      .popup({
+        on: 'click'
+      });
 });
 
 (function ($) {

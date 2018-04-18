@@ -1,4 +1,4 @@
 class Header < ApplicationRecord
 	belongs_to :project
-	has_and_belongs_to_many :tickets
+	has_many :tickets
 end

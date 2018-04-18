@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  mount Ckeditor::Engine => '/ckeditor'
   root 'dashboard#index'
   devise_for :users, controllers: {invitations: 'devise/invitations', :registrations => "registrations" }
   devise_scope :user do 
@@ -24,7 +25,7 @@ Rails.application.routes.draw do
     resources :tickets do 
     collection do
       post 'change_status_ticket'
-      post 'change_header'
+      post 'create_header'
     end
   end
   end

@@ -1,2 +1,2 @@
-$("#modal").html("<%=j render(:partial => '/tickets/show_modal', locals: {:ticket => @ticket}) %>")
+$("#modal").html("<%=j render(:partial => '/tickets/index/show_ticket', locals: {:ticket => @ticket}) %>")
 $('#show_modal_ticket').modal('show');

@@ -10,10 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180411145127) do
+ActiveRecord::Schema.define(version: 20180418210511) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "ckeditor_assets", force: :cascade do |t|
+    t.string "data_file_name", null: false
+    t.string "data_content_type"
+    t.integer "data_file_size"
+    t.string "data_fingerprint"
+    t.string "type", limit: 30
+    t.integer "width"
+    t.integer "height"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["type"], name: "index_ckeditor_assets_on_type"
+  end
 
   create_table "client_projects", force: :cascade do |t|
     t.integer "client_id"
@@ -106,18 +119,18 @@ ActiveRecord::Schema.define(version: 20180411145127) do
   end
 
   create_table "tickets", force: :cascade do |t|
-    t.string "code"
     t.string "title"
     t.text "description"
     t.string "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "maker"
-    t.integer "receipt"
+    t.integer "maker_id"
+    t.integer "recipient_id"
     t.string "category"
     t.string "priority"
-    t.date "star_date"
+    t.date "start_date"
     t.date "end_date"
+    t.integer "header_id"
   end
 
   create_table "user_projects", force: :cascade do |t|
