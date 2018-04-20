@@ -1,13 +1,13 @@
-<div id="kanban_project"></div>
-<div>
-<!-- <button class="ui positive button" id="addDefault">Add "Default" board</button>
-<button class="ui primary button" id="addToDo">Add element in "To Do" Board</button>
-<button class="ui red button" id="removeBoard">Remove "Done" Board</button>
- -->
- </div>
-
+<%#= pie_chart @chart, library: {yAxis: {allowDecimals: false }} %>
+<!-- <div id="kanban_project" style="display: none;"></div> -->
+<%= column_chart @chart, library: {yAxis: {allowDecimals: false }} %>
 
 <script type="text/javascript">
+  $(document).ready(function(){
+    $("#chart-1").show()
+    $("#chart-2").hide()
+  })
+
 	var KanbanTest = new jKanban({
       element : '#kanban_project',
       gutter  : '10px',

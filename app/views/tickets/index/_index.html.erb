@@ -53,8 +53,17 @@
           })
       },
       buttonClick: function (el, boardId) {
-        var removeBoard = document.getElementById('removeBoard');
+        if (confirm("The header and the tickets will be removed all, Are you sure ?")) {
+            var removeBoard = document.getElementById('removeBoard');
             KanbanTest.removeBoard(boardId);
+            $.ajax({
+              url: "/projects/" + <%= @project.id %> + "/tickets/remove_header",
+              method: "POST",
+              data: {
+                "header_id": boardId
+                }
+              })
+        }
         },
       addItemButton: true,
       boards: 

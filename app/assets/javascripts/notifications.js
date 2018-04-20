@@ -1,5 +1,4 @@
 $( document ).ready(function(){
-
    $('.teal.label')
       .popup({
         on: 'click'

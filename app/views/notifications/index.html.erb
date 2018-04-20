@@ -1,0 +1,12 @@
+<div class="ui relaxed divided list" style="padding: 20px;">
+  <% @notifications.each do |notification| %>
+    <div class="item">
+      <i class="large github middle aligned icon"></i>
+      <div class="content">
+        <a class="header"><%= notification.actor.username %></a>
+        <div class="description"><%= time_ago_in_words(notification.created_at) %></div>
+        <%= notification.action %>
+      </div>
+    </div>
+  <% end %>
+</div>

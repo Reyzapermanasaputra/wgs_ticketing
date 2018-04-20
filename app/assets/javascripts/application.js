@@ -17,6 +17,8 @@
 //= require calendar
 //= require gmaps
 //= require ckeditor/init
+//= require Chart.bundle
+//= require chartkick
 //= require_tree .
 $( document ).ready(function(){
 

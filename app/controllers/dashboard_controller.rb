@@ -4,5 +4,15 @@ class DashboardController < ApplicationController
   def index
   	@roles_id = Role.where(name: "Project Manager")
     @projects = Project.active
+    
+    @chart = {}
+    @ticket = []
+    Project.all.active.each do |project|
+    	project.headers.all.each_with_index do |header, index|
+    		if header.tickets.present?
+    		  @chart.merge!({:"#{project.name}" => header.tickets.count})
+    	  end
+    	end
+    end
   end
 end

@@ -53,6 +53,11 @@ class TicketsController < ApplicationController
     header.save
   end
 
+  def remove_header
+    header = Header.find_by_id(params[:header_id])
+    header.destroy
+  end
+
   def update
     @ticket = Ticket.find_by_id(params[:id])
     @ticket.update_attributes(params_ticket)

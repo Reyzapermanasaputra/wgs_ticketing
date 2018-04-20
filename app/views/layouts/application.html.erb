@@ -6,6 +6,7 @@
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application'%>
+    <%= javascript_include_tag "//www.google.com/jsapi", "chartkick" %>
     <script src="https://cdn.rawgit.com/mdehoog/Semantic-UI/6e6d051d47b598ebab05857545f242caf2b4b48c/dist/semantic.min.js"></script>
     <script src="http://maps.google.com/maps/api/js"></script>
   </head>
@@ -176,7 +177,7 @@
 				    <i class="bell large outline icon"></i>
 				    <div class="ui teal circular mini label"><%= current_user.notifications.unread.count %></div>
 				      <div class="ui wide notification popup bottom right transition ">
-				      	<% current_user.notifications.unread.order("created_at DESC").limit(2).each_with_index do |notification, index| %>
+				      	<% current_user.notifications.unread.order("created_at DESC").limit(5).each_with_index do |notification, index| %>
 								  <div id="user_notification_<%= notification.id %>">
 								  	<div class="ui link celled selection list"  style ="width: 350px;">
 					           <div class='item' style="padding: 20px;">
@@ -190,15 +191,15 @@
 									</div>
 									<br />
 									<% end %>
-									<div style="text-align: center"><%= link_to "Show All Notification" %></div>
+									<div style="text-align: center"><%= link_to "Show All Notification", notifications_path %></div>
 						  </div>
 					</div>
 					<% end %>
 		      <div class="ui dropdown item">
 		          &nbsp;&nbsp;<i class="settings large icon"></i>
 		        <div class="menu">
-		          <a class="item"><%= link_to "Logout", destroy_user_session_path, method: :delete, class: "item" %></a>
-		          <a class="item">Setting</a>
+		          <%= link_to "Logout", destroy_user_session_path, method: :delete, class: "item" %>
+		          <%= link_to "Setting", user_profile_path(current_user.id), class: "item" %>
 		        </div>
 		      </div>
 		    </div>

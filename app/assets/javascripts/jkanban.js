@@ -30,7 +30,7 @@ var dragula = require('dragula');
             boards: [],
             dragBoards: true,
             addItemButton: false,
-            buttonContent: '+',
+            buttonContent: 'x',
             dragEl: function (el, source) {
             },
             dragendEl: function (el) {

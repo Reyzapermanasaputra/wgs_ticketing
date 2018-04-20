@@ -43,6 +43,9 @@ gem "paperclip"
 gem "carrierwave"
 gem "awesome_print"
 
+gem "chartkick"
+gem "groupdate"
+
 #framework css
 gem 'semantic-ui-sass'
 

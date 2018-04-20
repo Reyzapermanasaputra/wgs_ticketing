@@ -26,11 +26,11 @@ Rails.application.routes.draw do
     collection do
       post 'change_status_ticket'
       post 'create_header'
+      post 'remove_header'
     end
   end
   end
 
-  resources :headers
   resources :notifications
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   mount ActionCable.server, at: '/cable'
