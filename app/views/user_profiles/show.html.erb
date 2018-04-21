@@ -1,40 +1,30 @@
-<div style="padding: 20px;">
+<div class="ui middle aligned center aligned grid">
+<div class="column" style="padding: 20px; margin-left: 250px;">
+  <% unless @user.avatar.blank?%>
+    <%= image_tag @user.avatar.url(:thumb) %>
+  <% else %>
+    <%= image_tag("WGS", alt: "sj") %>
+  <% end %>
   <div class="content">
-    <div class="header">Cute Dog</div>
-    <div class="meta">2 days ago</div>
+    <div class="header"><h5><%= @user.username %> | <%= @user.email %></h5></div>
+    <div class="meta">Last login : <%= time_ago_in_words(@user.last_sign_in_at) %></div>
     <div class="description">
-      <p>Cute dogs come in a variety of shapes and sizes. Some cute dogs are cute for their adorable faces, others for their tiny stature, and even others for their massive size.</p>
-      <p>Many people also have their own barometers for what makes a cute dog.</p>
-      <p>
-      	<div class="ui relaxed divided list">
-  <div class="item">
-    <i class="large github middle aligned icon"></i>
-    <div class="content">
-      <a class="header">Semantic-Org/Semantic-UI</a>
-      <div class="description">Updated 10 mins ago</div>
+      <p><%= @user.contact %></p>
+      <p><%= @user.username %> is <%= @user.role.name %> and <%= @user.username %> lives in <%= @user.address %></p></p>
     </div>
   </div>
+  Now <%= @user.username %> is holding project :
+  <div class="ui relaxed divided list">
+  <% @user.projects.each do |project| %>
   <div class="item">
-    <i class="large github middle aligned icon"></i>
+    <i class="large code middle aligned icon"></i>
     <div class="content">
-      <a class="header">Semantic-Org/Semantic-UI-Docs</a>
-      <div class="description">Updated 22 mins ago</div>
+      <a class="header"><%= project.name %></a>
+      <div class="description"><%= truncate(project.description, length: 25) %></div>
     </div>
   </div>
-  <div class="item">
-    <i class="large github middle aligned icon"></i>
-    <div class="content">
-      <a class="header">Semantic-Org/Semantic-UI-Meteor</a>
-      <div class="description">Updated 34 mins ago</div>
-    </div>
+  <% end %>
   </div>
+  <%= link_to "Change your profile", "",class: "ui positive button" %>
 </div>
-
-</p>
-    </div>
-  </div>
-  <div class="extra content">
-    <i class="check icon"></i>
-    121 Votes
-  </div>
 </div>

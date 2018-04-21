@@ -1,0 +1,25 @@
+ <div class="ui comments">
+  <% comments.each do |comment| %>
+  <div class="comment" id="comment_<%= comment.id %>">
+    <a class="avatar">
+      <% if current_user.id == comment.user_id %>
+        <%= image_tag("steve") %>
+      <% else %>
+        <%= image_tag("joe") %>
+      <% end %>
+    </a>
+    <div class="content">
+      <a class="author"><%= comment.user.username rescue ""%></a>
+      <div class="metadata">
+        <div class="date"><%= time_ago_in_words(comment.created_at) %></div>
+      </div>
+      <div class="text">
+        <%= comment.body %>
+      </div>
+      <% if current_user.id == comment.user_id %>
+      <%= link_to "delete", delete_comment_project_tickets_path(id: comment.id), method: :delete, data: {confirm: "Are You Sure delete this message ?"}, remote: true, :class => 'delete_comment'  %>
+      <% end %>
+    </div>
+  </div>
+  <% end %>
+</div>

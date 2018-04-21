@@ -145,7 +145,7 @@
 		    </a>
 		    <a class="item" href="/">Dashboard</a>
 		    <div class="right menu">
-		    <a class="item"><%= current_user.username %></a>
+		    <%= link_to "#{current_user.username}", user_profile_path(current_user.id), class: "item" %>
 					<!-- <div class="ui custom basic">
 						<div class="menu">
 							<div id="notifications_count_<%= current_user.id %>">

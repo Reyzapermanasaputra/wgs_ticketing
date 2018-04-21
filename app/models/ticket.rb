@@ -4,6 +4,7 @@ class Ticket < ApplicationRecord
 	belongs_to :maker, class_name: 'User'
 	belongs_to :recipient, class_name: 'User'
 	belongs_to :header
+	has_many :comments
 	CATEGORY = ["Task", "Feature", "Bug", "Change Request"]
 	PRIORITY = ["low", "Normal", "High", "Trivial"]
 

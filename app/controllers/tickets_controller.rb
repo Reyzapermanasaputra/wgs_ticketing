@@ -72,12 +72,26 @@ class TicketsController < ApplicationController
   def show
     @ticket = Ticket.find_by_id(params[:id])
     @project = Project.find_by_id(params[:project_id])
+    @comments = @ticket.comments
   end
 
   def destroy
     @ticket = Ticket.find_by_id(params[:id])
     @ticket.destroy
     ActionCable.server.broadcast 'remove_ticket_channel', id: @ticket.id
+  end
+
+  def comment
+    comment = Comment.new(params_comment)
+    comment.save
+    ticket = Ticket.find_by_id(params[:comment][:ticket_id])
+    @comments = ticket.comments
+  end
+
+  def delete_comment
+    comment = Comment.find_by_id(params[:id])
+    @comment_id = comment.id
+    comment.destroy
   end
   
   private
@@ -88,5 +102,9 @@ class TicketsController < ApplicationController
 
   def params_header
     params.require(:header).permit(:status, :color, :project_id)
+  end
+
+   def params_comment
+    params.require(:comment).permit(:ticket_id, :user_id, :body)
   end
 end

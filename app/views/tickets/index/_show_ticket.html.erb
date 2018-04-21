@@ -4,7 +4,8 @@
         #<%= @ticket.id %> <%= @ticket.title %>
       </div>
       <div class="scrolling content">
-        <%= form_for [@project, @ticket], html: {class: "ui form"} do |form| %>
+        <%#= form_for [@project, @ticket], html: {class: "ui form"} do |form| %>
+        <div class="ui form">
         <div class="field">
           <label>Description</label>
           <%#= form.cktext_area :description, placeholder: "description" %>
@@ -15,17 +16,20 @@
 
         <div class="field">
           <label>Category *</label>
-          <%= form.text_field :category, disabled: true %>
+          <%#= form.text_field :category, disabled: true %>
+           <input placeholder="<%= @ticket.category %>" type="text" disabled="" tabindex="-1">
         </div>
 
         <div class="field">
           <label>Priority *</label>
-          <%= form.text_field :priority, disabled: true %>
+          <%#= form.text_field :priority, disabled: true %>
+          <input placeholder="<%= @ticket.priority %>" type="text" disabled="" tabindex="-1">
         </div>
 
         <div class="field">
           <label>Assigned *</label>
-          <%= form.text_field :user_id, disabled: true, value: @ticket.recipient.username %>
+          <%#= form.text_field :user_id, disabled: true, value: @ticket.recipient.username %>
+          <input placeholder="<%= @ticket.recipient.username %>" type="text" disabled="" tabindex="-1">
         </div>
       
         <h5>Goal</h5>
@@ -35,7 +39,8 @@
             <div class="ui calendar" id="rangestart">
               <div class="ui input left icon">
                 <i class="calendar icon"></i>
-                <%= form.text_field :start_date, placeholder: "Start", disabled: true %>
+                <%#= form.text_field :start_date, placeholder: "Start", disabled: true %>
+                <input placeholder="<%= @ticket.start_date %>" type="text" disabled="" tabindex="-1">
               </div>
             </div>
           </div>
@@ -44,15 +49,21 @@
             <div class="ui calendar" id="rangeend">
               <div class="ui input left icon">
                 <i class="calendar icon"></i>
-                <%= form.text_field :end_date, placeholder: "End", disabled: true %>
+                <%#= form.text_field :end_date, placeholder: "End", disabled: true %>
+                <input placeholder="<%= @ticket.end_date %>" type="text" disabled="" tabindex="-1">
               </div>
             </div>
           </div>
         </div>
+        <%= render "tickets/comments/comments" %>
+        <br />
+        <br />
+        <hr />
         <div class="actions">
           <div class="ui approve button">Edit</div>
           <div class="ui cancel button">Close</div>
         </div>
-      <% end %>
+      <%# end %>
+      </div>
     </div>
   </div>

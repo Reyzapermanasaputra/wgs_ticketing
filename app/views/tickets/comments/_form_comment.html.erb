@@ -1,0 +1,8 @@
+<%= form_tag comment_project_tickets_path, remote: true, method: "POST",  class: "ui reply form", id: "comment" do %>
+  <%= hidden_field_tag "comment[ticket_id]", @ticket.id %>
+  <%= hidden_field_tag "comment[user_id]", current_user.id %>
+  <div class="field">
+    <%= text_area_tag "comment[body]" %>
+  </div>
+    <%= submit_tag "comment", class: "ui mini orange right floated button" %>
+<% end %>
