@@ -4,8 +4,8 @@
     
     <% if alert %>
       <div class="ui floating message">
-        <p><%= alert %>
-      </p></div>
+        <p><%= alert %></p>
+      </div>
     <% end %>
 
     <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: {class: "ui large form"}) do |f| %>

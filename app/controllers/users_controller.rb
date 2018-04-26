@@ -1,4 +1,5 @@
 class Users::InvitationsController < Devise::InvitationsController
+	load_and_authorize_resource
   def update
 	  if User.accept_invitation!(user_params)
 	    super

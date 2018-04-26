@@ -45,6 +45,7 @@ gem "awesome_print"
 
 gem "chartkick"
 gem "groupdate"
+gem 'cancancan', '~> 2.0'
 
 #framework css
 gem 'semantic-ui-sass'

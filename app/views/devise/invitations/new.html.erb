@@ -8,7 +8,7 @@
         <% end -%>
       </div>
       <div class="field">
-        <label>Roles</label>
+        <label>Role</label>
         <%= f.select :role_id, options_from_collection_for_select(Role.all, "id", "name"), {:prompt => 'Select Role'} %>
       </div>
       <div class="field">

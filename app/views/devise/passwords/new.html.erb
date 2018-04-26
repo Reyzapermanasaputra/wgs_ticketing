@@ -8,11 +8,9 @@
     </h2>
 
     <% unless devise_error_messages!.blank? %>
-			<div class="ui warning message">
-			  <div class="header">
-			    <%= devise_error_messages! %>
-			  </div>
-		  </div>
+			<div class="ui floating message">
+        <p><%= devise_error_messages! %></p>
+      </div>
 	  <% end %>
     <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post, class: "ui large form" }) do |f| %>
       <div class="ui stacked secondary  segment">
@@ -31,4 +29,3 @@
     </div>
   </div>
 </div>
-

@@ -1,5 +1,6 @@
 class UserProfilesController < ApplicationController
   before_action :authenticate_user!
+  authorize_resource :class => User
   def index
   	@users = User.where("role_id is not null")
   end

@@ -3,8 +3,12 @@
   <h3>Form Role</h3>
   <%= form_for (@role), html: {class: "ui form", id: "form_role"} do |form| %>
     <div class="field">
-      <label>Project Name</label>
+      <label>Role Name</label>
       <%= form.text_field :name, placeholder: "Name" %>
+    </div>
+    <div class="field">
+      <label>Code Name</label>
+      <%= form.text_field :code, placeholder: "code" %>
     </div>
     <div class="field">
       <div class="ui checkbox">

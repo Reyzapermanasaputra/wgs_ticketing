@@ -1,5 +1,6 @@
 class RolesController < ApplicationController
   before_action :authenticate_user!
+  load_and_authorize_resource
   def index
   	@roles = Role.all
   end
@@ -9,12 +10,12 @@ class RolesController < ApplicationController
   end
 
   def create
-  	@role = Role.new(params_role)
+  	@role = Role.new(create_params)
   	if @role.save
   		flash[:notice] = "Role was added!"
       redirect_to action: "index"
   	else
-  		flash[:error] = "Error occured!"
+  		flash[:error] = @role.errors.full_messages.map { |k,v| k }.join('<br>').html_safe
       render action: 'new'
   	end
   end
@@ -25,7 +26,7 @@ class RolesController < ApplicationController
 
   def update
     @role = Role.find_by_id(params[:id])
-    @role.update_attributes(params_role)
+    @role.update_attributes(create_params)
     redirect_to action: "index"
   end
 
@@ -37,7 +38,7 @@ class RolesController < ApplicationController
 
   private
 
-  def params_role
-  	params.require(:role).permit(:name, :is_active)
+  def create_params
+  	params.require(:role).permit(:name, :code, :is_active)
   end
 end
