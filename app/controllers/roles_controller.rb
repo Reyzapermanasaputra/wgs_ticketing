@@ -27,12 +27,20 @@ class RolesController < ApplicationController
   def update
     @role = Role.find_by_id(params[:id])
     @role.update_attributes(create_params)
-    redirect_to action: "index"
+    if @role.errors.present?
+      flash[:notice] = @role.errors.full_messages.map { |k,v| k }.join('<br>').html_safe
+      render action: "edit"
+    else
+      flash[:notice] = "Role was updated"
+      redirect_to action: "index"
+    end
   end
 
   def destroy
     @role = Role.find_by_id(params[:id])
     @role.destroy
+    flash[:notice] = "Role was deleted"
+    redirect_to action: "index"
   end
 
 

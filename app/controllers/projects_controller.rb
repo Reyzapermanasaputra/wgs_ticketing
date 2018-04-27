@@ -11,12 +11,12 @@ class ProjectsController < ApplicationController
   end
 
   def create
-  	@project = Project.new(params_projects)
+  	@project = Project.new(create_params)
   	if @project.save
   		flash[:notice] = "The Project was Added!"
   		redirect_to action: "index"
   	else
-  		flash[:error] = "There is error occured!"
+  		flash[:error] = @project.errors.full_messages.map { |k,v| k }.join('<br>').html_safe
   		render 'new'
   	end
   end
@@ -48,8 +48,14 @@ class ProjectsController < ApplicationController
 
   def update
     project = Project.find_by_id(params[:id])
-    project.update_attributes(params_projects)
-    redirect_to action: "index"
+    project.update_attributes(create_params)
+    if project.errors.present?
+      flash[:notice] = project.errors.full_messages.map { |k,v| k }.join('<br>').html_safe
+      render "new"
+    else
+      flash[:notice] = "Project was updated"
+      redirect_to action: "index"
+    end
   end
 
   def assigning_users
@@ -72,11 +78,12 @@ class ProjectsController < ApplicationController
   def destroy
     project = Project.find_by_id(params[:id])
     project.destroy
-    redirect_back(fallback_location: root_path)
+    flash[:notice] = "Project was deleted"
+    redirect_to projects_path
   end
 
   private
-  def params_projects
+  def create_params
   	params.require(:project).permit(:name, :description, :is_active, clients_attributes: [:id, :name, :contact, :address, :latitude, :longitude, :_destroy])
   end
 end

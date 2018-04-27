@@ -12,12 +12,20 @@ class UserProfilesController < ApplicationController
   def update
   	@user_profile = User.find_by_id(params[:id])
   	@user_profile.update_attributes(params_user_profile)
-  	redirect_to action: "index"
+    if @user_profile.errors.present?
+      flash[:error] = @user_profile.errors.full_messages.map { |k,v| k }.join('<br>').html_safe
+      render action: 'edit'
+    else
+      flash[:notice] = "User was updated"
+      redirect_to action: "index"
+    end
   end
 
   def destroy
   	@user = User.find_by_id(params[:id])
   	@user.destroy
+    flash[:notice] = "User was destroyed"
+    redirect_to action: "index"
   end
 
   def send_invitation_again

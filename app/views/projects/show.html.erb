@@ -61,17 +61,19 @@
   // for maps
   var map = new GMaps({
       el: '#map',
-      lat: <%= @project.clients.last.latitude %>,
-      lng: <%= @project.clients.last.longitude %>,
+      lat: <%= @project.clients.last.latitude rescue "" %>,
+      lng: <%= @project.clients.last.longitude rescue "" %>,
       zoom: 10
     });
 
     map.addMarker({
-      lat: <%= @project.clients.last.latitude %>,
-      lng: <%= @project.clients.last.longitude %>,
+      lat: <%= @project.clients.last.latitude rescue "" %>,
+      lng: <%= @project.clients.last.longitude rescue ""%>,
       title: 'Client'
     })
+</script>
 
+<script type="text/javascript">
   // for kanban
   var users = <%= JSON.generate(@users_list).to_s.html_safe %>
   var project_users = <%= JSON.generate(@project_user).to_s.html_safe %>

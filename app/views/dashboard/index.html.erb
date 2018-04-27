@@ -1,79 +1,21 @@
 <%#= pie_chart @chart, library: {yAxis: {allowDecimals: false }} %>
 <!-- <div id="kanban_project" style="display: none;"></div> -->
-<%= column_chart @chart, library: {yAxis: {allowDecimals: false }} %>
-
-<script type="text/javascript">
-  $(document).ready(function(){
-    $("#chart-1").show()
-    $("#chart-2").hide()
-  })
-
-	var KanbanTest = new jKanban({
-      element : '#kanban_project',
-      gutter  : '10px',
-      boards: 
-        [ 
-          <% @projects.each_with_index do |project,index| %>
-          {
-                'id' : '<%= project.id %>',
-                'title'  : "<%= project.name %>",
-                'class' : 'warning',
-                'item'  : [
-                  <% project.users.where.not(role_id: @roles_id).each_with_index do |user, index| %>
-                    {
-                       'id':'<%= user.id %>',
-                        'title':'<%= user.username %>',
-                    <% if (index + 1 ) == project.users.count %>
-                      }
-                    <% else %>
-                      },
-                    <% end %>
-                   <% end %>
-                ]
-            <% if (index + 1 ) == @projects.count %>
-              }
-            <% else %>
-              },
-            <% end %>
-          <% end %>
-      ]
-  });
-
-  var toDoButton = document.getElementById('addToDo');
-  toDoButton.addEventListener('click',function(){
-      KanbanTest.addElement(
-          '_todo',
-          {
-              'title':'Test Add',
-          }
-      );
-  });
-
-  var addBoardDefault = document.getElementById('addDefault');
-  addBoardDefault.addEventListener('click', function () {
-      KanbanTest.addBoards(
-          [{
-              'id' : '_default',
-              'title'  : 'Default (Can\'t drop in Done)',
-              'dragTo':['_todo','_working'],
-              'class' : 'error',
-              'item'  : [
-                  {
-                      'title':'Default Item',
-                  },
-                  {
-                      'title':'Default Item 2',
-                  },
-                  {
-                      'title':'Default Item 3',
-                  }
-              ]
-          }]
-      )
-  });
-
-  var removeBoard = document.getElementById('removeBoard');
-  removeBoard.addEventListener('click',function(){
-      KanbanTest.removeBoard('_done');
-  });
-</script>
+<% if current_user.role.code.eql? "PM" %>
+  <%= column_chart @chart, library: {yAxis: {allowDecimals: false }} %>
+<% else %>
+  <div class="ui orange cards">
+    <% current_user.projects.each do |project| %>
+      <div class="ui raised link card">
+        <div class="content">
+          <div class="center aligned header"><%= link_to project.name, project_tickets_path(project.id) %></div>
+          <div class="center aligned description">
+          </div>
+        </div>
+        <div class="extra content">
+          <i class="check icon"></i>
+          <%= pluralize(count_ticket(project), 'ticket') %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% end %>

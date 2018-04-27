@@ -5,7 +5,7 @@ class Ability
     if user.role.code.eql? "PM"
         can :manage, :all
     else
-        can :read, :all
+        can :read, :dashboard
     end
     # Define abilities for the passed in user here. For example:
     #

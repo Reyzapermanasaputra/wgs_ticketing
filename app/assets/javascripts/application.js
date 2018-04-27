@@ -19,6 +19,8 @@
 //= require ckeditor/init
 //= require Chart.bundle
 //= require chartkick
+//= require jquery.geocomplete
+// =require logger.js
 //= require_tree .
 $( document ).ready(function(){
 

@@ -1,58 +1,74 @@
 <fieldset>
-<div class="field">
-  <label>Client Name</label>
-  <%= client_form.text_field :name, placeholder: "Client Name" %>
-</div>
-<div class="field">
-  <label>Contact</label>
-  <%= client_form.text_field :contact, placeholder: "Contact" %>
-</div>
- <div class="field">
-  <label>Address</label>
-  <%= client_form.text_area :address %>
-</div>
-<div class="field">
-  <label>Contact</label>
-  <%= client_form.text_field :latitude, placeholder: "latitude", readonly: true %>
-</div>
-<div class="field">
-  <label>Contact</label>
-  <%= client_form.text_field :longitude, placeholder: "longitude", readonly: true %>
-</div>
+  <div class="field">
+    <label>Client Name</label>
+    <%= client_form.text_field :name, placeholder: "Client Name" %>
+  </div>
+  <div class="field">
+    <label>Contact</label>
+    <%= client_form.text_field :contact, placeholder: "Contact" %>
+  </div>
+   <div class="field">
+    <label>Address</label>
+    <%= client_form.text_field :address, id: "geocomplete", placeholder: "Type in an address", value: "Jl. Soekarno Hatta, Cipadung Kidul, Babakan Ciparay, Bandung City, West Java, Indonesia" %>
+  </div>
+  <input id="find" type="button" value="find" class="ui orange button" />
+  <div class="field">
+    <label>Latitude</label>
+    <%= client_form.text_field :latitude, name: "lat", placeholder: "latitude" %>
+  </div>
+  <div class="field">
+    <label>Longitude</label>
+    <%= client_form.text_field :longitude, name: "lng", placeholder: "longitude" %>
+  </div>
 
-<div id="map"></div>
-<br />
-<br />
-<%= client_form.hidden_field :_destroy %>
-<%= link_to nil, class: "remove_project" do %>
-  <i class="icon remove right large"></i>
-<% end %>
-<br />
-<br />
+  <div class="field">
+    <label>Formatted Address</label>
+    <input name="formatted_address" type="text" value="">
+  </div>
+
+  <div class="map_canvas" style="height: 500px; width: auto;"></div>
+  <br />
+  <br />
+  <%= client_form.hidden_field :_destroy %>
+  <%= link_to nil, class: "remove_project" do %>
+    <i class="icon remove right large"></i>
+  <% end %>
+  <br />
+  <br />
 </fieldset>
 
-<script>
-    var map = new GMaps({
-      el: '#map',
-      lat: -2.756692,
-      lng: 111.893504,
-      zoom: 6
+
+ <script>
+  $(function(){
+    $("#geocomplete").geocomplete({
+      map: ".map_canvas",
+      details: "form ",
+      markerOptions: {
+        draggable: true
+      }
+    });
+    
+    $("#geocomplete").bind("geocode:dragged", function(event, latLng){
+      $("input[name='project[clients_attributes][0][latitude]']").val(latLng.lat());
+      $("input[name='project[clients_attributes][0][longitude]']").val(latLng.lng());
+      $("#reset").show();
     });
 
-    map.addMarker({
-    	lat: -2.756692,
-    	lng: 111.893504,
-    	draggable: true,
-    	dragend: function(event){
-    		var lat = event.latLng.lat();
-    		var lng = event.latLng.lng();
-    		$("input[name='project[clients_attributes][0][latitude]']").val(lat);
-    		$("input[name='project[clients_attributes][0][longitude]']").val(lng);
-    		alert('Coordinate '+ lat + "-" + lng);
-    	},
-    	title: 'Marker #',
-    	infoWindow: {
-    		content: "test"
-    	}
+    $("#geocomplete").bind("geocode:click", function(event, latLng){
+      $("input[name='project[clients_attributes][0][latitude]']").val(latLng.lat());
+      $("input[name='project[clients_attributes][0][longitude]']").val(latLng.lng());
+      $("#reset").show();
     });
+    
+    
+    $("#reset").click(function(){
+      $("#geocomplete").geocomplete("resetMarker");
+      $("#reset").hide();
+      return false;
+    });
+    
+    $("#find").click(function(){
+      $("#geocomplete").trigger("geocode");
+    }).click();
+  });
 </script>
