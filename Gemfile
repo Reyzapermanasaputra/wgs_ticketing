@@ -47,6 +47,8 @@ gem "chartkick"
 gem "groupdate"
 gem 'cancancan', '~> 2.0'
 
+gem 'kaminari'
+
 #framework css
 gem 'semantic-ui-sass'
 

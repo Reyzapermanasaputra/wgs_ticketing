@@ -1,0 +1,53 @@
+<div class="tabs">
+  <ul id="tabs-nav">
+    <li><%= link_to "Project", project_path(@project.id) %></li>
+    <li class="active"><%= link_to "Developers", project_developers_path(@project.id) %></li>
+    <li><%= link_to "Client", project_client_path(@project.id) %></li>
+    <li><%= link_to "Credential", project_credential_path(@project.id) %></li>
+    <li><%= link_to "Documents", project_documents_path(@project.id) %></li>
+  </ul> <!-- END tabs-nav -->
+  <div id="tabs-content">
+    <div id="tab2" class="tab-content">
+      <h2>Assign User To Project</h2>
+      <div id="kanban_project"></div>
+      <div><%= link_to "Back", projects_path, class: "ui button" %></div>
+    </div>
+  </div> <!-- END tabs-content -->
+</div> <!-- END tabs -->
+
+<script type="text/javascript">
+  // for kanban
+  var users = <%= JSON.generate(@users_list).to_s.html_safe %>
+  var project_users = <%= JSON.generate(@project_user).to_s.html_safe %>
+  var KanbanTest = new jKanban({
+      element : '#kanban_project',
+      gutter  : '10px',
+      widthBoard : '450px',
+      dropEl: function(el, target, source, sibling){
+        $.ajax({
+          url: "/assign_projects/",
+          method: "POST",
+          data: {
+            "assign_project[user_id]": $(el).attr("data-eid"),
+            "assign_project[project_id]": $(target.parentElement).attr("data-id"),
+            "source" : $(source.parentElement).attr('data-id')
+          }
+        });
+      },
+      boards: 
+        [ 
+          {
+            'id' : '_user',
+            'title'  : 'Available Users (drag me)',
+            'class' : 'info',
+            'item'  : users
+            },
+          {
+                'id' : '<%= @project.id %>',
+                'title'  : "<%= @project.name %>",
+                'class' : 'warning',
+                'item'  : project_users
+          }
+       ]
+  });
+</script>

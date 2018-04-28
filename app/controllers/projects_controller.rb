@@ -12,6 +12,8 @@ class ProjectsController < ApplicationController
 
   def create
   	@project = Project.new(create_params)
+    @project.clients.first.longitude = params[:lng]
+    @project.clients.first.latitude = params[:lat]
   	if @project.save
   		flash[:notice] = "The Project was Added!"
   		redirect_to action: "index"
@@ -22,14 +24,31 @@ class ProjectsController < ApplicationController
   end
 
   def show
+    @project = Project.find_by_id(params[:id])
+  end
+
+  def client
+    @project = Project.find_by_id(params[:project_id])
+    if params[:commit].eql? "Get Routes"
+      @destination_lng = params[:lng]
+      @destination_lat = params[:lat]
+      @formatted_address = params[:formatted_address]
+      @source_address = params[:source_address]
+    end
+  end
+
+  def developers
     roles_id = Role.where(name: "Project Manager")
     user_ids = UserProject.pluck(:user_id)
-    @project = Project.find_by_id(params[:id])
+    @project = Project.find_by_id(params[:project_id])
     user_project_ids = UserProject.where(project_id: @project, user_id: user_ids).pluck(:user_id)
     project_ids = UserProject.pluck(:project_id)
     @users_list = JSON.parse(User.active.where.not(id: user_project_ids, role_id: roles_id).to_json)
     @project_user = JSON.parse(@project.users.active.where.not(role_id: roles_id).to_json)
-    #get credential need refactor
+  end
+
+  def credential
+    @project = Project.find_by_id(params[:project_id])
     if @project.credential.nil?
       @credential = @project.build_credential
       @check_credential = true
@@ -37,7 +56,10 @@ class ProjectsController < ApplicationController
       @credential = @project.credential
       @check_credential = false
     end
-    #get document need refactor
+  end
+
+  def documents
+    @project = Project.find_by_id(params[:project_id])
     if @project.documents.blank?
       @message = "there is no document's project"
     else

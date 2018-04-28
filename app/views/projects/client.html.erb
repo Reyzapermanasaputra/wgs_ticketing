@@ -1,0 +1,120 @@
+<div class="tabs">
+  <ul id="tabs-nav">
+    <li><%= link_to "Project", project_path(@project.id) %></li>
+    <li><%= link_to "Developers", project_developers_path(@project.id) %></li>
+    <li class="active"><%= link_to "Client", project_client_path(@project.id) %></li>
+    <li><%= link_to "Credential", project_credential_path(@project.id) %></li>
+    <li><%= link_to "Documents", project_documents_path(@project.id) %></li>
+  </ul> <!-- END tabs-nav -->
+  <div id="tabs-content">
+    <div id="tab3" class="tab-content">
+    <% @project.clients.each do |client| %>
+      <h2><%= client.name %></h2>
+      <p><%= client.contact %></p>
+      <p><%= client.address %></p>
+
+      <div class="map_canvas"></div>
+      <form class="ui form">
+      <%= form_tag project_client_path(@project.id), class: "ui form" do |f| %>
+        <fieldset>
+          <legend>Direction to client</legend>
+          <label>your address</label>
+          <input name="source_address" id="geocomplete" type="text" placeholder="Type your address", value="<%= @source_address rescue "" %>" />
+          
+          <label>Latitude</label>
+          <input name="lat" type="text" value="<%= @destination_lat rescue "" %>">
+        
+          <label>Longitude</label>
+          <input name="lng" type="text" value="<%= @destination_lng rescue "" %>">
+        
+          <label>Formatted Address</label>
+          <input name="formatted_address" type="text" value="<%= @formatted_address rescue "" %>">
+        </fieldset>
+        <br />
+        <br />
+        <div class="field">
+          <!-- <input id="find" type="button" value="Get Routes", class="ui orange button" /> -->
+          <%= submit_tag "Get Routes", class: "ui positive button" %>
+          <%= link_to "Reset", project_client_path(@project.id), class: "ui orange button" %>
+          <%= link_to "Back", projects_path, class: "ui button" %>
+        </div>
+      <% end %>
+
+    <% end %>
+			<br />
+			<br />
+      <div id="map"></div>
+    </div>
+  </div> <!-- END tabs-content -->
+</div> <!-- END tabs -->
+
+<script type="text/javascript">
+  // for maps
+  var map = new GMaps({
+      el: '#map',
+      lat: <%= @project.clients.last.latitude rescue "" %>,
+      lng: <%= @project.clients.last.longitude rescue "" %>,
+      zoom: 15
+    });
+
+    map.addMarker({
+      lat: <%= @project.clients.last.latitude rescue "" %>,
+      lng: <%= @project.clients.last.longitude rescue ""%>,
+      title: 'Source',
+      infoWindow: {
+        content: '<p>You in here</p>'
+      }
+    })
+
+    <% if @destination_lat.present? %>
+      map.addMarker({
+        lat: <%= @destination_lat rescue  "" %>,
+        lng: <%= @destination_lng rescue  "" %>,
+        title: 'destination',
+        infoWindow: {
+          content: '<p>client in here</p>'
+        }
+      })
+    <% end %>
+
+
+
+    map.drawRoute({
+        origin: [<%= @project.clients.last.latitude %>, <%= @project.clients.last.longitude %>],
+        destination: [<%= @destination_lat rescue @project.clients.last.latitude.succ %>, <%= @destination_lng rescue @project.clients.last.longitude.succ %>],
+        travelMode: 'driving',
+        strokeColor: 'blue',
+        strokeOpacity: 0.6,
+        strokeWeight: 6
+    });
+
+</script>
+
+<script>
+      $(function(){
+        $("#geocomplete").geocomplete({
+          map: ".map_canvas",
+          details: "form ",
+          markerOptions: {
+            draggable: true
+          }
+        });
+        
+        $("#geocomplete").bind("geocode:dragged", function(event, latLng){
+          $("input[name=lat]").val(latLng.lat());
+          $("input[name=lng]").val(latLng.lng());
+          $("#reset").show();
+        });
+        
+        
+        $("#reset").click(function(){
+          $("#geocomplete").geocomplete("resetMarker");
+          $("#reset").hide();
+          return false;
+        });
+        
+        $("#find").click(function(){
+          $("#geocomplete").trigger("geocode");
+        }).click();
+      });
+    </script>

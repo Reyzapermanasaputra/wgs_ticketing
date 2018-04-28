@@ -7,9 +7,13 @@
     <label>Contact</label>
     <%= client_form.text_field :contact, placeholder: "Contact" %>
   </div>
-   <div class="field">
+  <div class="field">
     <label>Address</label>
-    <%= client_form.text_field :address, id: "geocomplete", placeholder: "Type in an address", value: "Jl. Soekarno Hatta, Cipadung Kidul, Babakan Ciparay, Bandung City, West Java, Indonesia" %>
+    <% if params[:action].eql? "edit" %>
+      <%= client_form.text_field :address, id: "geocomplete", placeholder: "Type in an address" %>
+    <% else %>
+      <%= client_form.text_field :address, id: "geocomplete", placeholder: "Type in an address", value: "Jl. Soekarno Hatta, Cipadung Kidul, Babakan Ciparay, Bandung City, West Java, Indonesia" %>
+    <% end %>
   </div>
   <input id="find" type="button" value="find" class="ui orange button" />
   <div class="field">
@@ -49,14 +53,14 @@
     });
     
     $("#geocomplete").bind("geocode:dragged", function(event, latLng){
-      $("input[name='project[clients_attributes][0][latitude]']").val(latLng.lat());
-      $("input[name='project[clients_attributes][0][longitude]']").val(latLng.lng());
+      $("input[name=lng]").val(latLng.lat());
+      $("input[name=lat]").val(latLng.lng());
       $("#reset").show();
     });
 
     $("#geocomplete").bind("geocode:click", function(event, latLng){
-      $("input[name='project[clients_attributes][0][latitude]']").val(latLng.lat());
-      $("input[name='project[clients_attributes][0][longitude]']").val(latLng.lng());
+      $("input[name=lng]").val(latLng.lat());
+      $("input[name=lat]").val(latLng.lng());
       $("#reset").show();
     });
     

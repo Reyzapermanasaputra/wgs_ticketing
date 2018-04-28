@@ -16,6 +16,10 @@ Rails.application.routes.draw do
   resources :assign_projects
 
   resources :projects do
+    get 'developers'
+    get 'client'
+    get 'credential'
+    get 'documents'
     resources :credentials
     resources :documents
     collection do

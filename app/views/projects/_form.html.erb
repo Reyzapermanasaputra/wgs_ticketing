@@ -9,7 +9,7 @@
       </div>
       <div class="field">
         <label>Description</label>
-        <%= f.text_area :description, placeholder: "Description" %>
+        <%= f.cktext_area :description, placeholder: "Description" %>
       </div>
       <div class="ui segment">
         <div class="field">
@@ -22,9 +22,9 @@
       <%= f.fields_for :clients do |client_form| %>
           <%= render 'client_fields', client_form: client_form %>
       <% end %>
-      <p>
-        <%= link_to_add_fields "Add Client", f, :clients %>
-      </p>
+      <!-- <p>
+        <%#= link_to_add_fields "Add Client", f, :clients %>
+      </p> -->
       <p>
         <%= f.submit "Save", class: "ui positive button" %>
         <%= link_to "Back", projects_path, class: "ui orange button" %>
