@@ -1,12 +1,12 @@
 <h1><%= @project.name %></h1>
       <%= form_for [@project, @ticket], html: {class: "ui form"} do |form| %>
         <div class="field">
-          <label>Title</label>
+          <label>Title *</label>
           <%= form.text_field :title, placeholder: "title" %>
         </div>
 
         <div class="field">
-          <label>Description</label>
+          <label>Description *</label>
           <%= form.cktext_area :description, placeholder: "description" %>
         </div>
 
@@ -25,7 +25,7 @@
           <%= form.select :recipient_id, options_for_select(@users.collect{|x| [x.username, x.id]}), prompt: "plese select user" %>
         </div>
       
-        <h5>Goal</h5>
+        <h5>Goal *</h5>
         <div class="two fields">
           <div class="field">
             <label>Start date</label>
@@ -46,6 +46,16 @@
             </div>
           </div>
         </div>
+
+        <div class="ui segment">
+        <div class="field">
+          <div class="ui checkbox">
+            <%= check_box_tag "send_email", true %>
+            <label>Send Email ?</label>
+          </div>
+        </div>
+      </div>
+
         <div class="actions">
           <%= form.submit "Create"%>
           <%= link_to "Back", project_tickets_path, class: "button ui" %>

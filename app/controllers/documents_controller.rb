@@ -1,4 +1,5 @@
 class DocumentsController < ApplicationController
+	before_action :authenticate_user!
 	def new
 		@project = Project.find_by_id(params[:project_id])
 		@document = @project.documents.build
@@ -9,9 +10,11 @@ class DocumentsController < ApplicationController
 		@document.project_id = params[:project_id]
 		if @document.save
 			flash[:notice] = "Document was added!"
-			redirect_to project_url(@document.project_id)
+			redirect_to project_documents_path(@document.project_id)
 		else
-			render 'project/show'
+			@project = Project.find_by_id(params[:project_id])
+			flash[:error] = @document.errors.full_messages.map { |k, v| k}.join('<br>').html_safe
+			render action: 'new'
 		end
 	end
 
@@ -23,13 +26,20 @@ class DocumentsController < ApplicationController
 	def update
 		@document = Document.find_by_id(params[:id])
 		@document.update_attributes(params_document)
-		redirect_to project_url(@document.project_id)
+		if @document.errors.present?
+			@project = Project.find_by_id(params[:project_id])
+			flash[:notice] = @document.errors.full_messages.map {|k,v| k }.join("<br/>").html_safe
+			render action: "edit"
+		else
+			flash[:notice] = "Document was edited"
+			redirect_to project_documents_path(@document.project_id)
+	  end
 	end
 
 	def destroy
 		@document = Document.find_by_id(params[:id])
 		@document.destroy
-		redirect_to project_url(@document.project_id)
+		redirect_to project_documents_path(@document.project_id)
 	end
 
   private

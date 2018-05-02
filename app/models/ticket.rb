@@ -7,5 +7,5 @@ class Ticket < ApplicationRecord
 	has_many :comments
 	CATEGORY = ["Task", "Feature", "Bug", "Change Request"]
 	PRIORITY = ["low", "Normal", "High", "Trivial"]
-
+	validates :title, :description, :category, :priority, :recipient_id, :maker_id, :header_id, :start_date, :end_date, presence: true
 end

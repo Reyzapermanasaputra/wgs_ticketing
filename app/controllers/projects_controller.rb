@@ -1,8 +1,10 @@
 class ProjectsController < ApplicationController
   load_and_authorize_resource
   before_action :authenticate_user!
+   skip_authorize_resource :only => [:client, :credential, :documents]
   def index
-  	@projects = Project.all.order("created_at asc")
+  	  @projects = Project.all.order("created_at asc")
+      authorize! :read, @projects
   end
 
   def new

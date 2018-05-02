@@ -2,11 +2,11 @@
    <div class="row">
       <div class="col-md-12">
          <div style="padding-top: 20px;">
-           <h1><%= link_to "#{@project.name}", project_path(@project.id) %></h1>
+           <h1><%= link_to "#{project.name}", project_path(project.id) %></h1>
          </div>
          <br />
          <button class="small positive ui button" id="addDefault">Add Header</button>
-         <%= link_to "Add Ticket", new_project_ticket_path, class: "small orange ui button" %>
+         <%= link_to "Add Ticket", new_project_ticket_path(project.id), class: "small orange ui button" %>
          <hr>
          <div id="myKanban"></div>
       </div>
@@ -17,7 +17,7 @@
     <i class="close icon"></i>
     <div class="header">Create Status Header</div>
     <div class="content">
-      <%= render 'tickets/index/form_header' %>
+      <%= render 'tickets/index/form_header', project: project %>
   </div>
 
   <%#= render 'tickets/index/show_ticket' %>
@@ -34,7 +34,7 @@
       widthBoard: '250px',
       dropEl: function(el, target, source, sibling){
         $.ajax({
-          url: "/projects/" + <%= @project.id %> + "/tickets/change_status_ticket",
+          url: "/projects/" + <%= project.id %> + "/tickets/change_status_ticket",
           method: "POST",
           data: {
             "id": $(el).attr("data-eid"),
@@ -44,7 +44,7 @@
       },
       click: function (el) {
           $.ajax({
-          url: "/projects/" + <%= @project.id %> + "/tickets/" + $(el).attr("data-eid"),
+          url: "/projects/" + <%= project.id %> + "/tickets/" + $(el).attr("data-eid"),
           method: "GET",
           data: {
             "ticket_id": $(el).attr("data-eid")
@@ -56,7 +56,7 @@
             var removeBoard = document.getElementById('removeBoard');
             KanbanTest.removeBoard(boardId);
             $.ajax({
-              url: "/projects/" + <%= @project.id %> + "/tickets/remove_header",
+              url: "/projects/" + <%= project.id %> + "/tickets/remove_header",
               method: "POST",
               data: {
                 "header_id": boardId
@@ -67,7 +67,7 @@
       addItemButton: true,
       boards: 
         [
-        <% @headers.each_with_index do |header,index| %>
+        <% headers.each_with_index do |header,index| %>
           {
                 'id' : '<%= header.id %>',
                 'title'  : "<%= header.status %>",
@@ -84,7 +84,7 @@
                     <% end %>
                    <% end %>
                 ]
-            <% if (index + 1 ) == @headers.count %>
+            <% if (index + 1 ) == headers.count %>
               }
             <% else %>
               },

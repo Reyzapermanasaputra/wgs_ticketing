@@ -3,7 +3,7 @@
     <li><%= link_to "Project", project_path(@project.id) %></li>
     <li><%= link_to "Developers", project_developers_path(@project.id) %></li>
     <li class="active"><%= link_to "Client", project_client_path(@project.id) %></li>
-    <li><%= link_to "Credential", project_credential_path(@project.id) %></li>
+    <li><%= link_to "Credential", project_credentials_path(@project.id) %></li>
     <li><%= link_to "Documents", project_documents_path(@project.id) %></li>
   </ul> <!-- END tabs-nav -->
   <div id="tabs-content">
@@ -60,9 +60,9 @@
     map.addMarker({
       lat: <%= @project.clients.last.latitude rescue "" %>,
       lng: <%= @project.clients.last.longitude rescue ""%>,
-      title: 'Source',
+      title: 'destination',
       infoWindow: {
-        content: '<p>You in here</p>'
+        content: '<p>client in here</p>'
       }
     })
 
@@ -70,9 +70,9 @@
       map.addMarker({
         lat: <%= @destination_lat rescue  "" %>,
         lng: <%= @destination_lng rescue  "" %>,
-        title: 'destination',
+        title: 'source',
         infoWindow: {
-          content: '<p>client in here</p>'
+          content: '<p>You in here</p>'
         }
       })
     <% end %>

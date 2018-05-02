@@ -6,13 +6,10 @@ App.notification = App.cable.subscriptions.create "NotificationChannel",
     # Called when the subscription has been terminated by the server
 
   received: (data) ->
+    $("#notification_" + data.recipient).find("i").removeClass("outline")
+    $("#notification_" +  data.recipient + " > .ui.teal").text(parseInt($("#notification_" + data.recipient + " > .ui.teal").text())+1)
+    $("<div id=user_notification_" + data.notification_id + "_" + data.recipient + "><div class='ui link celled selection list'  style ='width: 350px;''><div class='ui feed'><div class='event'><div class='label'><img src='/assets/elliot-a41294f12e59e10455cc6a6124e9c75c34db5b5de0cb94f21aeb944713a30c36.jpg' alt='Elliot'></div><div class='content'><div class='date'><span class='time'>"+ data.notification_time + "</span></div><div class='summary'><a>"+data.notification_actor+"</a> "+data.action+"</div></div></div></div></div></div><br />").insertBefore($("#user_notification_" + data.last_notification_id + "_" + data.recipient))
+    $("#blank_notification_" + data.recipient ).replaceWith("<div id=user_notification_" + data.notification_id + "_" + data.recipient + "><div class='ui link celled selection list'  style ='width: 350px;''><div class='ui feed'><div class='event'><div class='label'><img src='/assets/elliot-a41294f12e59e10455cc6a6124e9c75c34db5b5de0cb94f21aeb944713a30c36.jpg' alt='Elliot'></div><div class='content'><div class='date'><span class='time'>"+ data.notification_time + "</span></div><div class='summary'><a>"+data.notification_actor+"</a> "+data.action+"</div></div></div></div></div></div><br />")
+    try 
+      document.getElementById("notification_sound_" + data.recipient ).play(); 
     
-    $("#notifications_count_" + data.recipient).replaceWith("<div id=notifications_count_" + data.recipient + ">" + "<a class='item'><i class='bell large icon'></i>"+ "<div id=count>" + (parseInt($.trim($("#notifications_count_" + data.recipient).text())) + 1) + "</div></a></div>")
-
-    $("<div id=user_notification_" + data.notification_id + ">" + "(" + data.notification_time + ")" + " " + data.notification_actor + " " + data.action +  " ! <hr /> </div>").insertBefore($("#nothing_notification"))
-
-    $("<div id=user_notification_" + data.notification_id + ">" + "(" + data.notification_time + ")" + " " + data.notification_actor + " " + data.action +  " ! <hr /> </div>").insertBefore($("#user_notification_" + (data.notification_id - 1)))
-
-    $("#nothing_notification").remove();
-    
-    $.playSound("intuition.mp3")

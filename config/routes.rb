@@ -18,7 +18,6 @@ Rails.application.routes.draw do
   resources :projects do
     get 'developers'
     get 'client'
-    get 'credential'
     get 'documents'
     resources :credentials
     resources :documents

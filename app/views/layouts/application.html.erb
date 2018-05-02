@@ -14,6 +14,9 @@
   </head>
 
 <body>
+	<!-- <audio id="notification_sound_<%#= current_user.id rescue "" %>">
+	  <source src="intuition.mp3" type="audio/mpeg">
+	</audio> -->
   <% if params[:controller] == "devise/sessions" || params[:controller] == 'devise/invitations' &&  params[:action] == "edit"	|| params[:controller] == "devise/passwords" && params[:action] == "new" 	|| params[:controller] == "devise/passwords" && params[:action] == "create" || params[:controller] == "devise/passwords" && params[:action] == "edit"	|| params[:controller] == "devise/passwords" && params[:action] == "update" || params[:controller] == "devise/invitations" && params[:action] == "update" %>
       <%= yield %>
   <% else %>
@@ -133,47 +136,55 @@
 		    <a class="item" href="/">Dashboard</a>
 		    <div class="right menu">
 		    <%= link_to "#{current_user.username} (#{current_user.role.code})", user_profile_path(current_user.id), class: "item" %>
-					<!-- <div class="ui custom basic">
-						<div class="menu">
-							<div id="notifications_count_<%= current_user.id %>">
-							  <a class="item"><i class="bell outline large icon"></i>
-							  	<div id="count"><%= current_user.notifications.unread.count %></div>
-							  </a>
-						  </div>
-						</div>
-					</div> -->
 
 					<% if current_user.notifications.unread.blank? %>
-					   <div class="item">
+					   <div class="item" id="notification_<%= current_user.id %>">
 					     <i class="bell large outline icon"></i>
-					     <div class="ui teal circular mini label"><%= current_user.notifications.unread.count %></div>
+					     <div class="ui teal circular label"><%= current_user.notifications.unread.count %></div>
 					     <div class="ui wide notification popup bottom right transition ">
-					     <div class="ui link celled selection list"  style ="width: 350px;">
-					       <div class='item'>
-					        <div class='content'>
-					          <div class='description'>Yay!! You not have notifications</div>
-					          <div class='extra'></div>
-					        </div>
-					      </div>
-					    </div>
+					     <div id="blank_notification_<%= current_user.id rescue "" %>">
+						     <div class="ui link celled selection list"  style ="width: 350px;">
+						       <div class="ui feed">
+									  <div class="event">
+									    <div class="label">
+									      <i class="pencil icon"></i>
+									    </div>
+									    <div class="content">
+									      <div class="summary">
+									        You not have notifications
+									        <div class="date">Today</div>
+									      </div>
+									    </div>
+									  </div>
+									</div>
+						    </div>
+						  </div>
 					    <div style="text-align: center"><%= link_to "Show All Notification" %></div>
 					  </div>
 					</div>  
 					<% else %> 
-					<div class="item">
+					<div class="item" id="notification_<%= current_user.id %>">
 				    <i class="bell large outline icon"></i>
-				    <div class="ui teal circular mini label"><%= current_user.notifications.unread.count %></div>
+				    <div class="ui teal circular label"><%= current_user.notifications.unread.count %></div>
 				      <div class="ui wide notification popup bottom right transition ">
 				      	<% current_user.notifications.unread.order("created_at DESC").limit(5).each_with_index do |notification, index| %>
-								  <div id="user_notification_<%= notification.id %>">
+								  <div id="user_notification_<%= notification.id %>_<%= current_user.id rescue "" %>">
 								  	<div class="ui link celled selection list"  style ="width: 350px;">
-					           <div class='item' style="padding: 20px;">
-					             <div class='content'>
-							          <a class='header'><%= notification.actor.username %></a>
-							          <span class='time'><%= time_ago_in_words(notification.created_at) %></span>          
-							          <div class='description'><%= notification.action %> !</div>
-					             </div>
-					            </div>
+					            <div class="ui feed">
+											  <div class="event">
+											    <div class="label">
+											      <%= image_tag("elliot") %>
+											    </div>
+											    <div class="content">
+											      <div class="date">
+											        <span class='time'><%= time_ago_in_words(notification.created_at) %></span>          
+											      </div>
+											      <div class="summary">
+											         <a><%= notification.actor.username %></a> <%= notification.action %> !
+											      </div>
+											    </div>
+											  </div>
+											</div>
 					    			</div>
 									</div>
 									<br />
@@ -210,7 +221,7 @@
 			    </div>
 			  </div>
 			<% end %>
-			<div class="ui menu asd borderless" style="margin-left: 300px; margin-top: 20px; margin-right: 30px; -webkit-transition-duration: 0.1s; <%= 'overflow-x: auto;' unless params[:controller] == 'dashboard' %> <%= 'padding: 20px;' if params[:controller] == 'dashboard' %> <%= 'padding-left: 30px;' if params[:controller] == 'tickets' %>">
+			<div class="ui menu asd borderless" style="margin-left: 300px; margin-top: 20px; margin-right: 30px; -webkit-transition-duration: 0.1s; <%= 'overflow-x: auto;' unless params[:controller] == 'dashboard' %> <%= 'padding: 20px;' if params[:controller] == 'dashboard' %> <%= 'padding-left: 30px;' if params[:controller] == 'tickets' and params[:action] == "index" %>">
 			  <%= yield %>
 			</div>
 		</div>
@@ -223,5 +234,6 @@
 	    $("#count").text("0")
 	  })
   <% end %>
+
 </script>
 </html>

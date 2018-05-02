@@ -1,12 +1,12 @@
-<%= form_tag create_header_project_tickets_path, method: :post, remote: true, class: "ui form" do %>
-  <%= hidden_field_tag "header[project_id", @project.id %>
+<%= form_tag create_header_project_tickets_path(project.id), method: :post, remote: true, class: "ui form" do %>
+  <%= hidden_field_tag "header[project_id", project.id %>
   <div class="field">
     <label>Title</label>
-    <%= text_field_tag "header[status]", nil, placeholder: "title" %>
+    <%= text_field_tag "header[status]", nil, placeholder: "title", required: true %>
   </div>
   <div class="field">
     <label>color</label>
-    <%= select_tag "header[color]", options_for_select([ "info", "success", "error", "warning" ], "info") %>
+    <%= select_tag "header[color]", options_for_select([ "info", "success", "error", "warning" ], "info"), required: true %>
   </div>
   <div class="actions">
   <%= submit_tag "Create" %>

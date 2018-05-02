@@ -4,6 +4,12 @@ class Ability
   def initialize(user)
     if user.role.code.eql? "PM"
         can :manage, :all
+    elsif user.role.code == "Dev" || user.role.code == "PC"
+        can :manage, Ticket
+        can :read, Project
+        can :manage, Credential
+        can :manage, Document
+        can :read, :dashboard
     else
         can :read, :dashboard
     end

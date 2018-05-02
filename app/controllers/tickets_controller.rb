@@ -8,7 +8,7 @@ class TicketsController < ApplicationController
 
   def new
     @project = Project.find_by_id(params[:project_id])
-    @users = @project.users
+    @users = @project.users.where.not(role_id: current_user.role_id)
     @ticket = Ticket.new
   end
 
@@ -16,33 +16,27 @@ class TicketsController < ApplicationController
     @ticket = Ticket.new(params_ticket)
     header = Project.find_by_id(params[:project_id]).headers.first
     @ticket.header_id = header.id
-    @ticket.status = "New"
     @ticket.maker_id = current_user.id
     @ticket.start_date = params[:ticket][:start_date].to_date
     @ticket.start_date = params[:ticket][:end_date].to_date
     if @ticket.save
+      flash[:notice] = "Ticket was created!"
       redirect_to action: "index"
+      #need refactor
+      ActionCable.server.broadcast 'ticket_channel', 
+        view: ApplicationController.render(
+          partial: '/tickets/tickets_list',
+          locals: { ticket: @ticket }
+          ),
+        project_id: params[:project_id],
+        user_id_1: current_user.id,
+        user_id_2: params[:ticket][:user_id]      
     else
+      @project = Project.find_by_id(params[:project_id])
+      @users = @project.users
+      flash[:notice] = @ticket.errors.full_messages.map{|k,v| k}.join("<br/>").html_safe
       render 'new'
     end
-   #  user_id = User.find_by_id(params[:ticket][:user_id]).id
-  	# @ticket = Ticket.new(params_ticket)
-   #  @ticket.project_id = params[:project_id]
-   #  @ticket.status = "Backlog"
-   #  @ticket.maker = current_user.id
-   #  @ticket.receipt = user_id
-  	# if @ticket.save
-   #    UserTicket.create(user_id: current_user.id, ticket_id: @ticket.id, is_maker: true)
-   #    UserTicket.create(user_id: params[:ticket][:user_id], ticket_id: @ticket.id, is_maker: false)
-      # ActionCable.server.broadcast 'ticket_channel', 
-      #   view: ApplicationController.render(
-      #     partial: '/tickets/tickets_list',
-      #     locals: { ticket: @ticket }
-      #     ),
-      #   project_id: params[:project_id],
-      #   user_id_1: current_user.id,
-      #   user_id_2: params[:ticket][:user_id]
-    #end
   end
 
   def create_header
@@ -51,6 +45,12 @@ class TicketsController < ApplicationController
     @headers = @project.headers
     @users = User.all
     header.save
+    ActionCable.server.broadcast 'ticket_channel', 
+      view: ApplicationController.render(
+        partial: '/tickets/index/index',
+        locals: {:project => @project, :headers => @headers, :users => @users }
+        ),
+      project_id: params[:project_id]
   end
 
   def remove_header
@@ -65,7 +65,7 @@ class TicketsController < ApplicationController
 
   def change_status_ticket
     @ticket = Ticket.find_by_id(params[:id])
-    @ticket.update_attributes(status: params[:status_ticket], header_id: params[:header_id])
+    @ticket.update_attributes!(header_id: params[:header_id])
     #ActionCable.server.broadcast 'change_ticket_channel', ticket_id: @ticket.id
   end
 
@@ -97,7 +97,7 @@ class TicketsController < ApplicationController
   private
 
   def params_ticket
-  	params.require(:ticket).permit(:code, :title, :description, :status, :category, :priority, :recipient_id, :maker_id, :header_id, :start_date, :end_date)
+  	params.require(:ticket).permit(:title, :description, :category, :priority, :recipient_id, :maker_id, :header_id, :start_date, :end_date)
   end
 
   def params_header

@@ -1,24 +1,37 @@
-<div class="ui container">
-  <br/>
-  <div class="ui segment">
-  <h3>Upload Document</h3>
-  <%= form_for([@project, @document], html: {class: "ui form"}) do |f| %>
-    <div class="field">
-      <label>Title</label>
-      <%= f.text_field :title, placeholder: "Title" %>
+<div class="tabs">
+  <ul id="tabs-nav">
+    <li><%= link_to "Project", project_path(@project.id) %></li>
+    <li><%= link_to "Developers", project_developers_path(@project.id) %></li>
+    <li><%= link_to "Client", project_client_path(@project.id) %></li>
+    <li><%= link_to "Credential", project_credentials_path(@project.id) %></li>
+    <li class="active"><%= link_to "Documents", project_documents_path(@project.id) %></li>
+  </ul> <!-- END tabs-nav -->
+  <div id="tabs-content">
+    <div id="tab4" class="tab-content">
+      <div class="ui container">
+        <br/>
+        <div class="ui segment">
+        <h3>Upload Document</h3>
+        <%= form_for([@project, @document], html: {class: "ui form"}) do |f| %>
+          <div class="field">
+            <label>Title</label>
+            <%= f.text_field :title, placeholder: "Title" %>
+          </div>
+          <div class="field">
+            <label>Description</label>
+            <%= f.text_area :body, placeholder: "Description", rows: 2 %>
+          </div>
+          <div class="field">
+            <label>file</label>
+            <%= f.file_field :attachment %>
+          </div>
+          <p>
+            <%= f.submit "Save", class: "ui button" %>
+            <%#= link_to "Back", project_path(@project.id), class: "ui button" %>
+          </p>
+        <% end %>
+        </div>
+      </div>
     </div>
-    <div class="field">
-      <label>Description</label>
-      <%= f.text_area :body, placeholder: "Description", rows: 2 %>
-    </div>
-    <div class="field">
-      <label>file</label>
-      <%= f.file_field :attachment %>
-    </div>
-    <p>
-      <%= f.submit "Save", class: "ui button" %>
-      <%= link_to "Back", project_path(@project.id), class: "ui button" %>
-    </p>
-  <% end %>
-  </div>
-</div>
+  </div> <!-- END tabs-content -->
+</div> <!-- END tabs -->
