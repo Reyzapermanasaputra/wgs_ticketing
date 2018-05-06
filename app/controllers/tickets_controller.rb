@@ -23,14 +23,14 @@ class TicketsController < ApplicationController
       flash[:notice] = "Ticket was created!"
       redirect_to action: "index"
       #need refactor
-      ActionCable.server.broadcast 'ticket_channel', 
-        view: ApplicationController.render(
-          partial: '/tickets/tickets_list',
-          locals: { ticket: @ticket }
-          ),
-        project_id: params[:project_id],
-        user_id_1: current_user.id,
-        user_id_2: params[:ticket][:user_id]      
+      # ActionCable.server.broadcast 'ticket_channel', 
+      #   view: ApplicationController.render(
+      #     partial: '/tickets/tickets_list',
+      #     locals: { ticket: @ticket }
+      #     ),
+      #   project_id: params[:project_id],
+      #   user_id_1: current_user.id,
+      #   user_id_2: params[:ticket][:user_id]      
     else
       @project = Project.find_by_id(params[:project_id])
       @users = @project.users

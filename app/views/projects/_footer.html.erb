@@ -1,0 +1,10 @@
+<tr>
+  <th colspan="5">
+    <%= link_to new_project_path, class: "ui basic" do %>
+      <i class="add square icon"></i>Add Project
+    <% end %>
+  </th>
+  <th colspan="6">
+    <%= paginate @projects, remote: true %>
+  </th>
+</tr>

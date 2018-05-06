@@ -1,0 +1,23 @@
+<% @users.each do |user| %>
+  <tr id="user_<%= user.id %>">
+    <td><%= user.username %></td>
+    <td><%= user.email %></td>
+    <td><%= user.contact %></td>
+    <td><%= user.address %></td>
+    <td><%= user.role.name%> (<%= user.role.code %>)</td>
+    <td><%= user.is_active %></td>
+    <td>
+    <%= link_to edit_user_profile_path(user.id) do %>
+      <i class="edit icon"></i>Edit
+    <% end %>
+    |
+    <%= link_to user_profile_path(user.id), method: :delete, data: {confirm: 'Are you sure?'} do %>
+      <i class="remove icon"></i>Delete
+    <% end %>
+    |
+    <%= link_to send_invitation_again_user_profiles_path(id: user.id), remote: true, data: {confirm: "Are You Sure ?"} do %>
+      <i class="send outline icon"></i>Send Token Again!
+    <% end %>
+    </td>
+  </tr>
+<% end %>

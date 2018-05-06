@@ -1,0 +1,18 @@
+<% @projects.each_with_index do |project, index| %>
+  <tr>
+    <td><%= index+1 %></td>
+    <td><%= link_to project.name, project_path(project.id)%></td>
+    <td><%= raw(project.description.truncate(20)) %></td>
+    <td><%=  project.is_active  ? "true" : "false" %></td>
+    <td><%= project.clients.last.name rescue "" %></td>
+    <td>
+      <%= link_to edit_project_path(project.id), class: "ui basic" do %>
+        <i class="address card outline icon"></i>Edit
+      <% end %>
+      |
+      <%= link_to project_path(project.id), method: :delete, data: {confirm: "Are You Sure ?"}, class: "ui basic" do %>
+        <i class="remove icon"></i>Delete
+      <% end %>
+    </td>
+  </tr>
+<% end %>

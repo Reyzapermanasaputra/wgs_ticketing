@@ -2,10 +2,12 @@
   <% comments.each do |comment| %>
   <div class="comment" id="comment_<%= comment.id %>">
     <a class="avatar">
-      <% if current_user.id == comment.user_id %>
+      <% if comment.user.role.code.eql? "PM" %>
         <%= image_tag("steve") %>
-      <% else %>
+      <% elsif comment.user.role.code.eql? "PC"  %>
         <%= image_tag("joe") %>
+      <% else %>
+        <%= image_tag("steve") %>
       <% end %>
     </a>
     <div class="content">

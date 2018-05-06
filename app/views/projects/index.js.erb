@@ -1,0 +1,2 @@
+$('tbody').html("<%= j render('projects/list_project', locals: @projects) %>").hide().show("slow")
+$('tfoot').html("<%= j render('projects/footer', locals: @projects) %>")

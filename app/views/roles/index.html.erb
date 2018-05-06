@@ -8,9 +8,6 @@
     </tr>
   </thead>
   <tbody>
-  
-  <%#= render '/roles/form' %>
-
   <% @roles.each_with_index do |role, index| %>
       <tr id="role_<%= role.id %>">
         <td><%= role.name %></td>

@@ -1,0 +1,2 @@
+$("tbody").html("<%= j render('user_profiles/list_user', locals: @users) %>").hide().show("slow")
+$("tfoot").html("<%= j render('user_profiles/footer', locals: @users) %>")

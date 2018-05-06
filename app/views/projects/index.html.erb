@@ -1,6 +1,16 @@
 <table class="ui selectable celled table">
   <thead>
     <tr>
+      <th colspan="6">
+        <%= form_tag projects_path, method: "GET", remote: true do %>
+          <div class="ui action input">
+            <%= text_field_tag :search, "", placeholder: "Search..."%>
+            <%= submit_tag "Search", class: "ui  blue button" %>
+          </div>
+        <% end %>
+      </th>       
+    </tr>
+    <tr>
       <th>No</th>
       <th>Project</th>
       <th>Description</th>
@@ -10,32 +20,9 @@
     </tr>
   </thead>
   <tbody>
-  <% @projects.each_with_index do |project, index| %>
-    <tr>
-      <td><%= index+1 %></td>
-      <td><%= link_to project.name, project_path(project.id)%></td>
-      <td><%= raw(project.description.truncate(20)) %></td>
-      <td><%=  project.is_active  ? "true" : "false" %></td>
-      <td><%= project.clients.last.name rescue "" %></td>
-      <td>
-        <%= link_to edit_project_path(project.id), class: "ui basic" do %>
-          <i class="address card outline icon"></i>Edit
-        <% end %>
-        |
-        <%= link_to project_path(project.id), method: :delete, data: {confirm: "Are You Sure ?"}, class: "ui basic" do %>
-          <i class="remove icon"></i>Delete
-        <% end %>
-      </td>
-    </tr>
-  <% end %>
+    <%= render 'list_project' %>
   </tbody>
   <tfoot class="full-width">
-    <tr>
-      <th colspan="6">
-          <%= link_to new_project_path, class: "ui basic" do %>
-            <i class="add square icon"></i>Add Project
-          <% end %>
-      </th>
-    </tr>
+    <%= render 'footer' %> 
   </tfoot>
 </table>

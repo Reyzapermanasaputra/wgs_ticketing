@@ -221,6 +221,7 @@
 			    </div>
 			  </div>
 			<% end %>
+
 			<div class="ui menu asd borderless" style="margin-left: 300px; margin-top: 20px; margin-right: 30px; -webkit-transition-duration: 0.1s; <%= 'overflow-x: auto;' unless params[:controller] == 'dashboard' %> <%= 'padding: 20px;' if params[:controller] == 'dashboard' %> <%= 'padding-left: 30px;' if params[:controller] == 'tickets' and params[:action] == "index" %>">
 			  <%= yield %>
 			</div>

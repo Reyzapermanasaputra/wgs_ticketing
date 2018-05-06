@@ -3,8 +3,8 @@ class ProjectsController < ApplicationController
   before_action :authenticate_user!
    skip_authorize_resource :only => [:client, :credential, :documents]
   def index
-  	  @projects = Project.all.order("created_at asc")
-      authorize! :read, @projects
+	  @projects = Project.filter(params).page(params[:page]).per(5)
+    authorize! :read, @projects
   end
 
   def new
