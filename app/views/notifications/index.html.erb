@@ -5,8 +5,9 @@
       <div class="content">
         <a class="header"><%= notification.actor.username %></a>
         <div class="description"><%= time_ago_in_words(notification.created_at) %></div>
-        <%= notification.action %>
+        <%= link_to "#{notification.action}", notification.path %>
       </div>
     </div>
   <% end %>
+  <%= paginate @notifications %>
 </div>

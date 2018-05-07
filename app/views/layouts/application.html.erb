@@ -14,9 +14,11 @@
   </head>
 
 <body>
-	<!-- <audio id="notification_sound_<%#= current_user.id rescue "" %>">
-	  <source src="intuition.mp3" type="audio/mpeg">
-	</audio> -->
+	<%= audio_tag("smb_pause.wav", id: "assign_user_#{current_user.id rescue ''}") %>
+	<%= audio_tag("smb_powerup.wav", id: "create_ticket_#{current_user.id rescue ''}") %>
+	<%= audio_tag("smb_jump-super.wav", id: "change_ticket_#{current_user.id rescue ''}") %>
+	<%= audio_tag("smb_pipe.wav", id: "comment_ticket_#{current_user.id rescue ''}") %>
+
   <% if params[:controller] == "devise/sessions" || params[:controller] == 'devise/invitations' &&  params[:action] == "edit"	|| params[:controller] == "devise/passwords" && params[:action] == "new" 	|| params[:controller] == "devise/passwords" && params[:action] == "create" || params[:controller] == "devise/passwords" && params[:action] == "edit"	|| params[:controller] == "devise/passwords" && params[:action] == "update" || params[:controller] == "devise/invitations" && params[:action] == "update" %>
       <%= yield %>
   <% else %>
@@ -60,72 +62,10 @@
 		  <div class="ui dropdown item displaynone">
 		    <z>Layout</z>
 		    <i class="icon demo-icon world icon-globe"></i>
-
-		    <div class="menu">
-		      <div class="header">
-		        Layout
-		      </div>
-		      <div class="ui divider"></div>
-		      <a class="item" href="inbox.html">Inbox
-		                    </a>
-		      <a class="item" href="mail.html">Mailbox
-		                    </a>
-		      <a class="item" href="chat.html">Chat
-		                    </a>
-		      <a class="item" href="contacts.html">Contacts
-		                    </a>
-		      <a class="item" href="photoeditor.html">Photo Editor
-		                    </a>
-		      <a class="item" href="calendar.html">Calendar
-		                    </a>
-		      <a class="item" href="filter.html">Filter
-		                    </a>
-		      <a class="item" href="todo.html">Todo
-		                    </a>
-		    </div>
 		  </div>
 		  <div class="ui dropdown item displaynone">
 		    <z>Pages</z>
 		    <i class="icon demo-icon  icon-params alarm"></i>
-
-		    <div class="menu">
-		      <div class="header">
-		        Layouts
-		      </div>
-		      <div class="ui divider"></div>
-		      <a class="item" href="sidebar.html">Sidebar
-		                    </a>
-		      <a class="item" href="menu.html">Nav
-		                    </a>
-		      <a class="item" href="animatedicon.html">Animated Icon
-		                    </a>
-		      <a class="item" href="box.html">Box
-		                    </a>
-		      <a class="item" href="cards.html">Cards
-		                    </a>
-		      <a class="item" href="color.html">Colors
-		                    </a>
-		      <a class="item" href="comment.html">Comment
-		                    </a>
-		      <a class="item" href="embed.html">Embed
-		                    </a>
-		      <a class="item" href="faq.html">Faq
-		                    </a>
-		      <a class="item" href="feed.html">Feed
-		                    </a>
-		      <a class="item" href="gallery.html">Gallery
-		                    </a>
-		      <a class="item" href="grid.html">Grid
-		                    </a>
-		      <a class="item" href="header.html">Header
-		                    </a>
-		      <a class="item" href="timeline.html">Timeline
-		                    </a>
-		      <a class="item" href="message.html">Message
-		                    </a>
-		      <a class="item" href="price.html">Price
-		                    </a>
-		    </div>
 		  </div>
 		</div>
 		<div class="pusher">
@@ -159,7 +99,7 @@
 									</div>
 						    </div>
 						  </div>
-					    <div style="text-align: center"><%= link_to "Show All Notification" %></div>
+					    <div style="text-align: center"><%= link_to "Show All Notification", notifications_path() %></div>
 					  </div>
 					</div>  
 					<% else %> 
@@ -180,7 +120,7 @@
 											        <span class='time'><%= time_ago_in_words(notification.created_at) %></span>          
 											      </div>
 											      <div class="summary">
-											         <a><%= notification.actor.username %></a> <%= notification.action %> !
+											         <a><%= notification.actor.username %></a> <%= notification.action %> 
 											      </div>
 											    </div>
 											  </div>
@@ -230,9 +170,13 @@
 </body>
 <script type="text/javascript">
 	<% unless current_user.nil? %>
-		$(".ui .custom").click(function(){
-	    $("#notifications_count_" + <%= current_user.id %>).find("i").addClass("bell outline large icon")
-	    $("#count").text("0")
+		$(".ui.teal.circular.label").click(function(e){
+			$(".ui.teal.circular.label").text("0")
+			e.preventDefault()
+			$.ajax({
+				url: '/notifications/update_unread',
+				method: 'POST'
+			})
 	  })
   <% end %>
 

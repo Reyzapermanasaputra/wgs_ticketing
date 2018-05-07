@@ -32,10 +32,16 @@ Rails.application.routes.draw do
       post 'remove_header'
       post 'comment'
       delete 'delete_comment'
+      post 'archive'
+      get 'list_archive'
     end
   end
   end
-  resources :notifications
+  resources :notifications do
+    collection do
+      post 'update_unread'
+    end
+  end
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   mount ActionCable.server, at: '/cable'
 end

@@ -31,6 +31,12 @@
           <%#= form.text_field :user_id, disabled: true, value: @ticket.recipient.username %>
           <input placeholder="<%= @ticket.recipient.username %>" type="text" value="<%= @ticket.recipient.username %>" disabled="" tabindex="-1">
         </div>
+
+        <div class="field">
+          <label>Maker *</label>
+          <%#= form.text_field :user_id, disabled: true, value: @ticket.recipient.username %>
+          <input placeholder="<%= @ticket.maker.username %>" type="text" value="<%= @ticket.maker.username %>" disabled="" tabindex="-1">
+        </div>
       
         <h5>Goal</h5>
         <div class="two fields">
@@ -59,11 +65,12 @@
         <br />
         <br />
         <hr />
+        <% if @ticket.maker.id == current_user.id %>
         <div class="actions">
-          <div class="ui positive button">Edit</div>
-          <div class="ui red button">Delete</div>
+          <%= link_to "Edit", edit_project_ticket_path(@project.id), class: "ui positive button" %>
+          <%= link_to "Archive", archive_project_tickets_path(@project.id, ticket_id: @ticket.id), method: "POST", class: "ui red button" %>
         </div>
-      <%# end %>
+      <% end %>
       </div>
     </div>
   </div>

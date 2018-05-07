@@ -7,6 +7,7 @@
          <br />
          <button class="small positive ui button" id="addDefault">Add Header</button>
          <%= link_to "Add Ticket", new_project_ticket_path(project.id), class: "small orange ui button" %>
+         <%= link_to "List Archive Ticket", list_archive_project_tickets_path(project.id), class: "small red ui button" %>
          <hr>
          <div id="myKanban"></div>
       </div>
@@ -73,10 +74,10 @@
                 'title'  : "<%= header.status %>",
                 'class' : '<%= header.color %>',
                 'item'  : [
-                  <% header.tickets.each_with_index do |ticket, index| %>
+                  <% header.tickets.where(is_archive: nil).each_with_index do |ticket, index| %>
                     {
                        'id':'<%= ticket.id %>',
-                        'title':'<%= ticket.title %>',
+                        'title':'(#<%= ticket.id %>) <%= ticket.title %>',
                     <% if (index + 1 ) == header.tickets.count %>
                       }
                     <% else %>

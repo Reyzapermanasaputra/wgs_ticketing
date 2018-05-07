@@ -1,0 +1,27 @@
+<div class="container-fluid" style="padding: 20px;">
+   <div class="row">
+    <table class="ui very basic collapsing celled table">
+      <thead>
+        <tr><th>Tickets</th>
+        <th>Back to Board</th>
+      </tr></thead>
+      <tbody>
+        <% @tickets.each do |ticket| %>
+        <tr>
+          <td>
+            <h4 class="ui image header">
+              <div class="content">
+                #<%= ticket.id %>
+                <div class="sub header"><%= ticket.title %>
+              </div>
+            </div>
+          </h4></td>
+          <td>
+            <%= link_to "Archive", archive_project_tickets_path(ticket.header.project.id, ticket_id: ticket.id), method: "POST", class: "small ui red button" %>
+          </td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

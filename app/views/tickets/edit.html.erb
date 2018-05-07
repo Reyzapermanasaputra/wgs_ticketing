@@ -1,2 +1,58 @@
-<h1>Tickets#edit</h1>
-<p>Find me in app/views/tickets/edit.html.erb</p>
+<div class="ui container">
+  <div class="ui segment">
+  	<h1><%= @project.name %></h1>
+      <%= form_for [@project, @ticket], html: {class: "ui form"} do |form| %>
+        <div class="field">
+          <label>Title *</label>
+          <%= form.text_field :title, placeholder: "title" %>
+        </div>
+
+        <div class="field">
+          <label>Description *</label>
+          <%= form.cktext_area :description, placeholder: "description" %>
+        </div>
+
+        <div class="field">
+          <label>Category *</label>
+          <%= form.select :category, options_for_select(Ticket::CATEGORY, {prompt: "Please Select Category", selected: form.object.category}) %>
+        </div>
+
+        <div class="field">
+          <label>Priority *</label>
+          <%= form.select :priority, options_for_select(Ticket::PRIORITY, {prompt: "Please Select Category", selected: form.object.priority}) %>
+        </div>
+
+        <div class="field">
+          <label>Assigned *</label>
+          <%= form.select :recipient_id, options_for_select(@users.collect{|x| [x.username, x.id]}), {prompt: "plese select user", selected: form.object.recipient} %>
+        </div>
+      
+        <h5>Goal *</h5>
+        <div class="two fields">
+          <div class="field">
+            <label>Start date</label>
+            <div class="ui calendar" id="rangestart">
+              <div class="ui input left icon">
+                <i class="calendar icon"></i>
+                <%= form.text_field :start_date, placeholder: "Start" %>
+              </div>
+            </div>
+          </div>
+          <div class="field">
+            <label>End date</label>
+            <div class="ui calendar" id="rangeend">
+              <div class="ui input left icon">
+                <i class="calendar icon"></i>
+                <%= form.text_field :end_date, placeholder: "End" %>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="actions">
+          <%= form.submit "Edit"%>
+          <%= link_to "Back", project_tickets_path, class: "button ui" %>
+        </div>
+      <% end %>
+  	</div>
+ </div>

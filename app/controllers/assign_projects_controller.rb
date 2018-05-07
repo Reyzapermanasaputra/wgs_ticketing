@@ -15,7 +15,8 @@ class AssignProjectsController < ApplicationController
       assign_project = UserProject.new(params_assign_project)
       assign_project.save
       action = UserProject.create_action(params[:assign_project][:project_id], "assigned You to ")
-      notification = Notification.create(recipient: assign_project.user, actor: current_user, action: action, notifiable: assign_project)
+      project_path = "projects/#{params[:assign_project][:project_id]}"
+      notification = Notification.create(recipient: assign_project.user, actor: current_user, action: action, notifiable: assign_project, path: project_path)
       user = User.find_by_id(assign_project.user.id)
       ActionCable.server.broadcast 'notification_channel',
                                     action: action,
@@ -23,7 +24,8 @@ class AssignProjectsController < ApplicationController
                                     notification_id: user.notifications.last.id,
                                     last_notification_id: user.notifications.last(2).first.id,
                                     notification_time: notification.created_at.strftime("%d-%m-%y %H:%M"),
-                                    notification_actor: notification.actor.username
+                                    notification_actor: notification.actor.username,
+                                    audio_id: 'assign_user_'
   	else
       assign_project = UserProject.where(user_id: params[:assign_project][:user_id], project_id: params[:source]).last
       assign_project.destroy
@@ -36,7 +38,8 @@ class AssignProjectsController < ApplicationController
                                     notification_id: user.notifications.last.id,
                                     last_notification_id: user.notifications.last(2).first.id,
                                     notification_time: notification.created_at.strftime("%d-%m-%y %H:%M"),
-                                    notification_actor: notification.actor.username
+                                    notification_actor: notification.actor.username,
+                                    audio_id: 'assign_user_'
 	  end
   end
   

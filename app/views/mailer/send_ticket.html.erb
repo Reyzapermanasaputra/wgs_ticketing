@@ -1,0 +1,7 @@
+hai <%= @recipient.username %>,
+<br />
+<p>
+you have new a ticket with id #<%= @ticket.id %> from <%= @maker.username %> please check
+<%= link_to "this link", project_tickets_url(@ticket.header.project.id) %>
+</p>
+Thanks

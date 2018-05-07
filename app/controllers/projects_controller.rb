@@ -27,6 +27,7 @@ class ProjectsController < ApplicationController
 
   def show
     @project = Project.find_by_id(params[:id])
+    redirect_to(root_path, notice: "Access Denied") if !current_user.projects.ids.include?(@project.id) and !current_user.role.code.eql?("PM")
   end
 
   def client
