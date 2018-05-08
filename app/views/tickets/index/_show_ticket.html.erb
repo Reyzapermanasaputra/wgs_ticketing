@@ -1,15 +1,15 @@
    <div class="ui modal" id="show_modal_ticket">
       <i class="close icon"></i>
       <div class="header">
-        #<%= @ticket.id %> <%= @ticket.title %>
+        #<%= ticket.id %> <%= ticket.title %>
       </div>
       <div class="scrolling content">
-        <%#= form_for [@project, @ticket], html: {class: "ui form"} do |form| %>
+        <%#= form_for [project, ticket], html: {class: "ui form"} do |form| %>
         <div class="ui form">
         <div class="field">
           <label>Description</label>
           <%#= form.cktext_area :description, placeholder: "description" %>
-          <%= raw(@ticket.description) %>
+          <%= raw(ticket.description) %>
         </div>
 
         <hr />
@@ -17,25 +17,25 @@
         <div class="field">
           <label>Category *</label>
           <%#= form.text_field :category, disabled: true %>
-           <input placeholder="<%= @ticket.category %>" type="text" value="<%= @ticket.category %>" disabled=true tabindex="-1">
+           <input placeholder="<%= ticket.category %>" type="text" value="<%= ticket.category %>" disabled=true tabindex="-1">
         </div>
 
         <div class="field">
           <label>Priority *</label>
           <%#= form.text_field :priority, disabled: true %>
-          <input placeholder="<%= @ticket.priority %>" type="text" value="<%= @ticket.priority %>" disabled="" tabindex="-1">
+          <input placeholder="<%= ticket.priority %>" type="text" value="<%= ticket.priority %>" disabled="" tabindex="-1">
         </div>
 
         <div class="field">
           <label>Assigned *</label>
-          <%#= form.text_field :user_id, disabled: true, value: @ticket.recipient.username %>
-          <input placeholder="<%= @ticket.recipient.username %>" type="text" value="<%= @ticket.recipient.username %>" disabled="" tabindex="-1">
+          <%#= form.text_field :user_id, disabled: true, value: ticket.recipient.username %>
+          <input placeholder="<%= ticket.recipient.username %>" type="text" value="<%= ticket.recipient.username %>" disabled="" tabindex="-1">
         </div>
 
         <div class="field">
           <label>Maker *</label>
-          <%#= form.text_field :user_id, disabled: true, value: @ticket.recipient.username %>
-          <input placeholder="<%= @ticket.maker.username %>" type="text" value="<%= @ticket.maker.username %>" disabled="" tabindex="-1">
+          <%#= form.text_field :user_id, disabled: true, value: ticket.recipient.username %>
+          <input placeholder="<%= ticket.maker.username %>" type="text" value="<%= ticket.maker.username %>" disabled="" tabindex="-1">
         </div>
       
         <h5>Goal</h5>
@@ -46,7 +46,7 @@
               <div class="ui input left icon">
                 <i class="calendar icon"></i>
                 <%#= form.text_field :start_date, placeholder: "Start", disabled: true %>
-                <input placeholder="<%= @ticket.start_date %>" type="text" value="<%= @ticket.start_date %>" disabled="" tabindex="-1">
+                <input placeholder="<%= ticket.start_date %>" type="text" value="<%= ticket.start_date %>" disabled="" tabindex="-1">
               </div>
             </div>
           </div>
@@ -56,20 +56,20 @@
               <div class="ui input left icon">
                 <i class="calendar icon"></i>
                 <%#= form.text_field :end_date, placeholder: "End", disabled: true %>
-                <input placeholder="<%= @ticket.end_date %>" type="text" value="<%= @ticket.end_date %>" disabled="" tabindex="-1">
+                <input placeholder="<%= ticket.end_date %>" type="text" value="<%= ticket.end_date %>" disabled="" tabindex="-1">
               </div>
             </div>
           </div>
         </div>
-        <%= render "tickets/comments/comments" %>
+        <%= render "tickets/comments/comments", comments: comments, ticket: ticket %>
         <br />
         <br />
         <hr />
-        <% if @ticket.maker.id == current_user.id %>
-        <div class="actions">
-          <%= link_to "Edit", edit_project_ticket_path(@project.id), class: "ui positive button" %>
-          <%= link_to "Archive", archive_project_tickets_path(@project.id, ticket_id: @ticket.id), method: "POST", class: "ui red button" %>
-        </div>
+        <% if ticket.maker.id == current_user.id %>
+          <div class="actions">
+            <%= link_to "Edit", edit_project_ticket_path(project.id), class: "ui positive button" %>
+            <%= link_to "Archive", archive_project_tickets_path(project.id, ticket_id: ticket.id), method: "POST", class: "ui red button" %>
+          </div>
       <% end %>
       </div>
     </div>

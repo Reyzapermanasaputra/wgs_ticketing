@@ -4,6 +4,7 @@ class TicketsController < ApplicationController
     @project = Project.find_by_id(params[:project_id])
     @headers = @project.headers
     @users = User.all
+    @search = params[:search]
   end
 
   def new
@@ -43,7 +44,8 @@ class TicketsController < ApplicationController
                                     last_notification_id: user.notifications.last(2).first.id,
                                     notification_time: notification.created_at.strftime("%d-%m-%y %H:%M"),
                                     notification_actor: notification.actor.username,
-                                    audio_id: "create_ticket_"
+                                    audio_id: "create_ticket_",
+                                    role: current_user.role.code.downcase
 
       #send mailer
       Mailer.send_ticket(@ticket.recipient, @ticket.maker, @ticket).deliver if params[:ticket][:priority].eql? "High"
@@ -113,6 +115,11 @@ class TicketsController < ApplicationController
     @project = Project.find_by_id(params[:project_id])
     @headers = @project.headers
     @users = User.all
+    if current_user.id.eql? @ticket.recipient.id
+      @recipient = @ticket.maker
+    else
+      @recipient = @ticket.recipient
+    end
       ActionCable.server.broadcast 'ticket_channel', 
       view: ApplicationController.render(
         partial: '/tickets/index/index',
@@ -121,9 +128,9 @@ class TicketsController < ApplicationController
       project_id: params[:project_id]
 
       #broadcast notification
-      action = "was changed the ticket #" + @ticket.id.to_s + " to #{@ticket.header.status}"
+      action = "was changed status the ticket #" + @ticket.id.to_s + " to #{@ticket.header.status}"
       project_path = "projects/#{params[:project_id]}/tickets"
-      notification = Notification.create(recipient: @ticket.recipient, actor: current_user, action: action, notifiable: @ticket, path: project_path)
+      notification = Notification.create(recipient: @recipient, actor: current_user, action: action, notifiable: @ticket, path: project_path)
       user = User.find_by_id(notification.recipient_id)
       ActionCable.server.broadcast 'notification_channel',
                                     action: action,
@@ -132,15 +139,60 @@ class TicketsController < ApplicationController
                                     last_notification_id: user.notifications.last(2).first.id,
                                     notification_time: notification.created_at.strftime("%d-%m-%y %H:%M"),
                                     notification_actor: notification.actor.username,
-                                    audio_id: "change_ticket_"
+                                    audio_id: "change_ticket_",
+                                    role: current_user.role.code.downcase
   end
 
   def archive
     @ticket = Ticket.find_by_id(params[:ticket_id])
+    #broadcast ticket
+    @project = Project.find_by_id(params[:project_id])
+    @headers = @project.headers
+    @users = User.all
+    if current_user.id.eql? @ticket.recipient.id
+      @recipient = @ticket.maker
+    else
+      @recipient = @ticket.recipient
+    end
     if @ticket.is_archive.nil?
       @ticket.update_attributes(is_archive: true)
+      ActionCable.server.broadcast 'ticket_channel', 
+      view: ApplicationController.render(
+        partial: '/tickets/index/index',
+        locals: {:project => @project, :headers => @headers, :users => @users }
+        ),
+      project_id: params[:project_id]
+
+      #broadcast notification
+      action = "was archived the ticket #" + @ticket.id.to_s
+      project_path = "projects/#{params[:project_id]}/tickets/list_archive"
+      notification = Notification.create(recipient: @recipient, actor: current_user, action: action, notifiable: @ticket, path: project_path)
+      user = User.find_by_id(notification.recipient_id)
+      ActionCable.server.broadcast 'notification_channel',
+                                    action: action,
+                                    recipient: user.id,
+                                    notification_id: user.notifications.last.id,
+                                    last_notification_id: user.notifications.last(2).first.id,
+                                    notification_time: notification.created_at.strftime("%d-%m-%y %H:%M"),
+                                    notification_actor: notification.actor.username,
+                                    audio_id: "change_ticket_",
+                                    role: current_user.role.code.downcase
     else
       @ticket.update_attributes(is_archive: nil)
+      #broadcast notification
+      action = "was changed status the ticket #" + @ticket.id.to_s + "from archive to board"
+      project_path = "projects/#{params[:project_id]}/tickets"
+      notification = Notification.create(recipient: @recipient, actor: current_user, action: action, notifiable: @ticket, path: project_path)
+      user = User.find_by_id(notification.recipient_id)
+      ActionCable.server.broadcast 'notification_channel',
+                                    action: action,
+                                    recipient: user.id,
+                                    notification_id: user.notifications.last.id,
+                                    last_notification_id: user.notifications.last(2).first.id,
+                                    notification_time: notification.created_at.strftime("%d-%m-%y %H:%M"),
+                                    notification_actor: notification.actor.username,
+                                    audio_id: "change_ticket_",
+                                    role: current_user.role.code.downcase
     end
     redirect_to action: "index"
   end
@@ -164,33 +216,46 @@ class TicketsController < ApplicationController
   def comment
     comment = Comment.new(params_comment)
     comment.save
-    ticket = Ticket.find_by_id(params[:comment][:ticket_id])
-    @comments = ticket.comments
+    @ticket = Ticket.find_by_id(params[:comment][:ticket_id])
+    @comments = @ticket.comments
     #broadcast ticket
     @project = Project.find_by_id(params[:project_id])
     @headers = @project.headers
     @users = User.all
+    if current_user.id.eql? @ticket.recipient.id
+      @recipient = @ticket.maker
+    else
+      @recipient = @ticket.recipient
+    end
     
-      ActionCable.server.broadcast 'ticket_channel', 
-      view: ApplicationController.render(
-        partial: '/tickets/index/index',
-        locals: {:project => @project, :headers => @headers, :users => @users }
-        ),
-      project_id: params[:project_id]
+    ActionCable.server.broadcast 'ticket_channel', 
+    view: ApplicationController.render(
+      partial: '/tickets/index/index',
+      locals: {:project => @project, :ticket => @ticket, :comments => @comments, :headers => @headers }
+      ),
+    role: current_user.role.code.downcase,
+    project_id: params[:project_id]
 
-      #broadcast notification
-      action = "was changed the ticket #" + @ticket.id.to_s + " to #{@ticket.header.status}"
-      project_path = "projects/#{params[:project_id]}/tickets"
-      notification = Notification.create(recipient: @ticket.recipient, actor: current_user, action: action, notifiable: @ticket, path: project_path)
-      user = User.find_by_id(notification.recipient_id)
-      ActionCable.server.broadcast 'notification_channel',
-                                    action: action,
-                                    recipient: user.id,
-                                    notification_id: user.notifications.last.id,
-                                    last_notification_id: user.notifications.last(2).first.id,
-                                    notification_time: notification.created_at.strftime("%d-%m-%y %H:%M"),
-                                    notification_actor: notification.actor.username,
-                                    audio_id: "comment_ticket_"
+    ActionCable.server.broadcast 'comment_channel',
+      current_user: current_user.username,
+      comment_id: comment.id,
+      comment_body: comment.body,
+      role: current_user.role.code.downcase
+
+    #broadcast notification
+    action = "was commented the ticket #" + @ticket.id.to_s
+    project_path = "projects/#{params[:project_id]}/tickets"
+    notification = Notification.create(recipient: @recipient, actor: current_user, action: action, notifiable: @ticket, path: project_path)
+    user = User.find_by_id(notification.recipient_id)
+    ActionCable.server.broadcast 'notification_channel',
+                                  action: action,
+                                  recipient: user.id,
+                                  notification_id: user.notifications.last.id,
+                                  last_notification_id: user.notifications.last(2).first.id,
+                                  notification_time: notification.created_at.strftime("%d-%m-%y %H:%M"),
+                                  notification_actor: notification.actor.username,
+                                  audio_id: "comment_ticket_",
+                                  role: current_user.role.code.downcase
   end
 
   def delete_comment

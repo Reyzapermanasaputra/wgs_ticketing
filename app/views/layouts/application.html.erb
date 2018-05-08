@@ -30,11 +30,17 @@
 			  <div class="ui accordion">
 			    <a class="title item">Master  <i class="dropdown icon"></i></a>
 			    <div class="content active">
-			    	<a class="item transition visible <%= 'active' if params[:controller].eql?("dashboard") %>" href="/">Dashboard</a>
 			      <a class="item transition visible <%= 'active' if params[:controller].eql?("roles") %>" href="/roles">Manage Roles</a>
 		        <a class="item transition visible <%= 'active' if params[:controller].eql?("user_profiles") %>" href="/user_profiles">Manage Users</a>
 		        <a class="item transition visible <%= 'active' if params[:controller].eql?("projects") %>" href="/projects">Manage Projects</a>
 			    </div>
+			   </div>
+			   <div class="ui accordion">
+			     <a class="title item">Report  <i class="dropdown icon"></i></a>
+			     <div class="content active">
+				    	<a class="item transition visible <%= 'active' if params[:controller].eql?("dashboard") && params[:action].eql?("index")%>" href="/">Chart Report</a>
+				      <a class="item transition visible <%= 'active' if params[:controller].eql?("dashboard") && params[:action].eql?("users_reports") %>" href="/users_reports">User Report</a>
+			     </div>
 			   </div>
 		   <% else %>
 		     <div class="ui accordion">
@@ -113,7 +119,7 @@
 					            <div class="ui feed">
 											  <div class="event">
 											    <div class="label">
-											      <%= image_tag("elliot") %>
+											      <%= image_tag("#{current_user.role.code.downcase}") %>
 											    </div>
 											    <div class="content">
 											      <div class="date">
@@ -162,7 +168,7 @@
 			  </div>
 			<% end %>
 
-			<div class="ui menu asd borderless" style="margin-left: 300px; margin-top: 20px; margin-right: 30px; -webkit-transition-duration: 0.1s; <%= 'overflow-x: auto;' unless params[:controller] == 'dashboard' %> <%= 'padding: 20px;' if params[:controller] == 'dashboard' %> <%= 'padding-left: 30px;' if params[:controller] == 'tickets' and params[:action] == "index" %>">
+			<div class="ui menu asd borderless" style="margin-left: 300px; margin-top: 20px; margin-right: 30px; -webkit-transition-duration: 0.1s; <%= 'overflow-x: auto;' %> <%= 'padding: 20px;' if params[:controller] == 'dashboard' %> <%= 'padding-left: 30px;' if params[:controller] == 'tickets' and params[:action] == "index" %>">
 			  <%= yield %>
 			</div>
 		</div>

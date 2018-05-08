@@ -1,0 +1,47 @@
+<div class="container-fluid">
+   <div class="row">
+      <div class="col-md-12">
+        <div id="users_reports"></div>
+      </div>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+    //document.addEventListener('DOMContentLoaded', function () {
+    //var headers = JSON.parse("<%= @headers.to_json %>".replace(/&quot;/g,'"'));
+    //console.log(headers)
+    var KanbanTest = new jKanban({
+      element: '#users_reports',
+      gutter: '10px',
+      dragBoards: true,
+      widthBoard: '250px',
+      addItemButton: true,
+      boards: 
+        [
+        <% @users.each_with_index do |user,index| %>
+          {
+                'id' : '<%= user.id %>',
+                'title'  : "<%= user.username %>",
+                'class' : '<%= user.role.code.eql?("PC") ? 'info' : 'warning' %>',
+                'item'  : [
+                  <% user.projects.each_with_index do |project, index| %>
+                    {
+                       'id':'<%= project.id %>',
+                        'title':'<%= project.name %>',
+                    <% if (index + 1 ) == user.projects.count %>
+                      }
+                    <% else %>
+                      },
+                    <% end %>
+                   <% end %>
+                ]
+            <% if (index + 1 ) == @users.count %>
+              }
+            <% else %>
+              },
+            <% end %>
+          <% end %>
+      ]
+  });
+  </script>

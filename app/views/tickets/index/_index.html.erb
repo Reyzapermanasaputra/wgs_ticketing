@@ -7,7 +7,16 @@
          <br />
          <button class="small positive ui button" id="addDefault">Add Header</button>
          <%= link_to "Add Ticket", new_project_ticket_path(project.id), class: "small orange ui button" %>
-         <%= link_to "List Archive Ticket", list_archive_project_tickets_path(project.id), class: "small red ui button" %>
+         <%= link_to "List Archive Tickets", list_archive_project_tickets_path(project.id), class: "small red ui button" %>
+         <%= link_to "Project Detail", project_path(project.id), class: "small blue ui button" %>
+         <br >
+         <br >
+         <%= form_tag project_tickets_path(project.id), method: "GET" do %>
+          <div class="ui action input">
+            <%= text_field_tag :search, "", placeholder: "Search..."%>
+            <%= submit_tag "Search", class: "ui  blue button" %>
+          </div>
+        <% end %>
          <hr>
          <div id="myKanban"></div>
       </div>
@@ -74,7 +83,7 @@
                 'title'  : "<%= header.status %>",
                 'class' : '<%= header.color %>',
                 'item'  : [
-                  <% header.tickets.where(is_archive: nil).each_with_index do |ticket, index| %>
+                  <% header.tickets.where(is_archive: nil).or(header.tickets.where(id: @search)).or(header.tickets.where(title: @search)).each_with_index do |ticket, index| %>
                     {
                        'id':'<%= ticket.id %>',
                         'title':'(#<%= ticket.id %>) <%= ticket.title %>',

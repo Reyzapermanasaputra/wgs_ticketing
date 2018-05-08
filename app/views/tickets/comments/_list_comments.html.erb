@@ -2,13 +2,7 @@
   <% comments.each do |comment| %>
   <div class="comment" id="comment_<%= comment.id %>">
     <a class="avatar">
-      <% if comment.user.role.code.eql? "PM" %>
-        <%= image_tag("steve") %>
-      <% elsif comment.user.role.code.eql? "PC"  %>
-        <%= image_tag("joe") %>
-      <% else %>
-        <%= image_tag("steve") %>
-      <% end %>
+      <%= image_tag("#{comment.user.role.code.downcase}") %>
     </a>
     <div class="content">
       <a class="author"><%= comment.user.username rescue ""%></a>

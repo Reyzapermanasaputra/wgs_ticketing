@@ -1,2 +1,2 @@
-$("#comments_list").html("<%= j render(:partial => 'tickets/comments/list_comments', locals: {comments: @comments}) %>")
+$("#comments_list").html("<%= j render(:partial => 'tickets/comments/list_comments', locals: {comments: @comments, ticket: @ticket}) %>")
 $("#comment_body").val('')

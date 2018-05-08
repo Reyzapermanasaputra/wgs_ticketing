@@ -4,7 +4,7 @@ class Ticket < ApplicationRecord
 	belongs_to :maker, class_name: 'User'
 	belongs_to :recipient, class_name: 'User'
 	belongs_to :header
-	has_many :comments
+	has_many :comments, dependent: :destroy
 	CATEGORY = ["Task", "Feature", "Bug", "Change Request"]
 	PRIORITY = ["Trivial", "Low", "Normal", "High"]
 	validates :title, :description, :category, :priority, :recipient_id, :maker_id, :header_id, :start_date, :end_date, presence: true

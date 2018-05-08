@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   mount Ckeditor::Engine => '/ckeditor'
   root 'dashboard#index'
+  get 'users_reports', to: 'dashboard#users_reports'
   devise_for :users, controllers: {invitations: 'devise/invitations', :registrations => "registrations" }
   devise_scope :user do 
   	get "/users" => "users#index"

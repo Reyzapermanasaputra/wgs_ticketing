@@ -16,4 +16,9 @@ class DashboardController < ApplicationController
     	end
     end
   end
+
+  def users_reports
+    role = Role.find_by_code("PM")
+    @users = User.where.not(role_id: nil, role_id: role.id)
+  end
 end

@@ -25,7 +25,8 @@ class AssignProjectsController < ApplicationController
                                     last_notification_id: user.notifications.last(2).first.id,
                                     notification_time: notification.created_at.strftime("%d-%m-%y %H:%M"),
                                     notification_actor: notification.actor.username,
-                                    audio_id: 'assign_user_'
+                                    audio_id: 'assign_user_',
+                                    role: current_user.role.code.downcase
   	else
       assign_project = UserProject.where(user_id: params[:assign_project][:user_id], project_id: params[:source]).last
       assign_project.destroy
@@ -39,7 +40,8 @@ class AssignProjectsController < ApplicationController
                                     last_notification_id: user.notifications.last(2).first.id,
                                     notification_time: notification.created_at.strftime("%d-%m-%y %H:%M"),
                                     notification_actor: notification.actor.username,
-                                    audio_id: 'assign_user_'
+                                    audio_id: 'assign_user_',
+                                    role: current_user.role.code.downcase
 	  end
   end
   
