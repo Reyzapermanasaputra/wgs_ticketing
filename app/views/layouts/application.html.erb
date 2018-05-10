@@ -46,7 +46,7 @@
 		     <div class="ui accordion">
 				    <a class="title item">Boards  <i class="dropdown icon"></i></a>
 				    <div class="content active">
-				      <% current_user.projects.each do |project| %>
+				      <% current_user.projects.active.each do |project| %>
 					      <a class="item" href="/projects/<%= project.id %>/tickets"><%= project.name %></a>
 					    <% end %>
 			      </div>
@@ -83,10 +83,10 @@
 		    <div class="right menu">
 		    <%= link_to "#{current_user.username} (#{current_user.role.code})", user_profile_path(current_user.id), class: "item" %>
 
-					<% if current_user.notifications.unread.blank? %>
+					<% if current_user.notifications.blank? %>
 					   <div class="item" id="notification_<%= current_user.id %>">
 					     <i class="bell large outline icon"></i>
-					     <div class="ui teal circular label"><%= current_user.notifications.unread.count %></div>
+					     <div class="ui teal circular label"><%= current_user.notifications.count %></div>
 					     <div class="ui wide notification popup bottom right transition ">
 					     <div id="blank_notification_<%= current_user.id rescue "" %>">
 						     <div class="ui link celled selection list"  style ="width: 350px;">
@@ -113,7 +113,7 @@
 				    <i class="bell large outline icon"></i>
 				    <div class="ui teal circular label"><%= current_user.notifications.unread.count %></div>
 				      <div class="ui wide notification popup bottom right transition ">
-				      	<% current_user.notifications.unread.order("created_at DESC").limit(5).each_with_index do |notification, index| %>
+				      	<% current_user.notifications.order("created_at DESC").limit(5).each_with_index do |notification, index| %>
 								  <div id="user_notification_<%= notification.id %>_<%= current_user.id rescue "" %>">
 								  	<div class="ui link celled selection list"  style ="width: 350px;">
 					            <div class="ui feed">
@@ -142,7 +142,7 @@
 		      <div class="ui dropdown item">
 		          &nbsp;&nbsp;<i class="settings large icon"></i>
 		        <div class="menu">
-		        	<%= link_to "Setting", user_profile_path(current_user.id), class: "item" %>
+		        	<%= link_to "Profile", user_profile_path(current_user.id), class: "item" %>
 		          <%= link_to "Logout", destroy_user_session_path, method: :delete, class: "item" %>
 		        </div>
 		      </div>

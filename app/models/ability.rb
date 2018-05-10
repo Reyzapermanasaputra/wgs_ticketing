@@ -10,6 +10,8 @@ class Ability
         can :manage, Credential
         can :manage, Document
         can :read, :dashboard
+        can :read, User
+        can :update, User
     else
         can :read, :dashboard
     end

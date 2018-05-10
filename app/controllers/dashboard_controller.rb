@@ -7,12 +7,13 @@ class DashboardController < ApplicationController
     @projects = Project.active
     
     @chart = {}
-    @ticket = []
+    @tickets_count = []
     Project.all.active.each do |project|
     	project.headers.all.each_with_index do |header, index|
-    		if header.tickets.present?
-    		  @chart.merge!({:"#{project.name}" => header.tickets.count})
+    		if header.tickets.where(is_archive: nil).present?
+          @tickets_count << header.tickets.count
     	  end
+        @chart.merge!({:"#{project.name}" => @tickets_count.sum})
     	end
     end
   end

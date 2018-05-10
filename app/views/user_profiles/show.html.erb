@@ -1,30 +1,39 @@
-<div class="ui middle aligned center aligned grid">
-<div class="column" style="padding: 20px; margin-left: 250px;">
-  <% unless @user.avatar.blank?%>
-    <%= image_tag @user.avatar.url(:thumb) %>
-  <% else %>
-    <%= image_tag("WGS", alt: "sj") %>
-  <% end %>
-  <div class="content">
-    <div class="header"><h5><%= @user.username %> | <%= @user.email %></h5></div>
-    <div class="meta">Last login : <%= time_ago_in_words(@user.last_sign_in_at) %></div>
-    <div class="description">
-      <p><%= @user.contact %></p>
-      <p><%= @user.username %> is <%= @user.role.name %> and <%= @user.username %> lives in <%= @user.address %></p></p>
-    </div>
-  </div>
-  Now <%= @user.username %> is holding project :
-  <div class="ui relaxed divided list">
-  <% @user.projects.each do |project| %>
-  <div class="item">
-    <i class="large code middle aligned icon"></i>
-    <div class="content">
-      <a class="header"><%= project.name %></a>
-      <div class="description"><%= truncate(project.description, length: 25) %></div>
-    </div>
-  </div>
-  <% end %>
-  </div>
-  <%= link_to "Change your profile", "",class: "ui positive button" %>
-</div>
-</div>
+<table class="ui very basic table" style="padding: 20px;">
+  <thead>
+    <tr>
+      <td><%= image_tag("#{@user.role.code.downcase}.jpg") %></td>
+      <th colspan="2"><%= @user.username %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Email</th>
+      <td><%= @user.email %></td>
+    </tr>
+    <tr>
+      <th>Address</th>
+      <td><%= @user.address %></td>
+    </tr>
+    <tr>
+      <th>Contact</th>
+      <td><%= @user.contact %></td>
+    </tr>
+    <tr>
+      <th>Role</th>
+      <td><%= @user.role.name %></td>
+    </tr>
+
+    <% @user.projects.active.each_with_index do |project, index| %>
+      <tr>
+        <th><%= "Projects" if index == 0%></th>
+        <td><%= project.name %> <i class="large green checkmark icon"></i></td>
+      </tr>
+    <% end %>
+    <trs>
+      <th></th>
+      <td>
+        <%= link_to "Change profile", edit_user_profile_path,class: "ui positive mini button" %>
+      </td>
+    </tr>
+  </tbody>
+</table>

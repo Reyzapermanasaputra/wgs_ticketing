@@ -3,6 +3,7 @@ class UserProfilesController < ApplicationController
   authorize_resource :class => User
   def index
   	@users = User.filter(params).page(params[:page]).per(5)
+    authorize! :read, @users
   end
 
   def edit
@@ -17,7 +18,11 @@ class UserProfilesController < ApplicationController
       render action: 'edit'
     else
       flash[:notice] = "User was updated"
-      redirect_to action: "index"
+      if current_user.role.code.eql?("PM")
+        redirect_to action: "index"
+      else
+        redirect_to action: "show"
+      end
     end
   end
 

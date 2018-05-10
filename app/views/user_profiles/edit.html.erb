@@ -17,16 +17,18 @@
         <%= f.label :email %>
         <%= f.email_field :email, autocomplete: "email", placeholder: "Email" %>
       </div>
-      <div class="field">
-        <label>Roles</label>
-        <%= f.select :role_id, Role.all.map{|x| [x.name, x.id]}, {:prompt => 'Select Role', :selected => f.object.role_id} %>
-      </div>
-      <div class="field">
-        <div class="ui checkbox">
-          <%= f.check_box :is_active, tabindex: "0", class: "hidden"%>
-          <label>Is Active ?</label>
+      <% if current_user.role.code.eql?("PM") %>
+        <div class="field">
+          <label>Roles</label>
+          <%= f.select :role_id, Role.all.map{|x| [x.name, x.id]}, {:prompt => 'Select Role', :selected => f.object.role_id} %>
         </div>
-      </div>
+        <div class="field">
+          <div class="ui checkbox">
+            <%= f.check_box :is_active, tabindex: "0", class: "hidden"%>
+            <label>Is Active ?</label>
+          </div>
+        </div>
+      <% end %>
       <%= f.submit "Update", class: "default button" %>
       <%= link_to "Back", user_profiles_path, class: "default button" %>
     <% end %>
