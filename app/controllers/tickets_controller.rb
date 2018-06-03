@@ -2,7 +2,7 @@ class TicketsController < ApplicationController
   before_action :authenticate_user!
   def index
     @project = Project.find_by_id(params[:project_id])
-    @headers = @project.headers
+    @headers = @project.headers.order(created_at: "ASC")
     @users = User.all
     @search = params[:search]
   end
@@ -72,6 +72,20 @@ class TicketsController < ApplicationController
       project_id: params[:project_id]
   end
 
+  def edit_header
+    header = Header.find_by_id(params[:header_id])
+    @project = Project.find_by_id(params[:project_id])
+    @headers = @project.headers
+    @users = User.all
+    header.update_attributes(params_header)
+    ActionCable.server.broadcast 'ticket_channel', 
+      view: ApplicationController.render(
+        partial: '/tickets/index/index',
+        locals: {:project => @project, :headers => @headers, :users => @users }
+        ),
+      project_id: params[:project_id]
+  end
+
   def remove_header
     header = Header.find_by_id(params[:header_id])
     @project = Project.find_by_id(params[:project_id])
@@ -84,6 +98,11 @@ class TicketsController < ApplicationController
         locals: {:project => @project, :headers => @headers, :users => @users }
         ),
       project_id: params[:project_id]
+  end
+
+  def show_edit_header
+    @header = Header.find_by_id(params[:header_id])
+    @project = Project.find_by_id(params[:project_id])
   end
 
   def edit

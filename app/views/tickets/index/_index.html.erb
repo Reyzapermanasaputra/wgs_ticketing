@@ -26,8 +26,13 @@
   <div class="ui mini modal" id="show_form_header">
     <i class="close icon"></i>
     <div class="header">Create Status Header</div>
-    <div class="content">
-      <%= render 'tickets/index/form_header', project: project %>
+      <div class="content">
+        <%= render 'tickets/index/form_header', project: project %>
+      </div>
+  </div>
+
+  <div id="form_edit_header">
+    <%#= render 'tickets/index/form_edit_header', project: project %>
   </div>
 
   <%#= render 'tickets/index/show_ticket' %>
@@ -62,17 +67,17 @@
           })
       },
       buttonClick: function (el, boardId) {
-        if (confirm("The header and the tickets will be removed all, Are you sure ?")) {
+        //if (confirm("The header and the tickets will be removed all, Are you sure ?")) {
             var removeBoard = document.getElementById('removeBoard');
-            KanbanTest.removeBoard(boardId);
             $.ajax({
-              url: "/projects/" + <%= project.id %> + "/tickets/remove_header",
-              method: "POST",
+              url: "/projects/" + <%= project.id %> + "/tickets/show_edit_header",
+              method: "GET",
               data: {
                 "header_id": boardId
                 }
               })
-        }
+            //KanbanTest.removeBoard(boardId);
+        //}
         },
       addItemButton: true,
       boards: 

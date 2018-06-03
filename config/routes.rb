@@ -30,7 +30,9 @@ Rails.application.routes.draw do
     collection do
       post 'change_status_ticket'
       post 'create_header'
-      post 'remove_header'
+      delete 'remove_header'
+      post 'edit_header'
+      get 'show_edit_header'
       post 'comment'
       delete 'delete_comment'
       post 'archive'

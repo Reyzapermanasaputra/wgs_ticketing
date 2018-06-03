@@ -1,0 +1,21 @@
+<div class="ui mini modal" id="edit_form_header">
+  <i class="close icon"></i>
+  <div class="header">Edit Status Header</div>
+  <div class="content">
+    <%= form_tag edit_header_project_tickets_path(project.id), method: :post, remote: true, class: "ui form" do %>
+      <%= hidden_field_tag "header_id", header.id %>
+      <div class="field">
+        <label>Title</label>
+        <%= text_field_tag "header[status]", header.status, placeholder: "title", required: true %>
+      </div>
+      <div class="field">
+        <label>color</label>
+        <%= select_tag "header[color]", options_for_select([ "info", "success", "error", "warning" ], header.color), required: true %>
+      </div>
+      <div class="actions">
+      <%= submit_tag "Update" %>
+      <%= link_to "Remove", remove_header_project_tickets_path(project_id: project.id, header_id: header.id), class: "small red ui button", remote: true, method: :delete, data: {confirm: "Are you sure to delete this header ?"} %>
+      </div>
+    <% end %>
+  </div>
+</div>
