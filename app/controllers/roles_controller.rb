@@ -39,7 +39,7 @@ class RolesController < ApplicationController
   def destroy
     @role = Role.find_by_id(params[:id])
     @role.destroy
-    flash[:notice] = "Role was deleted"
+    flash[:error] = "Role was deleted"
     redirect_to action: "index"
   end
 

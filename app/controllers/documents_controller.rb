@@ -39,6 +39,7 @@ class DocumentsController < ApplicationController
 	def destroy
 		@document = Document.find_by_id(params[:id])
 		@document.destroy
+		flash[:error] = "Document was deleted"
 		redirect_to project_documents_path(@document.project_id)
 	end
 

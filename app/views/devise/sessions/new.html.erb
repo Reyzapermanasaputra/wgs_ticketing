@@ -3,7 +3,8 @@
     <%= render "devise/shared/logo" %>
     
     <% if alert %>
-      <div class="ui floating message">
+      <div class="ui red floating message">
+        <% alert = "Invalid Email or Password."%>
         <p><%= alert %></p>
       </div>
     <% end %>

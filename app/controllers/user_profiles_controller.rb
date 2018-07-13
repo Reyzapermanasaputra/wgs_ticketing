@@ -29,7 +29,7 @@ class UserProfilesController < ApplicationController
   def destroy
   	@user = User.find_by_id(params[:id])
   	@user.destroy
-    flash[:notice] = "User was destroyed"
+    flash[:error] = "User was destroyed"
     redirect_to action: "index"
   end
 
